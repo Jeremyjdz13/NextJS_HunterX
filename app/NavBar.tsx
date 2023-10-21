@@ -11,9 +11,10 @@ const NavBar = () => {
   const links = [
     { label: 'HunterX', href: '/'},
     { label: 'Player', href: '/player'},
-    { label: 'GM', href: '/gameMaster'},
-    { label: 'Sign Up', href: '/auth'},
-    { label: 'Sign In', href: '/auth'},
+    { label: 'GM', href: '/gamemaster'},
+    { label: 'Sign Up', href: '/auth/signup'},
+    { label: 'Sign In', href: '/auth/signin'},
+    { label: 'Account Update', href: '/auth/accountupdate'},
   ]
   return (
     <nav className="flex bg-slate-700 p-3 space-x-3">

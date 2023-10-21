@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react'
+import GameMasterNavBar from './NavSideBar';
 
 interface Props {
     children: ReactNode;
@@ -6,7 +7,9 @@ interface Props {
 const GameMasterDashboardLayout = ({ children }: Props) => {
   return (
     <div className="flex">
-       <aside className="bg-slate-200 p-5 mr-5">Game Master Sidebar</aside>
+       <aside className="bg-slate-200 p-5 mr-5">
+        <GameMasterNavBar />
+       </aside>
        <div>{children}</div>
     </div>
   )
