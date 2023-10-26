@@ -10,16 +10,24 @@
   },
   "dependencies": {
     "classnames": "^2.3.2",
+    "easymde": "^2.18.0",
+    "encoding": "^0.1.13",
     "firebase": "^10.5.0",
     "next": "13.5.6",
-    "next-auth": "^4.24.3",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-password-strength-bar": "^0.4.1",
+    "react-simplemde-editor": "^5.2.0",
+    "uuidv4": "^6.2.13",
+    "zod": "^3.22.4",
+    "zod-validation-error": "^2.0.0",
+    "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/zxcvbn": "^4.4.3",
     "autoprefixer": "^10",
     "eslint": "^8",
     "eslint-config-next": "13.5.6",
