@@ -4,7 +4,7 @@ import { useAuth } from './AuthContext'
 import { v4 as uuidv4 } from 'uuid'
 import { collection, doc, getDocs, getFirestore, setDoc } from 'firebase/firestore'
 import { characterTemplate } from './DefaultDataTemplates'
-import { CharacterContextProps, Character, StatData } from './CharacterTypes'
+import { CharacterContextProps, CharacterData, StatData } from './CharacterTypes'
 import firebase_app from '../firebaseconfig'
 const CharacterContext = React.createContext<CharacterContextProps | undefined>(undefined)
 
@@ -16,11 +16,11 @@ export function useCharacter(): CharacterContextProps | undefined {
 
 export function CharacterProvider({ children }: { children: ReactNode}) {
     const { currentUser, loading: loadingUser } = useAuth()
-    const [characters, setCharacters] = useState<Character[]>([])
-    const [selectedCharacterId, setSelectedCharacterId] = useState<string | undefined>()
+    const [characters, setCharacters] = useState<CharacterData[]>([])
+    // const [selectedCharacterId, setSelectedCharacterId] = useState<string | undefined>()
     const [loading, setLoading] = useState(true)
     const db = getFirestore(firebase_app)
-    const selectedCharacter = characters?.find(character => character.id === selectedCharacterId)
+    // const selectedCharacter = characters?.find(character => character.id === selectedCharacterId)
 
    
     useEffect(() => {
@@ -41,7 +41,7 @@ export function CharacterProvider({ children }: { children: ReactNode}) {
 
         getDocs(charactersRef)
             .then((querySnapshot) => {
-                const charactersData = querySnapshot.docs.map((doc) => doc.data() as Character);
+                const charactersData = querySnapshot.docs.map((doc) => doc.data() as CharacterData);
                 console.log(charactersData, "charactersData")
                 if(charactersData.length === 0){
                 
@@ -69,7 +69,7 @@ export function CharacterProvider({ children }: { children: ReactNode}) {
     }, [currentUser, loadingUser, db]);
 
     function handleCharacterSelect(id:string){
-        setSelectedCharacterId(id)
+        // setSelectedCharacterId(id)
         // setSelectedCharacterIdEdit(undefined)
     }
 
@@ -82,9 +82,9 @@ export function CharacterProvider({ children }: { children: ReactNode}) {
     const characterContextValue: CharacterContextProps = {
         characters,
         loading,
-        selectedCharacter,
+        // selectedCharacter,
         handleCharacterSelect,
-        handleSelectedStat
+        // handleSelectedStat
     }
 
     return (

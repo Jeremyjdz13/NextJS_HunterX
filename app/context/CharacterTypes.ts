@@ -1,4 +1,4 @@
-export type Character = {
+export type CharacterData = {
     id: string
     name: string
     alias: string
@@ -89,18 +89,18 @@ export type Traits = {
 }
 
 export type CharacterContextProps = {
-    characters: Character[]
+    characters: CharacterData[]
     loading: boolean
-    selectedCharacter: Character | undefined
+    // selectedCharacter: Character | undefined
     handleCharacterSelect: (id: string) => void
-    handleSelectedStat: (stat: StatData) => void
+    // handleSelectedStat: (stat: StatData) => void
 } 
 
 export type CharacterCardProps = {
-    character: Character
+    character: CharacterData
 }
 
 export type CharacterButtonProps = {
-    character: Character
+    character: CharacterData
     key: string
 }
