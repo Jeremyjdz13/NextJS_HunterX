@@ -107,3 +107,4 @@ export type CharacterButtonProps = {
 export type Character = {
     character: CharacterData
 }
+

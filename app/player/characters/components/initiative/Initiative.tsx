@@ -1,17 +1,22 @@
 "use client"
-import { StatData } from '@/app/context/CharacterTypes';
+import { CharacterData, StatData } from '@/app/context/CharacterTypes';
 import { useState } from 'react'
 
 
 type InitiativeProps = {
-    mental: StatData
-    intuition: StatData | undefined
+   character: CharacterData
 }
 
-export default function Initiative({mental, intuition}: InitiativeProps) {
+export default function Initiative({ character }: InitiativeProps) {
+
+    const {
+        mental,
+        intuition
+    } = character
+
 
     const searchAlertness : any = Array.isArray(mental) && mental.filter(item => (
-        item.name.includes('Alertness') || item.name.includes('alertness')
+        item.name?.includes('Alertness') || item.name?.includes('alertness')
     ));
     
     const [initiativeRoll, setInitiativeRoll] = useState({randomD10: 0, D10Roll: 0})

@@ -1,13 +1,10 @@
 "use client"
-import { useEffect, useState } from "react"
-import { StatData } from "../../../../context/CharacterTypes"
-import { useCharacter } from "../../../../context/CharacterContext"
+import { useState } from "react"
+import { StatData, CharacterData } from "../../../../context/CharacterTypes"
 import EditStatModal from "../modals/EditStatModal"
 import DiceModal from "../modals/DiceModal"
-import Name from "./Name"
 import Rank from "./Rank"
 import Title from "./Title"
-import { title } from "process"
 
 type ClickableLabelProps = {
     rank?: number | undefined
@@ -56,7 +53,6 @@ export default function ClickableLabel({ name, id, groupName, rank, title, chara
 
         if(isCoreAbility) {
             if (stat) {
-                console.log(stat, "core stats")
                 return <DiceModal 
                         key={stat.id}
                         id={stat.id}

@@ -16,7 +16,7 @@ function BasicInformation({ character }: Props) {
     } = character
   return (
     <section
-        className='flex flex-row border-b border-black p-5'
+        className='flex flex-row border-b border-black p-4'
     >
         <ClickableLabel
             key={'name'}

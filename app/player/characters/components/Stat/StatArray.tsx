@@ -178,7 +178,7 @@ export default function StatArray(
                     {
                         Array.isArray(statArray) && statArray.map((item) => (
                             <div key={item.id}>
-                                <ClickableLabel id={item.id} name={item.name} groupName={groupName} />
+                                <ClickableLabel key={item.name} id={item.id} name={item.name} rank={item.rank} groupName={groupName} />
                                 <div>{item.description}</div>
                                 {item.stunt?.map((stunt: any) => 
                                     
