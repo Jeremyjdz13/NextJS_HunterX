@@ -1,6 +1,6 @@
 import { StatData } from "@/app/context/CharacterTypes"
 import React from "react"
-import Stat from "../Stat/Stat"
+import Stat from "../Stat/StatArray"
 
 type HealthProps = {
     stat: StatData
@@ -17,7 +17,7 @@ export default function Health(
 
 
     function handleBashingCount(stat: StatData): JSX.Element {
-        const counts: number | undefined = stat.rank
+        const counts: number | undefined = stat?.rank
 
         let count = 0
 
@@ -40,7 +40,7 @@ export default function Health(
     }
 
     function handleLethalCount(stat: StatData): JSX.Element {
-        const counts: number | undefined = stat.rank
+        const counts: number | undefined = stat?.rank
         let count = 0
         
         if(counts) {

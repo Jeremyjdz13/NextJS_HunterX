@@ -1,3 +1,4 @@
+"use client"
 import { StatData } from '@/app/context/CharacterTypes';
 import { useState } from 'react'
 
@@ -18,7 +19,7 @@ export default function Initiative({mental, intuition}: InitiativeProps) {
     let alertnessCount = 0
     let initiative = 0
     
-    if(searchAlertness[0].rank){
+    if(searchAlertness[0]?.rank){
         alertnessCount = + searchAlertness[0].rank
     }
    

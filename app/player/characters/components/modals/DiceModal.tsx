@@ -1,5 +1,5 @@
 import { useCharacter } from "@/app/context/CharacterContext";
-import { StatData } from "@/app/context/CharacterTypes";
+import { CharacterContextProps, StatData } from "@/app/context/CharacterTypes";
 import { useRef, useState } from "react"
 import DiceDropDownMenu from "./DiceDropDownMenu";
 import StatLists from "../Stat/StatLists";
@@ -7,7 +7,11 @@ import EditStatModal from "./EditStatModal";
 
 
 type DiceModalProps = {
-    stat: StatData
+    stat?: StatData | undefined
+    id?: string | undefined
+    name?: string | undefined
+    rank?: number | undefined
+    character: CharacterData | undefined
 }
 type D100 = {
     randomD100: number;
@@ -15,25 +19,24 @@ type D100 = {
     score: string;
 }
 
-export default function DiceModal({ stat } : DiceModalProps) {
+export default function DiceModal({ stat, id, name, rank, character } : DiceModalProps) {
 
     const modalRef = useRef<HTMLDialogElement | null>(null)
     const [isEditOpen, setIsEditOpen] = useState(false)
     const [d100, setD100] = useState({successTotal: 0, D100Roll: 0, score: ''})
-    const { selectedCharacter } = useCharacter()
     // const [powerRank, setPowerRank] = useState('None Selected')
-    // const [count, setCount] = useState(0)  
-    const combat = selectedCharacter?.combat
-    const physical = selectedCharacter?.physical
-    const professional = selectedCharacter?.professional
-    const mental = selectedCharacter?.mental
-    const protonium = selectedCharacter?.protonium
-    const usedProtonium = selectedCharacter?.usedProtonium
-    const protoniumGenerator = selectedCharacter?.merits?.filter(item => (
+    // const [count, setCount] = useState(0)
+    console.log(character, "Loaded Active Character in DiceModal")
+    const combat = character?.combat
+    const physical = character?.physical
+    const professional = character?.professional
+    const mental = character?.mental
+    const protonium = character?.protonium
+    const usedProtonium = character?.usedProtonium
+    const protoniumGenerator = character?.merits?.filter(item => (
             item.protoniumGenerator
         )
     )
-        console.log(protoniumGenerator, "Protonium Gen")
     // console.log(baseProtonium, "protonium")
     // console.log(spentProtonium, "Spent Proton")
     // console.log(protoniumGenerator[0], "Protonium Gen")
@@ -59,30 +62,29 @@ export default function DiceModal({ stat } : DiceModalProps) {
     }
 
     function handleRank(){
-        let value = stat.rank
-        let name = stat.name
+      
 
-        if (value === 0){
+        if (rank === 0){
            return "Decrepit"
-        } else if (value === 1){
+        } else if (rank === 1){
             return "Feeble"
-        } else if (value === 2){
+        } else if (rank === 2){
             return "Poor"
-        } else if (value === 3){
+        } else if (rank === 3){
             return "Typical"
-        } else if (value === 4){
+        } else if (rank === 4){
             return "Good"
-        } else if (value === 5){
+        } else if (rank === 5){
             return "Excellent"
-        } else if (value === 6){
+        } else if (rank === 6){
             return "Remarkable"
-        } else if (value === 7){
+        } else if (rank === 7){
             return "Incredible"
-        } else if (value === 8){
+        } else if (rank === 8){
             return "Amazing"
-        } else if (value === 9){
+        } else if (rank === 9){
             return "Monstrous"
-        } else if (value === 10){
+        } else if (rank === 10){
             return "Unearthly"
         }
        
@@ -93,9 +95,7 @@ export default function DiceModal({ stat } : DiceModalProps) {
             let modifiers: number = 0;
             let roll = Math.floor((Math.random() * 100) +1)
             let total = modifiers + roll;
-            let rank = stat.rank;
             let success: string = '';
-            // console.log(success, rank, total)
             if (rank === 0){
                 if (total <= 1){
                  success = " botched";
@@ -308,10 +308,8 @@ export default function DiceModal({ stat } : DiceModalProps) {
         
     }
 
- 
-    const totalPool = protonium.rank + protoniumGenerator[0]?.rank
-    const protoniumCount = totalPool - usedProtonium.rank 
-
+    const totalPool = protonium?.rank + protoniumGenerator[0]?.rank
+    const protoniumCount = totalPool - usedProtonium?.rank 
 
     function handleProtoniumGeneratorElement(): JSX.Element {
         if(protoniumGenerator){
@@ -331,7 +329,10 @@ export default function DiceModal({ stat } : DiceModalProps) {
                 onClick={handleOpenModal}
                 onContextMenu={handleContextMenuOpen}
             >
-                {stat.name}
+                {name}
+            </div>
+            <div>
+                {rank}
             </div>
             <dialog 
                 ref={modalRef}
@@ -340,7 +341,7 @@ export default function DiceModal({ stat } : DiceModalProps) {
                     onClick={handleCloseModal}
 
                 >close</button>
-                <div>{stat?.name} : {stat.rank}</div>
+                <div>{name} : {rank}</div>
                 <div>Column Rank : {handleRank()}</div>
                 <button
                     onClick={handleClickD100}
@@ -389,7 +390,7 @@ export default function DiceModal({ stat } : DiceModalProps) {
                 </div>
             </dialog>
             <EditStatModal
-                storedTitle={stat.name}
+                storedTitle={name}
                 isOpen={isEditOpen}
                 onClose={handleContextMenuClose}
             />

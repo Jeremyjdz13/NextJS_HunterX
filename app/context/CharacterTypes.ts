@@ -91,7 +91,6 @@ export type Traits = {
 export type CharacterContextProps = {
     characters: CharacterData[]
     loading: boolean
-    // selectedCharacter: Character | undefined
     handleCharacterSelect: (id: string) => void
     // handleSelectedStat: (stat: StatData) => void
 } 
@@ -103,4 +102,8 @@ export type CharacterCardProps = {
 export type CharacterButtonProps = {
     character: CharacterData
     key: string
+}
+
+export type Character = {
+    character: CharacterData
 }

@@ -1,11 +1,12 @@
+"use client"
 import { StatData } from "@/app/context/CharacterTypes"
 import { useRef } from "react"
-import Stat from "../Stat/Stat"
+import StatArray from "../Stat/StatArray"
 
 
 type StatModalProps = {
     groupTitle: string
-    stat: StatData
+    stat: StatData[]
     groupName: string
 }
 export default function StatModal({ groupTitle, stat, groupName  }: StatModalProps) {
@@ -32,10 +33,10 @@ export default function StatModal({ groupTitle, stat, groupName  }: StatModalPro
                 >
                     Close
                 </button>
-                <Stat
+                <StatArray
                     groupTitle={groupTitle}
                     groupName={groupName}
-                    stat={stat}
+                    statArray={stat}
             />
             </dialog>
         </div>

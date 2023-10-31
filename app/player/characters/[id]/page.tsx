@@ -1,5 +1,5 @@
-'use client'
-import React, { useEffect, useState } from 'react'
+"use client"
+import React, { useEffect, useState, lazy, Suspense } from 'react'
 import { useCharacter } from '@/app/context/CharacterContext'
 import { CharacterContextProps, CharacterData } from '@/app/context/CharacterTypes'
 import Title from '../components/Stat/Title'
@@ -8,203 +8,198 @@ import Initiative from '../components/initiative/Initiative'
 import Health from '../components/counters/Health'
 import Stat from '../components/Stat/Stat'
 import StatModal from '../components/modals/StatModal'
+import StatArray from '../components/Stat/StatArray'
+import Rank from '../components/Stat/Rank'
+import DiceModal from '../components/modals/DiceModal'
 
 type Props = {
   params: { id: string }
 }
 
-function Character({ params }: Props) {
+const LazyBasicInformation = lazy(() => import ('../components/basicInformation/BasicInformation'))
+
+export default function Character({ params }: Props) {
   const characterId = params.id
   const { characters } = useCharacter() as CharacterContextProps
-  const character: CharacterData | undefined = characters?.find(character => character.id === characterId)
-  const name = character?.name
-  const alias = character?.alias
-  const nature = character?.nature
-  const combat = character?.combat
-  const physical = character?.physical
-  const professional = character?.professional
-  const mental = character?.mental
-  const backgrounds = character?.backgrounds
-  const merits = character?.merits
-  const flaws = character?.flaws
-  const powers = character?.powers
-  const spellbook = character?.spellbook
-  const bashing = character?.bashing
-  const lethal = character?.lethal
-  const inventory = character?.inventory
-  const experience = character?.experience
-  const karma = character?.karma
-  const intuition = character?.intuition
-  const strength = character?.strength
-  const endurance = character?.endurance
-  const agility = character?.agility
-  const psyche = character?.psyche
-  const reason = character?.reason
-  const fight = character?.fight
-  const talismans = character?.talismans
+  const [character, setCharacter] = useState<CharacterData>()
 
+  useEffect(() => {
+      
+    if (characterId) {
+      const selectedCharacter = characters.find(character => character.id === characterId)
+      console.log(selectedCharacter, "From Page of Active Character")
+
+      setCharacter(selectedCharacter) 
+    }
+    
+  },[characters, characterId, character])
+
+  if (!character) return
+  
   return (
-      <section key={characterId} >
-            <section
-              className=''
+      <section 
+        key={characterId}
+        className='border border-sky-600 p-5' 
+      >
+            <Suspense fallback={<div>Loading...</div>}>
+                <LazyBasicInformation character={character} />
+            </Suspense>
+            <section 
+              className='flex flex-row'
             >
-                <div> 
-                    <Title storedTitle='Name'/>
-                    <ClickableLabel
-                        id={characterId} 
-                        name={name!}
-                        groupName='characterName'
-                    />
-                    <Title storedTitle='Alias'/>
-                    <ClickableLabel
-                        id={characterId} 
-                        name={alias!}
-                        groupName='characterAlias'
-                        />
-        
-                    <Title storedTitle='Nature'/>
-                    <ClickableLabel
-                        id={characterId} 
-                        name={nature!}
-                        groupName='characterNature'
-                    />
-                </div>
-                
+              <Initiative 
+                  intuition={character?.intuition}
+                  mental={character?.mental}
+              />
+              <Health
+                  stat={character?.bashing}
+                  groupName='bashingCounter'
+                  groupTitle='Bashing'
+              />
+              <Health
+                  stat={character?.lethal}
+                  groupName='lethalCounter'
+                  groupTitle='Lethal'
+              />
+              <div>
+                <Title storedTitle='Fate Ledger'/>
+                  <ClickableLabel
+                      key={character?.experience.id} 
+                      id={character?.experience.id} 
+                      rank={character?.experience.rank}
+                      name={character?.experience.name} 
+                      groupName="experience" 
+                  />
+                  <ClickableLabel 
+                    key={character?.karma.id}
+                    id={character?.karma.id}
+                    rank={character?.karma.rank}
+                    name={character?.karma.name}
+                    groupName="karma"
+                  />
+              </div>
             </section>
-            <section>
-                <Initiative 
-                    intuition={intuition}
-                    mental={mental}
-                />
-                <div>
-                    <Health
-                        stat={bashing!}
-                        groupName='bashingCounter'
-                        groupTitle='Bashing'
-                    />
-                </div>
-                <div>
-                    <Health
-                        stat={lethal!}
-                        groupName='lethalCounter'
-                        groupTitle='Lethal'
-                    />
-                </div>
-                <div> 
-                    <Title storedTitle='Fate Ledger'/>
-                    <Stat 
-                        groupTitle=''
-                        groupName='experience'
-                        stat={experience!}
-                    />
-                    <Stat 
-                        groupTitle=''
-                        groupName='karma'
-                        stat={karma!}
-                    />
-                </div>
-            </section>
-            <section>
-                <Stat 
-                    groupTitle=''
+            <section
+              className='flex flex-row'
+            >
+                <ClickableLabel 
+                    key={character?.fight.id}
+                    id={character?.fight.id}
+                    name={character?.fight.name}
+                    rank={character?.fight.rank}
                     groupName='fight'
-                    stat={fight!}
+                    character={character} 
                 />
-                <Stat 
-                    groupTitle=''
+                <ClickableLabel
+                    key={character?.strength.id}
+                    name={character?.strength.name}
+                    rank={character?.strength.rank}
+                    character={character}
                     groupName='strength'
-                    stat={strength!}
                 /> 
-                <Stat 
-                    groupTitle=''
+                 <ClickableLabel
+                    key={character?.agility.id}
+                    name={character?.agility.name}
+                    rank={character?.agility.rank}
                     groupName='agility'
-                    stat={agility!}
+                    character={character}
                 />
-                <Stat 
-                    groupTitle=''
+                <ClickableLabel
+                    key={character?.endurance.id}
+                    name={character?.endurance.name}
+                    rank={character?.endurance.rank}
                     groupName='endurance'
-                    stat={endurance!}
+                    character={character}
                 />
 
-                <Stat 
-                    groupTitle=''
+                <ClickableLabel
+                    key={character?.reason.id}
+                    name={character?.reason.name}
+                    rank={character?.reason.rank}
                     groupName='reason'
-                    stat={reason!}
+                    character={character}
                 />
-                <Stat 
-                    groupTitle=''
+                <ClickableLabel
+                    key={character?.intuition.id}
+                    name={character?.intuition.name}
+                    rank={character?.intuition.rank}
                     groupName='intuition'
-                    stat={intuition!}
+                    character={character}
                 />
-                <Stat 
-                    groupTitle=''
+                <ClickableLabel
+                    key={character?.psyche.id}
+                    name={character?.psyche.name}
+                    rank={character?.psyche.rank}
+                    character={character}
                     groupName='psyche'
-                    stat={psyche!}
                 />
                 
             </section>
-            <section>
+            <section
+              className='flex flex-row'
+            >
                 <StatModal 
                     groupTitle={"Spell Book"} 
                     groupName={"spellbook"}
-                    stat={spellbook}
+                    stat={character?.spellbook}
                 />
                 <StatModal 
                     groupTitle={"Powers"} 
                     groupName={"powers"}
-                    stat={powers}
+                    stat={character?.powers}
                 />
                  <StatModal 
                     groupTitle={"Backgrounds"} 
                     groupName={"backgrounds"}
-                    stat={backgrounds}
+                    stat={character?.backgrounds}
                 />
                 <StatModal 
                     groupTitle={"Inventory"} 
                     groupName={"inventory"}
-                    stat={inventory}
+                    stat={character?.inventory}
                 />
                 <StatModal 
                     groupTitle='Merits'
                     groupName='merits'
-                    stat={merits}
+                    stat={character?.merits}
                 />
                 <StatModal
                     groupTitle='Flaws'
                     groupName='flaws'
-                    stat={flaws}
+                    stat={character?.flaws}
                 />
                 <StatModal
                     groupTitle='Talismans'
                     groupName='talismans'
-                    stat={talismans}
+                    stat={character?.talismans}
                 />
                 
             </section>
-            <section>
-                <Stat
+            <section
+              className='flex flex-row'
+            >
+                <StatArray
                     groupTitle='Combat'
                     groupName='combat'
-                    stat={combat}
+                    statArray={character?.combat}
                 />
-                <Stat
+                <StatArray
                     groupTitle='Physical'
                     groupName='physical'
-                    stat={physical}
+                    statArray={character?.physical}
                 />
-                <Stat
+                <StatArray
                     groupTitle='Professional'
                     groupName='professional'
-                    stat={professional}
+                    statArray={character?.professional}
                 />
-                <Stat
+                <StatArray
                     groupTitle='Mental'
                     groupName='mental'
-                    stat={mental}
+                    statArray={character?.mental}
                 />   
-            </section>      
-        </section>
+            </section>        
+      </section>
   )
 }
 
-export default Character

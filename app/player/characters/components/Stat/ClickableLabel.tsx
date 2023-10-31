@@ -1,19 +1,25 @@
+"use client"
 import { useEffect, useState } from "react"
 import { StatData } from "../../../../context/CharacterTypes"
 import { useCharacter } from "../../../../context/CharacterContext"
 import EditStatModal from "../modals/EditStatModal"
 import DiceModal from "../modals/DiceModal"
+import Name from "./Name"
+import Rank from "./Rank"
+import Title from "./Title"
+import { title } from "process"
 
 type ClickableLabelProps = {
-    stat?: StatData
-    name: string
-    id: string
+    rank?: number | undefined
+    name?: string | undefined
+    id?: string | undefined
+    title?: string
     groupName: string
+    character?: CharacterData | undefined
 }
 
-export default function ClickableLabel({ name, id, groupName } : ClickableLabelProps) {
+export default function ClickableLabel({ name, id, groupName, rank, title, character } : ClickableLabelProps) {
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const { selectedCharacter }: any = useCharacter()
 
     const isCoreAbility = [
         "strength", 
@@ -31,7 +37,7 @@ export default function ClickableLabel({ name, id, groupName } : ClickableLabelP
     ].includes(groupName)
 
     function handleDiceClickableTitles() {
-        const stat: StatData | undefined = selectedCharacter?.[groupName]
+        const stat: StatData | undefined = character?.[groupName]
         
         if(isPowersAndTalismans) {
 
@@ -39,16 +45,24 @@ export default function ClickableLabel({ name, id, groupName } : ClickableLabelP
             if (statArray) {
                 return <DiceModal 
                         key={statArray.id}
+                        id={statArray.id}
+                        name={statArray.name}
+                        rank={statArray.rank}
                         stat={statArray}
+                        character={character}
                     />
             }
         }
 
         if(isCoreAbility) {
             if (stat) {
+                console.log(stat, "core stats")
                 return <DiceModal 
                         key={stat.id}
-                        stat={stat}
+                        id={stat.id}
+                        name={stat.name}
+                        rank={stat.rank}
+                        character={character}
                     />
             }
         }
@@ -66,7 +80,7 @@ export default function ClickableLabel({ name, id, groupName } : ClickableLabelP
         setIsModalOpen(false)
     }
     return (
-        <div>
+        <div className="p-1">
             {
                 (
                     groupName === 'strength' ||
@@ -80,11 +94,12 @@ export default function ClickableLabel({ name, id, groupName } : ClickableLabelP
                     groupName === 'talismans'
                 ) ? handleDiceClickableTitles() : 
                 (
-                    <div
-                        id={id}
-                        onContextMenu={handleContextMenu}
-                    >
-                        {name}
+                    <div className="flex flex-col">
+                        <Title storedTitle={title} />
+                        <div
+                            onContextMenu={handleContextMenu}
+                        >{name}</div>
+                        <Rank rank={rank} />
                     </div>
                 )
             }

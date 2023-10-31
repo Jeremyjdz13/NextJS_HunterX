@@ -17,12 +17,9 @@ export function useCharacter(): CharacterContextProps | undefined {
 export function CharacterProvider({ children }: { children: ReactNode}) {
     const { currentUser, loading: loadingUser } = useAuth()
     const [characters, setCharacters] = useState<CharacterData[]>([])
-    // const [selectedCharacterId, setSelectedCharacterId] = useState<string | undefined>()
     const [loading, setLoading] = useState(true)
     const db = getFirestore(firebase_app)
-    // const selectedCharacter = characters?.find(character => character.id === selectedCharacterId)
 
-   
     useEffect(() => {
         if(loadingUser){
             return; // still initializing, do nothing.
@@ -68,10 +65,12 @@ export function CharacterProvider({ children }: { children: ReactNode}) {
         
     }, [currentUser, loadingUser, db]);
 
-    function handleCharacterSelect(id:string){
-        // setSelectedCharacterId(id)
-        // setSelectedCharacterIdEdit(undefined)
-    }
+    // function handleCharacterSelect(id:string){
+    // const selectedCharacter = characters.find(character => character.id === id)
+    //     console.log("First select character", selectedCharacter)
+    //     setActiveCharacter(selectedCharacter)
+    //     // setSelectedCharacterIdEdit(undefined)
+    // }
 
     function handleSelectedStat(stat: StatData): void {
         // setShowModal(true)
@@ -82,14 +81,13 @@ export function CharacterProvider({ children }: { children: ReactNode}) {
     const characterContextValue: CharacterContextProps = {
         characters,
         loading,
-        // selectedCharacter,
-        handleCharacterSelect,
+        // handleCharacterSelect,
         // handleSelectedStat
     }
 
     return (
         <CharacterContext.Provider value={characterContextValue}>
-            {children}             
+            {!loading && children}             
         </CharacterContext.Provider>
     )
 }

@@ -172,6 +172,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
   };
 
   return <UserContext.Provider value={value}>
-          {children}
+          {!loading && children}
         </UserContext.Provider>;
 }
