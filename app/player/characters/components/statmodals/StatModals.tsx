@@ -31,6 +31,7 @@ function StatModals({ character }: Props) {
                     groupTitle={"Powers"} 
                     groupName={"powers"}
                     stat={powers}
+                    character={character}
                 />
                  <StatModal 
                     key={'Backgrounds'}
@@ -61,6 +62,7 @@ function StatModals({ character }: Props) {
                     groupTitle='Talismans'
                     groupName='talismans'
                     stat={talismans}
+                    character={character}
                 />
             </section>
   )

@@ -4,19 +4,22 @@ import Title from "./Title";
 import { statStyles } from "./StatStyles";
 import ClickableLabel from "./ClickableLabel";
 import ClickableTitle from "./ClickableTitle";
-import { StatData } from "@/app/context/CharacterTypes";
+import { CharacterData, StatData } from "@/app/context/CharacterTypes";
+import DiceModal from "../modals/DiceModal";
 
 type StatProps = {
     statArray: StatData[] 
     groupName: string
     groupTitle?: string
+    character?: CharacterData
 }
 
 export default function StatArray(
     { 
         statArray, 
         groupName, 
-        groupTitle 
+        groupTitle,
+        character
     }: StatProps) {
 
     // const { handleSetSelectedStat, handleSetCharacterStatGroupName } = useEdit()
@@ -178,7 +181,7 @@ export default function StatArray(
                     {
                         Array.isArray(statArray) && statArray.map((item) => (
                             <div key={item.id}>
-                                <ClickableLabel key={item.name} id={item.id} name={item.name} rank={item.rank} groupName={groupName} />
+                                <DiceModal key={item.name} id={item.id} name={item.name} rank={item.rank} character={character} />
                                 <div>{item.description}</div>
                                 {item.stunt?.map((stunt: any) => 
                                     

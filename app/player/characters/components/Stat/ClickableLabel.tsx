@@ -35,7 +35,6 @@ export default function ClickableLabel({ name, id, groupName, rank, title, chara
 
     function handleDiceClickableTitles() {
         const stat: StatData | undefined = character?.[groupName]
-        
         if(isPowersAndTalismans) {
 
             const statArray: StatData | undefined = Array.isArray(stat) && stat?.find(item => item.id === id)
@@ -52,15 +51,16 @@ export default function ClickableLabel({ name, id, groupName, rank, title, chara
         }
 
         if(isCoreAbility) {
-            if (stat) {
-                return <DiceModal 
-                        key={stat.id}
-                        id={stat.id}
-                        name={stat.name}
-                        rank={stat.rank}
-                        character={character}
-                    />
-            }
+        console.log(name, rank, "Name and Rank")
+            
+        return <DiceModal 
+                key={id}
+                id={id}
+                name={name}
+                rank={rank}
+                character={character}
+            />
+            
         }
         
     }

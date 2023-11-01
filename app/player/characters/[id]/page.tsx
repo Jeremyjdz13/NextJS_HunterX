@@ -25,7 +25,7 @@ export default function Character({ params }: Props) {
 
       const selectedCharacter = characters.find(character => character.id === characterId)
       setCharacter(selectedCharacter)
-      
+
     }
     
   },[characters, characterId, character])
@@ -35,7 +35,7 @@ export default function Character({ params }: Props) {
   return (
       <section 
         key={characterId}
-        className='border border-sky-600' 
+        className='border-l border-r border-black' 
       >
             <Suspense fallback={<div>Loading...</div>}>
                 <LazyBasicInformation character={character} />

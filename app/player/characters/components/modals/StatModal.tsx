@@ -1,5 +1,5 @@
 "use client"
-import { StatData } from "@/app/context/CharacterTypes"
+import { CharacterData, StatData } from "@/app/context/CharacterTypes"
 import { useRef } from "react"
 import StatArray from "../Stat/StatArray"
 
@@ -8,8 +8,9 @@ type StatModalProps = {
     groupTitle: string
     stat: StatData[]
     groupName: string
+    character?: CharacterData
 }
-export default function StatModal({ groupTitle, stat, groupName  }: StatModalProps) {
+export default function StatModal({ groupTitle, stat, groupName, character  }: StatModalProps) {
     const modalRef = useRef(null)
 
     function handleOpenModal() {
@@ -37,6 +38,7 @@ export default function StatModal({ groupTitle, stat, groupName  }: StatModalPro
                     groupTitle={groupTitle}
                     groupName={groupName}
                     statArray={stat}
+                    character={character}
             />
             </dialog>
         </div>

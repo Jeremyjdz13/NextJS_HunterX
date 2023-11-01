@@ -1,9 +1,9 @@
-import { useCharacter } from "@/app/context/CharacterContext";
-import { CharacterContextProps, StatData } from "@/app/context/CharacterTypes";
+'use client'
+import { CharacterData, StatData } from "@/app/context/CharacterTypes";
 import { useRef, useState } from "react"
 import DiceDropDownMenu from "./DiceDropDownMenu";
-import StatLists from "../Stat/StatLists";
 import EditStatModal from "./EditStatModal";
+import Stat from "../Stat/Stat";
 
 
 type DiceModalProps = {
@@ -26,22 +26,22 @@ export default function DiceModal({ stat, id, name, rank, character } : DiceModa
     const [d100, setD100] = useState({successTotal: 0, D100Roll: 0, score: ''})
     // const [powerRank, setPowerRank] = useState('None Selected')
     // const [count, setCount] = useState(0)
-    console.log(character, "Loaded Active Character in DiceModal")
-    const combat = character?.combat
-    const physical = character?.physical
-    const professional = character?.professional
-    const mental = character?.mental
-    const protonium = character?.protonium
-    const usedProtonium = character?.usedProtonium
-    const protoniumGenerator = character?.merits?.filter(item => (
+    const {
+        combat,
+        physical,
+        professional,
+        mental,
+        protonium,
+        usedProtonium,
+        merits
+    } = character as CharacterData
+
+    const protoniumGenerator = merits?.filter(item => (
             item.protoniumGenerator
         )
     )
-    // console.log(baseProtonium, "protonium")
-    // console.log(spentProtonium, "Spent Proton")
-    // console.log(protoniumGenerator[0], "Protonium Gen")
 
-
+  
     function handleOpenModal() {
         (modalRef.current! as HTMLDialogElement).showModal()
     }
@@ -62,8 +62,7 @@ export default function DiceModal({ stat, id, name, rank, character } : DiceModa
     }
 
     function handleRank(){
-      
-
+        
         if (rank === 0){
            return "Decrepit"
         } else if (rank === 1){
@@ -308,31 +307,42 @@ export default function DiceModal({ stat, id, name, rank, character } : DiceModa
         
     }
 
-    const totalPool = protonium?.rank + protoniumGenerator[0]?.rank
-    const protoniumCount = totalPool - usedProtonium?.rank 
+    // let totalPool = 0
+    // if (protonium?.rank && protoniumGenerator[0]?.rank) {
+    //     console.log("Protonium")
+    //     return totalPool = protonium?.rank + protoniumGenerator[0]?.rank
+    // }
 
-    function handleProtoniumGeneratorElement(): JSX.Element {
-        if(protoniumGenerator){
-            return (
-                <div>
-                    <div>Generator</div>
-                    <div>{protoniumGenerator[0]?.rank}</div>
-                </div>
-            )
-        }
-        return <></>
-    }
+    // let protoniumCount = 0
+    // if (usedProtonium?.rank) {
+    //     console.log("usedProtonium")
+    //     return protoniumCount = totalPool - usedProtonium?.rank
+    // }
+
+    // function handleProtoniumGeneratorElement(): JSX.Element {
+    //     if(protoniumGenerator){
+    //         return (
+    //             <div>
+    //                 <div>Generator</div>
+    //                 <div>{protoniumGenerator[0]?.rank}</div>
+    //             </div>
+    //         )
+    //     }
+    //     return <></>
+    // }
 
     return (
         <div>
-            <div
-                onClick={handleOpenModal}
-                onContextMenu={handleContextMenuOpen}
-            >
-                {name}
-            </div>
-            <div>
-                {rank}
+            <div className="p-1 text-center">
+                <div
+                    onClick={handleOpenModal}
+                    onContextMenu={handleContextMenuOpen}
+                >
+                    {name} 
+                </div>
+                <div>
+                    {rank}
+                </div>
             </div>
             <dialog 
                 ref={modalRef}
@@ -371,26 +381,26 @@ export default function DiceModal({ stat, id, name, rank, character } : DiceModa
                 </div>
                 <div>
                     
-                    <StatLists
+                    <Stat
                         key={protonium.id}
-                        {...protonium}
-                        groupName="protonium"
+                        rank={protonium.rank}
+                        name={protonium.name}
                     />
-                    {
+                    {/* {
                         protoniumGenerator ? handleProtoniumGeneratorElement() : <></>
-                    }
-                    <StatLists
-                        id={usedProtonium.id}
-                        {...usedProtonium}
-                        groupTitle='Protonium'
+                    } */}
+                    <Stat
+                        key={usedProtonium.id}
+                        rank={usedProtonium.rank}
+                        name={usedProtonium.name}
                     />
-                    <div>
+                    {/* <div>
                         Total: <span>{protoniumCount}</span>
-                    </div>
+                    </div> */}
                 </div>
             </dialog>
             <EditStatModal
-                storedTitle={name}
+                storedTitle={name!}
                 isOpen={isEditOpen}
                 onClose={handleContextMenuClose}
             />
