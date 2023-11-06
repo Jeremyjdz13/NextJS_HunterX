@@ -10,7 +10,7 @@ type CharacterCardProps = {
 }
 
 function CharacterCard({ character }: CharacterCardProps) {
-  const { handleCharacterSelect } = useCharacter() as CharacterContextProps
+  const { deleteCharacter } = useCharacter() as CharacterContextProps
   return (
    <div>
      <div>
@@ -23,6 +23,12 @@ function CharacterCard({ character }: CharacterCardProps) {
     >
         Full Character
     </Link>
+    <button 
+        onClick={() => deleteCharacter(character)} 
+        className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+    >
+        Delete Character
+    </button>
    </div>
   )
 }

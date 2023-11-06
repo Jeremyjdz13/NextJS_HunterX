@@ -29,6 +29,8 @@ export type CharacterData = {
     protonium: StatData
     usedProtonium: StatData
     inventory: StatData[]
+    createdAt: string
+    lastUpdate: string
 } & {
     [key: string]: StatData
 }
@@ -91,8 +93,9 @@ export type Traits = {
 export type CharacterContextProps = {
     characters: CharacterData[]
     loading: boolean
-    handleCharacterSelect: (id: string) => void
-    // handleSelectedStat: (stat: StatData) => void
+    addCharacter: () => void
+    deleteCharacter: (character: CharacterData) => void
+    editCharacter: (character: CharacterData) => void
 } 
 
 export type CharacterCardProps = {

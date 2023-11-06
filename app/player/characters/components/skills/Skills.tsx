@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import StatArray from '../Stat/StatArray'
 import { CharacterData } from '@/app/context/CharacterTypes'
@@ -19,27 +20,31 @@ function Skills({ character }: Props) {
             >
                 <StatArray
                     key="Combat"
-                    groupTitle='Combat'
-                    groupName='combat'
+                    statGroupTitle='Combat'
+                    statKey='combat'
                     statArray={combat}
+                    character={character}
                 />
                 <StatArray
                     key="Physical"
-                    groupTitle='Physical'
-                    groupName='physical'
+                    statGroupTitle='Physical'
+                    statKey='physical'
                     statArray={physical}
+                    character={character}
                 />
                 <StatArray
                     key="professional"
-                    groupTitle='Professional'
-                    groupName='professional'
+                    statGroupTitle='Professional'
+                    statKey='professional'
                     statArray={professional}
+                    character={character}
                 />
                 <StatArray
                     key="mental"
-                    groupTitle='Mental'
-                    groupName='mental'
+                    statGroupTitle='Mental'
+                    statKey='mental'
                     statArray={mental}
+                    character={character}
                 />   
             </section>        
   )

@@ -1,24 +1,34 @@
-import { StatData } from "@/app/context/CharacterTypes"
-import React from "react"
-import Stat from "../Stat/StatArray"
+'use client'
+import { CharacterData } from "@/app/context/CharacterTypes"
+import React, { useEffect } from "react"
+import ClickableLabel from "../Stat/ClickableLabel"
+import { useCharacter } from "@/app/context/CharacterContext"
+import Rank from "../Stat/Rank"
 
 type HealthProps = {
-    stat: StatData
-    groupName: string
-    groupTitle: string
+    id: string
+    rank: number | undefined
+    name: string | undefined
+    statKey: string
+    statGroupTitle: string
+    character: CharacterData
 } 
 
 export default function Health(
     {
-        stat, 
-        groupName,
-        groupTitle, 
+        id,
+        rank,
+        name,
+        statGroupTitle,
+        character
     } : HealthProps) {
+    const { death } = character
 
+    
 
-    function handleBashingCount(stat: StatData): JSX.Element {
-        const counts: number | undefined = stat?.rank
-
+    function handleBashingCount(){
+        const counts: number | undefined = rank
+        
         let count = 0
 
         if(counts) {
@@ -26,62 +36,85 @@ export default function Health(
         }
         
         if(count >= 4 && count <= 5){
-            return <span>Slap fighting! -1</span>
+            return <Rank rank={-1} />
         } else if(count >= 6 && count <= 8){
-            return <span>No BITING! -3</span>
+            return <Rank rank={-3} />
         } else if(count === 9){
-            return <span>A chil les Heel! -5 </span>
+            return <Rank rank={-5} />
         }else if(count === 10){
-            return <span>Hello Darkness my old friend!</span>
+            return <span>Shhh!</span>
         }
         else {
-            return <span>No Penalty</span>
+            return <></>
         }
     }
-
-    function handleLethalCount(stat: StatData): JSX.Element {
-        const counts: number | undefined = stat?.rank
+   
+    function handleLethalCount(){
+        const counts: number | undefined = rank
         let count = 0
         
         if(counts) {
-        const count = Math.min(Math.max(counts), 10)
+            count = Math.min(Math.max(counts), 10)
         }
 
         if(count >= 3 && count <=4){
-            return <span>That really hurt! -1</span>
+            return <Rank rank={-1} />
         } else if(count >= 5 && count <= 6){
-            return <span>Is that blood?! -2</span>
+            return <Rank rank={-2} />
         } else if(count >= 7 && count <=8){
-            return <span>I ain&apos;t got time to bleed! -4</span>
+            return <Rank rank={-4} />
         }else if(count === 9){
-            return <span>To die or not to die? -6</span>
+            return <Rank rank={-6}/>
         }else if(count === 10){
-            return <span>Let&apos;s weigh your sins!</span>
+            return (
+                <ClickableLabel 
+                    id={death.id}
+                    key={'Death'}
+                    name={death.name}
+                    rank={death.rank} 
+                    statKey={"death"}
+                    character={character}
+                />
+            )
         }else {
-            return <span>No Penalty</span>
+            return <></>
         }
     }
-
-    function handleBashingLethalElement() {
-        if(groupTitle === 'Bashing'){
-            return handleBashingCount(stat)
-        } else if (groupTitle === "Lethal") {
-            return handleLethalCount(stat)
-        }
-    }
-
+ 
     return (
-        <React.Fragment>
-            {groupTitle === 'Bashing' || groupTitle === 'Lethal' ? (
+        <div className='border-l border-black p-1'>
+            {statGroupTitle === 'Bashing' ? (
                 <div>
-                    <Stat 
-                        stat={stat}
-                        groupName={groupName}
-                        groupTitle={groupTitle}
+                    <ClickableLabel
+                        key={statGroupTitle}
+                        id={id}
+                        name={name}
+                        rank={rank} 
+                        statKey={"bashing"}
+                        character={character}
                     />
-                {handleBashingLethalElement()}
+                    <div className="border-t border-black text-center p-1">
+                        {handleBashingCount()}
+                    </div>
+                
                 </div>
-                ) : null}
-        </React.Fragment>
+                ) : (
+                        <div>
+                            <ClickableLabel
+                                id={id}
+                                key={statGroupTitle}
+                                name={name}
+                                rank={rank} 
+                                statKey={"lethal"}
+                                character={character}
+                                />
+                            <div className="border-t border-black text-center p-1">
+                                {handleLethalCount()}
+                            </div>
+                            
+                        </div>
+                    )
+                }
+        </div>
     )
 }

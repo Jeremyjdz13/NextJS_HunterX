@@ -1,11 +1,11 @@
 
 type TitleProp = {
-    storedTitle: string;
+    statGroupTitle: string;
 }
-export default function Title({ storedTitle }: TitleProp){
-    const title = storedTitle
+export default function Title({ statGroupTitle }: TitleProp){
+    const title = statGroupTitle
     return (
-        <div>
+        <div className="p-1 text-center">
             {title}
         </div>
     )

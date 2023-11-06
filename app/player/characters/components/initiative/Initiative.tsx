@@ -1,6 +1,8 @@
 "use client"
-import { CharacterData, StatData } from '@/app/context/CharacterTypes';
+import { CharacterContextProps, CharacterData } from '@/app/context/CharacterTypes';
 import { useState } from 'react'
+import { useCharacter } from '@/app/context/CharacterContext';
+import Title from '../Stat/Title';
 
 
 type InitiativeProps = {
@@ -11,10 +13,11 @@ export default function Initiative({ character }: InitiativeProps) {
 
     const {
         mental,
-        intuition
+        intuition,
+        initiative
     } = character
 
-
+    const { editCharacter } = useCharacter() as CharacterContextProps
     const searchAlertness : any = Array.isArray(mental) && mental.filter(item => (
         item.name?.includes('Alertness') || item.name?.includes('alertness')
     ));
@@ -22,22 +25,23 @@ export default function Initiative({ character }: InitiativeProps) {
     const [initiativeRoll, setInitiativeRoll] = useState({randomD10: 0, D10Roll: 0})
 
     let alertnessCount = 0
-    let initiative = 0
+    let initiativeBase = 0
     
     if(searchAlertness[0]?.rank){
         alertnessCount = + searchAlertness[0].rank
     }
    
     if(intuition?.rank){
-        initiative = + intuition.rank
+        initiativeBase = + intuition.rank
     }
 
-       const initiativeCount =  initiative + alertnessCount
+    const initiativeCount =  initiativeBase + alertnessCount
     
 
 
     function handleClickD10(){
         
+        let newRoll: any = ''
         let rTimer = setInterval(()=>{
      
             let roll = Math.floor((Math.random() * 10) +1)
@@ -46,29 +50,40 @@ export default function Initiative({ character }: InitiativeProps) {
                  randomD10: total,
                  D10Roll: roll
              });
+            newRoll = {
+                randomD10: total,
+            }
          }, 100)
  
          setTimeout(()=>{
              clearInterval(rTimer);
+            const newInitiative = newRoll.randomD10
+             const newCharacter = {...character, ['initiative']: {
+                id: character.initiative.id,
+                name: character.initiative.name,
+                rank: newInitiative
+             }}
+
+             editCharacter(newCharacter)
          }, 2000);
      }
 
+
     return (
-         <div>
-            <div>Initiative</div>  
-            <div>Intuition: <span>{initiative}</span></div>
-            <div>Alertness: <span>{alertnessCount}</span></div>
-            <div>Bonus: <span>{initiativeCount}</span></div>
-            <div>D10 result: <span>{initiativeRoll.D10Roll}</span></div>
-            <div>
-                <button 
+         <div className='border border-l-black flex flex-row p-2'>
+            <div className='flex flex-col p-1 border-r border-black' >
+                <Title statGroupTitle='Initiative'/>
+                <div>{initiative.rank}</div>
+            </div>
+            <div  className='flex flex-col p-1'>Bonus <div>{initiativeCount}</div></div>
+            <div className='flex flex-col p-1'>D10   <div>{initiativeRoll.D10Roll}</div></div>
+            
+            <button 
+                    className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded'
                     onClick={() => handleClickD10()}
                 >      
                     D*10 
-                </button>
-                <div 
-                >{initiativeRoll.randomD10}</div>
-            </div>
+            </button>
         </div>
     )
 } 

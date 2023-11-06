@@ -22,45 +22,50 @@ function StatModals({ character }: Props) {
             >
                 <StatModal 
                     key={'Spell Book'}
-                    groupTitle={"Spell Book"} 
-                    groupName={"spellbook"}
+                    statGroupTitle={"Spell Book"} 
+                    statKey={"spellbook"}
                     stat={spellbook}
+                    character={character}
                 />
                 <StatModal
                     key={'Powers'}
-                    groupTitle={"Powers"} 
-                    groupName={"powers"}
+                    statGroupTitle={"Powers"} 
+                    statKey={"powers"}
                     stat={powers}
                     character={character}
                 />
                  <StatModal 
                     key={'Backgrounds'}
-                    groupTitle={"Backgrounds"} 
-                    groupName={"backgrounds"}
+                    statGroupTitle={"Backgrounds"} 
+                    statKey={"backgrounds"}
+                    character={character}
                     stat={backgrounds}
                 />
                 <StatModal 
                     key={'Inventory'}
-                    groupTitle={"Inventory"} 
-                    groupName={"inventory"}
+                    statGroupTitle={"Inventory"} 
+                    statKey={"inventory"}
+                    character={character}
                     stat={inventory}
                 />
                 <StatModal 
                     key={'Merits'}
-                    groupTitle='Merits'
-                    groupName='merits'
+                    statGroupTitle='Merits'
+                    statKey='merits'
+                    character={character}
                     stat={merits}
                 />
                 <StatModal
                     key={'Flaws'}
-                    groupTitle='Flaws'
-                    groupName='flaws'
+                    statGroupTitle='Flaws'
+                    statKey='flaws'
+                    character={character}
                     stat={flaws}
                 />
                 <StatModal
                     key={'Talismans'}
-                    groupTitle='Talismans'
-                    groupName='talismans'
+                    statGroupTitle='Talismans'
+                    statKey='talismans'
                     stat={talismans}
                     character={character}
                 />

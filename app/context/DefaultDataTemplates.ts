@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { StatData } from './CharacterTypes';
+import { serverTimestamp } from 'firebase/firestore';
 
 type CharacterTemplate = {
     id: string
@@ -33,7 +34,12 @@ type CharacterTemplate = {
     protonium: StatData
     usedProtonium: StatData
     inventory: StatData[]
+    createdAt: string
+    lastUpdate: string
+
 }
+
+type ServerTimestampSetter = () => void
 
 type TagTemplate = {
   id: string
@@ -71,7 +77,7 @@ export const characterTemplate: CharacterTemplate = {
   },
   bashing: {
     id: uuidv4(),
-    name: 'Count',
+    name: 'Bashing',
     rank: 0,
   },
   combat: [
@@ -81,6 +87,11 @@ export const characterTemplate: CharacterTemplate = {
       rank: 1,
     },
   ],
+  death: {
+    id: uuidv4(),
+    name: 'Death',
+    rank: 0
+  },
   endurance: {
     id: uuidv4(),
     name: 'Endurance',
@@ -148,7 +159,7 @@ export const characterTemplate: CharacterTemplate = {
   },
   lethal: {
     id: uuidv4(),
-    name: 'Count',
+    name: 'Lethal',
     rank: 0,
   },
   merits: [
@@ -220,7 +231,12 @@ export const characterTemplate: CharacterTemplate = {
   ],
   protonium: {
     id: uuidv4(),
-    name: 'Spent Protonium',
+    name: 'Protonium',
+    rank: 0,
+  },
+  protoniumPool: {
+    id: uuidv4(),
+    name: 'Protonium Pool',
     rank: 0,
   },
   psyche: {
@@ -303,11 +319,8 @@ export const characterTemplate: CharacterTemplate = {
       ],
     },
   ],
-  usedProtonium: {
-    id: uuidv4(),
-    name: 'Protonium',
-    rank: 0,
-  },
+  createdAt: serverTimestamp(),
+  lastUpdate: serverTimestamp(),
 };
 
 export const tagTemplate: TagTemplate = {

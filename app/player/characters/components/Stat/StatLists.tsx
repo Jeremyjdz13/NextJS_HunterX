@@ -1,23 +1,25 @@
 import React from 'react'
 import ClickableLabel from './ClickableLabel'
 import Label from './Label'
-import { StatData } from '@/app/context/CharacterTypes'
+import { Character, CharacterData, StatData } from '@/app/context/CharacterTypes'
+import { characterTemplate } from '@/app/context/DefaultDataTemplates'
 // import { useEdit } from '../../../../contexts/EditContext'
 
 export type StatListProps = {
     stat: StatData
-    groupName: string
+    statGroupTitle: string
+    character: CharacterData
 }
 
-export default function StatLists({ stat, groupName }: StatListProps) {
+export default function StatLists({ stat, statGroupTitle, character }: StatListProps) {
 
     const isSpellComponents= [ 
         "spellComponents",
-    ].includes(groupName);
+    ].includes(statGroupTitle);
 
     const isStunt = [
         "stunt"
-    ].includes(groupName);
+    ].includes(statGroupTitle);
 
     // const { handleSetSelectedStat, handleSetCharacterStatGroupName } = useEdit()
 
@@ -33,7 +35,12 @@ export default function StatLists({ stat, groupName }: StatListProps) {
                     <Label storedLabel="Duration" />
                 </div>
                 <div>
-                    <ClickableLabel id={stat.id} name={stat.name!} groupName={groupName} />
+                    <ClickableLabel 
+                        id={stat.id} 
+                        name={stat.name!} 
+                        statGroupTitle={statGroupTitle}
+                        character={character}
+                    />
                     <div>{stat.attempts}</div>
                     <div>{stat.description}</div>
                     <div>{stat.mastered ? "Aye": "Nay"}</div>
@@ -55,7 +62,12 @@ export default function StatLists({ stat, groupName }: StatListProps) {
                     <Label storedLabel="Component" />
                 </div>
                 <div>
-                    <ClickableLabel id={stat.id} name={stat.name!} groupName={groupName} />
+                    <ClickableLabel 
+                        id={stat.id} 
+                        name={stat.name!} 
+                        statGroupTitle={statGroupTitle} 
+                        character={character}
+                    />
                     <div>{stat.rank}</div>
                     <div>{stat.description}</div>
                     <div>{stat.armor ? "Aye" : "Nay"}</div>

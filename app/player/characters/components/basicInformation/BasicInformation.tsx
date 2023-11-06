@@ -1,7 +1,11 @@
-import React from 'react'
-import Title from '../Stat/Title'
-import ClickableLabel from '../Stat/ClickableLabel'
+'use client'
+import React, { useState } from 'react'
 import { CharacterData } from '@/app/context/CharacterTypes'
+import ClickableTitle from '../Stat/ClickableTitle'
+import EditStatModal from '../modals/EditStatModal'
+import Name from '../Stat/Name'
+import Title from '../Stat/Title'
+import Initiative from '../initiative/Initiative'
 
 type Props = {
     character: CharacterData
@@ -12,34 +16,42 @@ function BasicInformation({ character }: Props) {
         id,
         name,
         alias,
-        nature 
+        nature,
+        initiative
     } = character
+
   return (
     <section
         className='flex flex-row border-b border-black p-4'
     >
-        <ClickableLabel
+         <ClickableTitle
             key={'name'}
             id={id} 
-            name={name}
-            title="Name"
-            groupName='characterName'
+            statGroupTitle="Name"
+            character={character}
+            stat={name}
         />
-        <ClickableLabel
+        <ClickableTitle
             key={'alias'}
             id={id} 
-            name={alias}
-            title="Alias"
-            groupName='characterAlias'
+            statGroupTitle="Alias"
+            character={character}
+            stat={alias}
             />
 
-        <ClickableLabel
+        <ClickableTitle
             key={'nature'}
             id={id} 
-            name={nature}
-            title="Nature"
-            groupName='characterNature'
+            statGroupTitle="Nature"
+            character={character}
+            stat={nature}
         />
+        <div>
+        <Initiative
+            key="initiative"
+            character={character}
+        />
+        </div>
     </section>
   )
 }

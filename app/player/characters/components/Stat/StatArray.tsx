@@ -1,3 +1,4 @@
+'use client'
 import StatLists from "./StatLists";
 import Label from "./Label";
 import Title from "./Title";
@@ -9,57 +10,59 @@ import DiceModal from "../modals/DiceModal";
 
 type StatProps = {
     statArray: StatData[] 
-    groupName: string
-    groupTitle?: string
-    character?: CharacterData
+    statGroupTitle: string
+    statKey: string
+    character: CharacterData
 }
 
 export default function StatArray(
     { 
         statArray, 
-        groupName, 
-        groupTitle,
+        statGroupTitle, 
+        statKey,
         character
     }: StatProps) {
 
-    // const { handleSetSelectedStat, handleSetCharacterStatGroupName } = useEdit()
     const isInventoryGroup = [
         "inventory", 
-    ].includes(groupName);
+    ].includes(statKey);
     const isSkill = [
         "combat",
         "physical",
         "professional",
         "mental"
-    ].includes(groupName);
+    ].includes(statKey);
 
     const isBackgroundsFlawsGroup = [
         "backgrounds", 
         "flaws"
-    ].includes(groupName);
+    ].includes(statKey);
     const isSpellbookGroup = [
         "spellbook"
-    ].includes(groupName);
+    ].includes(statKey);
     const isPowersAndTalismansGroup = [
         "powers", 
         "talismans"
-    ].includes(groupName);
+    ].includes(statKey);
 
     const isMeritsGroup = [
         "merits",  
-    ].includes(groupName);
+    ].includes(statKey);
+
 
     function handleSkillsElement() {
         return (
-            <div >
-                <div>
-                    <Label storedLabel={'Name'} />
-                    <Label storedLabel={'Rank'} />
-                </div>
+            <div className="border-l  border-black p-1">
                 {
                     Array.isArray(statArray) && statArray.map((item: StatData) => (
                         <div key={item.id}>
-                            <ClickableLabel id={item.id} name={item.name!} rank={item.rank} groupName={groupName} />
+                            <ClickableLabel 
+                                id={item.id} 
+                                name={item.name} 
+                                rank={item.rank} 
+                                statKey={statKey} 
+                                character={character} 
+                            />
                         </div>
                     ))
                 }
@@ -79,7 +82,13 @@ export default function StatArray(
                     {
                         Array.isArray(statArray) && statArray.map((item) => (
                             <div key={item.id}>
-                                <ClickableLabel id={item.id} name={item.name} rank={item.rank} groupName={groupName} />
+                                <ClickableLabel 
+                                    id={item.id} 
+                                    name={item.name} 
+                                    rank={item.rank} 
+                                    statKey={statKey} 
+                                    character={character} 
+                                />
                                 <div>{item.description}</div>
                             </div>
                         ))
@@ -93,7 +102,6 @@ export default function StatArray(
         return (
             <div>
                 <div 
-                    style={statStyles.grid_8}
                 >
                     <Label storedLabel='Name' />
                     <Label storedLabel='Attempts' />
@@ -107,7 +115,13 @@ export default function StatArray(
                 {
                     Array.isArray(statArray) && statArray.map((item) => (
                         <div key={item.id}>
-                            <ClickableLabel id={item.id} name={item?.name} rank={item.rank} groupName={groupName} />
+                            <ClickableLabel 
+                                id={item.id} 
+                                name={item.name} 
+                                rank={item.rank} 
+                                statKey={statKey} 
+                                character={character} 
+                            />
                             <div>{item.attempts}</div>
                             <div>{item.mastered ? "Aye": "Nay"}</div>
                             <div>{item.purchased ? "Aye" : "Nay"}</div>
@@ -119,7 +133,8 @@ export default function StatArray(
                                     <StatLists
                                         key={component.id}
                                         stat={component}
-                                        groupName='spellComponents'
+                                        statGroupTitle='spellComponents'
+                                        character={character}
                                     />
                                
                                 )
@@ -136,7 +151,6 @@ export default function StatArray(
         return (
             <div>
                 <div 
-                    style={statStyles.grid_7}
                 >
                     <Label storedLabel='Name' />
                     <Label storedLabel='Rank' />
@@ -150,7 +164,13 @@ export default function StatArray(
                     {
                         Array.isArray(statArray) && statArray.map((item) => (
                             <div key={item.id}>
-                                <ClickableLabel id={item.id} name={item.name} rank={item.rank} groupName={groupName} />
+                                <ClickableLabel 
+                                    id={item.id} 
+                                    name={item.name} 
+                                    rank={item.rank} 
+                                    statKey={statKey} 
+                                    character={character} 
+                                />
                                 <div>{item.description}</div>
                                 <div>{item.armor ? "Aye" : "Nay"}</div>
                                 <div>{item.component ? "Aye" : "Nay"}</div>
@@ -170,7 +190,6 @@ export default function StatArray(
         return (
             <div>
                 <div 
-                    style={statStyles.grid_4}
                 >
                     <Label storedLabel='Name' />
                     <Label storedLabel='Rank' />
@@ -181,14 +200,23 @@ export default function StatArray(
                     {
                         Array.isArray(statArray) && statArray.map((item) => (
                             <div key={item.id}>
-                                <DiceModal key={item.name} id={item.id} name={item.name} rank={item.rank} character={character} />
+                                
+                                <DiceModal 
+                                    key={item.name} 
+                                    id={item.id} 
+                                    name={item.name} 
+                                    rank={item.rank} 
+                                    character={character} 
+                                    statKey={statKey} 
+                                />
                                 <div>{item.description}</div>
                                 {item.stunt?.map((stunt: any) => 
                                     
                                     <StatLists
                                         key={stunt.id}
                                         stat={stunt}
-                                        groupName='stunt'
+                                        statGroupTitle='stunt'
+                                        character={character}
                                     />
                                 )
                             }
@@ -204,7 +232,6 @@ export default function StatArray(
         return (
             <div>
                 <div 
-                    style={statStyles.grid_6}
                 >
                     <Label storedLabel='Name' />
                     <Label storedLabel='Rank' />
@@ -217,7 +244,13 @@ export default function StatArray(
                     {
                         Array.isArray(statArray) && statArray.map((item) => (
                             <div key={item.id} style={statStyles.grid_6}>
-                                <ClickableLabel id={item.id} name={item.name} rank={item.rank} groupName={groupName} />
+                                <ClickableLabel 
+                                    id={item.id} 
+                                    name={item.name} 
+                                    rank={item.rank} 
+                                    statKey={statKey}
+                                    character={character}
+                                />
                                 <div>{item.protoniumGenerator ? "Aye" : "Nay"}</div>
                                 <div>{item.talisman ? "Aye" : "Nay"}</div>
                                 <div>{item.armor ? "Aye" : "Nay"}</div>
@@ -255,19 +288,23 @@ export default function StatArray(
     }
 
     return (
-        <div>
-            {/* {groupTitle ? <Title storedTitle={groupTitle} /> : null} */}
+        <div className="m-1">
             {
                 (
-                    groupTitle === 'Bashing' ||
-                    groupTitle === 'Lethal' ||
-                    groupTitle === 'Name' ||
-                    groupTitle === 'Alias' ||
-                    groupTitle === 'Nature'
+                    statGroupTitle === 'Bashing' ||
+                    statGroupTitle === 'Lethal' ||
+                    statGroupTitle === 'Name' ||
+                    statGroupTitle === 'Alias' ||
+                    statGroupTitle === 'Nature'
                 ) ? 
-                    <ClickableTitle groupTitle={groupTitle}/> : 
+                    <ClickableTitle 
+                        statGroupTitle={statGroupTitle}
+                        id={character.id}
+                        character={character}
+                        
+                    /> : 
                 (
-                    groupTitle ? <Title storedTitle={groupTitle} /> : 
+                    statGroupTitle ? <Title statGroupTitle={statGroupTitle} /> : 
                     null 
                 )
             }

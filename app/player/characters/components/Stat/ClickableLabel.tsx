@@ -10,33 +10,24 @@ type ClickableLabelProps = {
     rank?: number | undefined
     name?: string | undefined
     id?: string | undefined
-    title?: string
-    groupName: string
-    character?: CharacterData | undefined
+    statGroupTitle?: string
+    statKey: string
+    character: CharacterData | undefined
 }
 
-export default function ClickableLabel({ name, id, groupName, rank, title, character } : ClickableLabelProps) {
+export default function ClickableLabel({ name, id, statKey, rank, statGroupTitle, character } : ClickableLabelProps) {
     const [isModalOpen, setIsModalOpen] = useState(false)
-
-    const isCoreAbility = [
-        "strength", 
-        "fight", 
-        "agility",
-        "endurance",
-        "reason",
-        "intuition",
-        "psyche",
-    ].includes(groupName)
 
     const isPowersAndTalismans = [
         "powers",
         "talismans"
-    ].includes(groupName)
+    ].includes(statKey)
 
     function handleDiceClickableTitles() {
-        const stat: StatData | undefined = character?.[groupName]
+        const stat: StatData | undefined = character?.[statKey]
+        console.log(isPowersAndTalismans, "True or false")
         if(isPowersAndTalismans) {
-
+            console.log(stat, "From Powers or Talismans")
             const statArray: StatData | undefined = Array.isArray(stat) && stat?.find(item => item.id === id)
             if (statArray) {
                 return <DiceModal 
@@ -46,28 +37,14 @@ export default function ClickableLabel({ name, id, groupName, rank, title, chara
                         rank={statArray.rank}
                         stat={statArray}
                         character={character}
+                        statKey={statKey}
                     />
             }
-        }
-
-        if(isCoreAbility) {
-        console.log(name, rank, "Name and Rank")
-            
-        return <DiceModal 
-                key={id}
-                id={id}
-                name={name}
-                rank={rank}
-                character={character}
-            />
-            
-        }
-        
+        }        
     }
 
     function handleContextMenu(e: { preventDefault: () => void}){
         e.preventDefault()
-        console.log("Right Click")
 
         setIsModalOpen(true)
     }
@@ -79,30 +56,30 @@ export default function ClickableLabel({ name, id, groupName, rank, title, chara
         <div className="p-1">
             {
                 (
-                    groupName === 'strength' ||
-                    groupName === 'fight' ||
-                    groupName === 'agility' ||
-                    groupName === 'endurance' ||
-                    groupName === 'reason' ||
-                    groupName === 'intuition' ||
-                    groupName === 'psyche' ||
-                    groupName === 'powers' ||
-                    groupName === 'talismans'
+                    statKey === 'powers' ||
+                    statKey === 'talismans'
                 ) ? handleDiceClickableTitles() : 
                 (
                     <div className="flex flex-col">
-                        <Title storedTitle={title} />
-                        <div
-                            onContextMenu={handleContextMenu}
-                        >{name}</div>
-                        <Rank rank={rank} />
+                        <Title statGroupTitle={statGroupTitle!} />
+                        <div className="flex flex-col text-center">
+                            <div 
+                                className="cursor-pointer"
+                                onContextMenu={handleContextMenu}
+                            >{name}</div>
+                            <Rank rank={rank} />
+                        </div>
                     </div>
                 )
             }
             <EditStatModal 
-                storedTitle={name}
+                statGroupTitle={name!}
+                statKey={statKey}
                 isOpen={isModalOpen}
                 onClose={handleCloseModal}
+                id={id!}
+                character={character!}
+                
             />
         </div>
     )

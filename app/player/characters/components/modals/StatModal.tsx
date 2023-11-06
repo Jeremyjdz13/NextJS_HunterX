@@ -1,18 +1,18 @@
 "use client"
 import { CharacterData, StatData } from "@/app/context/CharacterTypes"
-import { useRef } from "react"
-import StatArray from "../Stat/StatArray"
-
+import { useRef, lazy, Suspense } from "react"
 
 type StatModalProps = {
-    groupTitle: string
+    statGroupTitle: string
     stat: StatData[]
-    groupName: string
-    character?: CharacterData
+    statKey: string
+    character: CharacterData
 }
-export default function StatModal({ groupTitle, stat, groupName, character  }: StatModalProps) {
-    const modalRef = useRef(null)
+const LazyStatArray = lazy(() => import('../Stat/StatArray'))
 
+export default function StatModal({ statGroupTitle, stat, statKey, character  }: StatModalProps) {
+    const modalRef = useRef(null)
+    
     function handleOpenModal() {
         (modalRef.current! as HTMLDialogElement).showModal()
     }
@@ -25,8 +25,9 @@ export default function StatModal({ groupTitle, stat, groupName, character  }: S
         <div>
             <button
                 onClick={handleOpenModal}
+                className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
             >
-                {groupTitle}
+                {statGroupTitle}
             </button>
             <dialog ref={modalRef} >
                 <button 
@@ -34,12 +35,9 @@ export default function StatModal({ groupTitle, stat, groupName, character  }: S
                 >
                     Close
                 </button>
-                <StatArray
-                    groupTitle={groupTitle}
-                    groupName={groupName}
-                    statArray={stat}
-                    character={character}
-            />
+                <Suspense fallback={<div>Loading...</div>}>
+                    <LazyStatArray statArray={stat} statGroupTitle={statGroupTitle} statKey={statKey} character={character} />
+                </Suspense>
             </dialog>
         </div>
     )

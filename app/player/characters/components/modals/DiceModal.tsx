@@ -12,6 +12,7 @@ type DiceModalProps = {
     name?: string | undefined
     rank?: number | undefined
     character: CharacterData | undefined
+    statKey: string
 }
 type D100 = {
     randomD100: number;
@@ -19,7 +20,7 @@ type D100 = {
     score: string;
 }
 
-export default function DiceModal({ stat, id, name, rank, character } : DiceModalProps) {
+export default function DiceModal({ statKey, id, name, rank, character } : DiceModalProps) {
 
     const modalRef = useRef<HTMLDialogElement | null>(null)
     const [isEditOpen, setIsEditOpen] = useState(false)
@@ -31,15 +32,8 @@ export default function DiceModal({ stat, id, name, rank, character } : DiceModa
         physical,
         professional,
         mental,
-        protonium,
-        usedProtonium,
-        merits
+        protoniumPool
     } = character as CharacterData
-
-    const protoniumGenerator = merits?.filter(item => (
-            item.protoniumGenerator
-        )
-    )
 
   
     function handleOpenModal() {
@@ -307,36 +301,13 @@ export default function DiceModal({ stat, id, name, rank, character } : DiceModa
         
     }
 
-    // let totalPool = 0
-    // if (protonium?.rank && protoniumGenerator[0]?.rank) {
-    //     console.log("Protonium")
-    //     return totalPool = protonium?.rank + protoniumGenerator[0]?.rank
-    // }
-
-    // let protoniumCount = 0
-    // if (usedProtonium?.rank) {
-    //     console.log("usedProtonium")
-    //     return protoniumCount = totalPool - usedProtonium?.rank
-    // }
-
-    // function handleProtoniumGeneratorElement(): JSX.Element {
-    //     if(protoniumGenerator){
-    //         return (
-    //             <div>
-    //                 <div>Generator</div>
-    //                 <div>{protoniumGenerator[0]?.rank}</div>
-    //             </div>
-    //         )
-    //     }
-    //     return <></>
-    // }
-
     return (
-        <div>
+        <div className='border-l border-black p-1'>
             <div className="p-1 text-center">
                 <div
                     onClick={handleOpenModal}
                     onContextMenu={handleContextMenuOpen}
+                    className="cursor-pointer"
                 >
                     {name} 
                 </div>
@@ -380,28 +351,15 @@ export default function DiceModal({ stat, id, name, rank, character } : DiceModa
                     />
                 </div>
                 <div>
-                    
-                    <Stat
-                        key={protonium.id}
-                        rank={protonium.rank}
-                        name={protonium.name}
-                    />
-                    {/* {
-                        protoniumGenerator ? handleProtoniumGeneratorElement() : <></>
-                    } */}
-                    <Stat
-                        key={usedProtonium.id}
-                        rank={usedProtonium.rank}
-                        name={usedProtonium.name}
-                    />
-                    {/* <div>
-                        Total: <span>{protoniumCount}</span>
-                    </div> */}
+                    Protonium Pool
                 </div>
             </dialog>
             <EditStatModal
-                storedTitle={name!}
+                statGroupTitle={name!}
+                statKey={statKey}
                 isOpen={isEditOpen}
+                character={character!}
+                id={id!}
                 onClose={handleContextMenuClose}
             />
         </div>
