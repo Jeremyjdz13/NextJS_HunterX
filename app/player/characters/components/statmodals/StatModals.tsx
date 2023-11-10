@@ -30,7 +30,8 @@ function StatModals({ character }: Props) {
                 <StatModal
                     key={'Powers'}
                     statGroupTitle={"Powers"} 
-                    statKey={"powers"}
+                    statKey={'powers'}
+                    statSubKey={'stunt'}
                     stat={powers}
                     character={character}
                 />
@@ -66,6 +67,7 @@ function StatModals({ character }: Props) {
                     key={'Talismans'}
                     statGroupTitle='Talismans'
                     statKey='talismans'
+                    statSubKey={'stunt'}
                     stat={talismans}
                     character={character}
                 />

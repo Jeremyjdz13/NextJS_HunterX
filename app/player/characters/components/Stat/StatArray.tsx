@@ -9,17 +9,19 @@ import { CharacterData, StatData } from "@/app/context/CharacterTypes";
 import DiceModal from "../modals/DiceModal";
 
 type StatProps = {
-    statArray: StatData[] 
+    stat: StatData[] 
     statGroupTitle: string
     statKey: string
+    statSubKey?: string
     character: CharacterData
 }
 
 export default function StatArray(
     { 
-        statArray, 
+        stat, 
         statGroupTitle, 
         statKey,
+        statSubKey,
         character
     }: StatProps) {
 
@@ -49,12 +51,12 @@ export default function StatArray(
         "merits",  
     ].includes(statKey);
 
-
     function handleSkillsElement() {
         return (
             <div className="border-l  border-black p-1">
                 {
-                    Array.isArray(statArray) && statArray.map((item: StatData) => (
+                    
+                    Array.isArray(stat) && stat.map((item: StatData) => (
                         <div key={item.id}>
                             <ClickableLabel 
                                 id={item.id} 
@@ -80,7 +82,7 @@ export default function StatArray(
                         <Label storedLabel={'Description'} />
                     </div>
                     {
-                        Array.isArray(statArray) && statArray.map((item) => (
+                        Array.isArray(stat) && stat.map((item) => (
                             <div key={item.id}>
                                 <ClickableLabel 
                                     id={item.id} 
@@ -113,7 +115,7 @@ export default function StatArray(
                     <Label storedLabel="Components" />
                 </div>
                 {
-                    Array.isArray(statArray) && statArray.map((item) => (
+                    Array.isArray(stat) && stat.map((item) => (
                         <div key={item.id}>
                             <ClickableLabel 
                                 id={item.id} 
@@ -162,7 +164,7 @@ export default function StatArray(
                 </div>
                 <div>
                     {
-                        Array.isArray(statArray) && statArray.map((item) => (
+                        Array.isArray(stat) && stat.map((item) => (
                             <div key={item.id}>
                                 <ClickableLabel 
                                     id={item.id} 
@@ -185,20 +187,20 @@ export default function StatArray(
         )
         
     }
-
     function handlePowersTalismansElement() {
         return (
-            <div>
-                <div 
+            <div className="flex flex-row" >
+                <div
+                    className="flex flex-col"
                 >
                     <Label storedLabel='Name' />
                     <Label storedLabel='Rank' />
-                    <Label storedLabel='Description' />
+                    {/* <Label storedLabel='Description' /> */}
                     <Label storedLabel="Stunts" />
                 </div>
                 <div>
                     {
-                        Array.isArray(statArray) && statArray.map((item) => (
+                        Array.isArray(stat) && stat.map((item) => (
                             <div key={item.id}>
                                 
                                 <DiceModal 
@@ -209,15 +211,20 @@ export default function StatArray(
                                     character={character} 
                                     statKey={statKey} 
                                 />
-                                <div>{item.description}</div>
-                                {item.stunt?.map((stunt: any) => 
-                                    
-                                    <StatLists
+                                {/* <div>{item.description}</div> */}
+                                {item.stunt?.map((stunt: any) => {
+                                       return <StatLists
                                         key={stunt.id}
                                         stat={stunt}
                                         statGroupTitle='stunt'
                                         character={character}
-                                    />
+                                        statSubKey={statSubKey}
+                                        statKey={statKey}
+                                        subId={stunt.id}
+                                        id={item.id}
+                                    /> 
+                                    }
+                                
                                 )
                             }
                             </div>
@@ -231,19 +238,21 @@ export default function StatArray(
     function handleMeritsElement() {
         return (
             <div>
-                <div 
+                <div
+                    className="flex flex-row"
                 >
                     <Label storedLabel='Name' />
-                    <Label storedLabel='Rank' />
-                    <Label storedLabel='Protonioum Generator' />
+                    <Label storedLabel='Protonium Gen' />
                     <Label storedLabel='Talisman' />
                     <Label storedLabel="Armor" />
                     <Label storedLabel="Description" />
                 </div>
                 <div>
                     {
-                        Array.isArray(statArray) && statArray.map((item) => (
-                            <div key={item.id} style={statStyles.grid_6}>
+                        Array.isArray(stat) && stat.map((item) => (
+                            <div key={item.id}
+                                className="flex flex-row"
+                            >
                                 <ClickableLabel 
                                     id={item.id} 
                                     name={item.name} 
@@ -251,9 +260,9 @@ export default function StatArray(
                                     statKey={statKey}
                                     character={character}
                                 />
-                                <div>{item.protoniumGenerator ? "Aye" : "Nay"}</div>
-                                <div>{item.talisman ? "Aye" : "Nay"}</div>
-                                <div>{item.armor ? "Aye" : "Nay"}</div>
+                                <div>{item.protoniumGenerator}</div>
+                                <div>{item.talisman}</div>
+                                <div>{item.armor}</div>
                                 <div>{item.description}</div>
                             </div>
                                 

@@ -11,6 +11,9 @@ type EditStatModalProps = {
     character: CharacterData
     id: string
     statKey: string
+    subId?: string
+    isStuntActive?: boolean
+    statSubKey?: string
 }
 
 export default function EditStatModal({ 
@@ -19,6 +22,9 @@ export default function EditStatModal({
     onClose,
     character,
     statKey,
+    subId,
+    statSubKey,
+    isStuntActive,
     id
 }: EditStatModalProps) {
     const modalRef = useRef<HTMLDialogElement | null>(null)
@@ -39,7 +45,10 @@ export default function EditStatModal({
             <Title statGroupTitle={statGroupTitle} />
             <EditStatForm 
                 statKey={statKey}
+                statSubKey={statSubKey}
                 character={character}
+                isStuntActive={isStuntActive}
+                subId={subId}
                 id={id}
             />
         </dialog>

@@ -7,17 +7,29 @@ import { CharacterData } from "@/app/context/CharacterTypes"
 type ClickableTitleProps = {
     statGroupTitle: string
     character: CharacterData
+    statSubKey?: string
+    statKey?: string
+    subId?:string
+    isStuntActive?:boolean
     stat: string
     id: string
 }
 
-export default function ClickableTitle({ statGroupTitle, character, stat, id } : ClickableTitleProps) {
+export default function ClickableTitle({ 
+        statGroupTitle, 
+        statSubKey, 
+        character,
+        statKey,
+        isStuntActive,
+        // onClick,
+        stat,
+        subId, 
+        id 
+    } : ClickableTitleProps) {
     const [isModalOpen, setIsModalOpen] = useState(false)
-
+    
     function handleContextMenu(e: { preventDefault: () => void}){
         e.preventDefault()
-        console.log("Right Click")
-
         setIsModalOpen(true)
     }
 
@@ -25,20 +37,20 @@ export default function ClickableTitle({ statGroupTitle, character, stat, id } :
         setIsModalOpen(false)
     }
 
-    let statKey = ''
-    if (statGroupTitle === "Name") statKey = "name"
+    let statNameAliasNatureKey = ''
+    if (statGroupTitle === "Name") statNameAliasNatureKey = "name"
 
-    if (statGroupTitle === "Alias") statKey = "alias"
+    if (statGroupTitle === "Alias") statNameAliasNatureKey = "alias"
 
-    if (statGroupTitle === "Nature") statKey = "nature"
-
+    if (statGroupTitle === "Nature") statNameAliasNatureKey = "nature"
     return (
         <div>
             {
                 <div className="p-1">
-                    <div>{statGroupTitle}</div>
+                    <div>{statSubKey === "stunt" ? null : statGroupTitle}</div>
                     <div
-                        onContextMenu={handleContextMenu}
+                        className="cursor-pointer"
+                        onContextMenu={e => handleContextMenu(e)}
                     >
                         {stat}
                     </div>   
@@ -48,8 +60,11 @@ export default function ClickableTitle({ statGroupTitle, character, stat, id } :
                 statGroupTitle={statGroupTitle}
                 isOpen={isModalOpen}
                 statKey={statKey}
+                statSubKey={statSubKey}
                 id={id}
+                subId={subId}
                 character={character}
+                isStuntActive={isStuntActive}
                 onClose={handleCloseModal}
             />
         </div>

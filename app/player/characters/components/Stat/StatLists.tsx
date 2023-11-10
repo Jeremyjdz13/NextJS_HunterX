@@ -1,17 +1,31 @@
-import React from 'react'
+'use client'
+import React, {useEffect, useState} from 'react'
 import ClickableLabel from './ClickableLabel'
 import Label from './Label'
-import { Character, CharacterData, StatData } from '@/app/context/CharacterTypes'
-import { characterTemplate } from '@/app/context/DefaultDataTemplates'
+import { CharacterData, StatData } from '@/app/context/CharacterTypes'
+import ClickableTitle from './ClickableTitle'
 // import { useEdit } from '../../../../contexts/EditContext'
 
 export type StatListProps = {
+    id: string
     stat: StatData
+    subId?: string
+    statKey?: string
+    statSubKey?: string
     statGroupTitle: string
     character: CharacterData
 }
 
-export default function StatLists({ stat, statGroupTitle, character }: StatListProps) {
+export default function StatLists({
+        id,
+        stat, 
+        statKey,
+        subId,
+        statSubKey, 
+        statGroupTitle, 
+        character 
+    }: StatListProps) {
+    const [isDescriptionActive, setIsDescriptionActive] = useState<boolean>(false)
 
     const isSpellComponents= [ 
         "spellComponents",
@@ -19,33 +33,53 @@ export default function StatLists({ stat, statGroupTitle, character }: StatListP
 
     const isStunt = [
         "stunt"
-    ].includes(statGroupTitle);
-
-    // const { handleSetSelectedStat, handleSetCharacterStatGroupName } = useEdit()
-
+    ].includes(statSubKey!);
+    
+    // useEffect(() => {
+    //     console.log(isStuntActive, "UseEffect");
+    // }, [isStuntActive]);
+    function handleShowDescription() {
+        setIsDescriptionActive(prev => !prev)
+    }
     function handleStuntsElement() {
         return (
-            <div key={stat.id}>
-                <div>
-                    <Label storedLabel="Name" />
-                    <Label storedLabel="Attempts" />
-                    <Label storedLabel="Description" />
-                    <Label storedLabel="Mastered" />
-                    <Label storedLabel="Armor" />
-                    <Label storedLabel="Duration" />
+            <div 
+                key={stat.id}
+                className='border-t border-black p-1'
+            >   
+                <div className='inline-grid grid-cols-5 gap-5'>
+                    <div className='p-1 text-center'>
+                        <Label storedLabel="Name" />
+                        <div 
+                            className='flex flex-row p-1'
+                            onClick={handleShowDescription}
+                        >
+                            <ClickableTitle 
+                                id={id} 
+                                statGroupTitle={statGroupTitle}
+                                character={character}
+                                stat={stat.name!}
+                                statSubKey={statSubKey}
+                                subId={subId}
+                                statKey={statKey}
+                                isStuntActive={true}
+                            />
+                            {stat.armor ? <sub>A</sub> : ""}
+                            {stat.mastered ? <sub>M</sub> : ""}
+                        </div>
+                    </div>
+                   <div className='p-1 text-center'>
+                        <Label storedLabel="Attempts" />
+                        <div>{stat.attempts}</div>
+                   </div>
+                   <div className='p-1 text-center'>
+                        <Label storedLabel="Duration" />
+                        <div>{stat.duration}</div>
+                   </div>
                 </div>
-                <div>
-                    <ClickableLabel 
-                        id={stat.id} 
-                        name={stat.name!} 
-                        statGroupTitle={statGroupTitle}
-                        character={character}
-                    />
-                    <div>{stat.attempts}</div>
+                <div className={`p-1 text-center display ${!isDescriptionActive && "hidden" }`}>
+                    <Label storedLabel="Description" />
                     <div>{stat.description}</div>
-                    <div>{stat.mastered ? "Aye": "Nay"}</div>
-                    <div>{stat.armor ? "Aye" : "Nay"}</div>
-                    <div>{stat.duration}</div>
                 </div>
             </div>
         )
@@ -65,7 +99,8 @@ export default function StatLists({ stat, statGroupTitle, character }: StatListP
                     <ClickableLabel 
                         id={stat.id} 
                         name={stat.name!} 
-                        statGroupTitle={statGroupTitle} 
+                        statGroupTitle={statGroupTitle}
+                        statSubKey={statSubKey}
                         character={character}
                     />
                     <div>{stat.rank}</div>

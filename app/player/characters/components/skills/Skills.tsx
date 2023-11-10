@@ -22,28 +22,28 @@ function Skills({ character }: Props) {
                     key="Combat"
                     statGroupTitle='Combat'
                     statKey='combat'
-                    statArray={combat}
+                    stat={combat}
                     character={character}
                 />
                 <StatArray
                     key="Physical"
                     statGroupTitle='Physical'
                     statKey='physical'
-                    statArray={physical}
+                    stat={physical}
                     character={character}
                 />
                 <StatArray
                     key="professional"
                     statGroupTitle='Professional'
                     statKey='professional'
-                    statArray={professional}
+                    stat={professional}
                     character={character}
                 />
                 <StatArray
                     key="mental"
                     statGroupTitle='Mental'
                     statKey='mental'
-                    statArray={mental}
+                    stat={mental}
                     character={character}
                 />   
             </section>        

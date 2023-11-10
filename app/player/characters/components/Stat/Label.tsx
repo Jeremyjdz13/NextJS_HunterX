@@ -5,7 +5,7 @@ type LabelProp = {
 export default function Label({ storedLabel }: LabelProp){
     const label = storedLabel
     return (
-        <div className="p-1">
+        <div className="border-b border-black p-1">
             {label}
         </div>
     )
