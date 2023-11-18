@@ -41,31 +41,31 @@ export type StatData = {
     rank?: number
     url?: string
     description?: string
-    talisman?: boolean
+    isTalisman?: boolean
     protoniumGenerator?: boolean
     markdown?: string
     tagIds?: string[]
     title?: string
-    purchased?: boolean
-    mastered?: boolean
+    isPurchased?: boolean
+    isMastered?: boolean
     attempts?: number
-    armor?: boolean
+    isArmor?: boolean
     duration?: number
     stunt?: Stunt[]
-    casting?: string
+    casting?: number
     quantity?: number
-    component?: boolean
-    componentItem?: ComponentItem[]
+    isComponent?: boolean
+    components?: Component[]
     spellAssignmentId?: string
 } 
 
-export type ComponentItem = {
+export type Component = {
     id: string
     name: string
     rank: number
     description: string
-    armor: boolean
-    component: boolean
+    isArmor: boolean
+    isComponent: boolean
     quantity: number
     spellAssignmentId: string
 }
@@ -78,8 +78,8 @@ export type Stunt = {
     name: string
     attempts: number
     description: string
-    mastered: boolean
-    armor: boolean
+    isMastered: boolean
+    isArmor: boolean
     duration: number
 }
 
@@ -108,6 +108,13 @@ export type CharacterButtonProps = {
 }
 
 export type Character = {
+    physical: StatData[]
+    combat: StatData[]
+    professional: StatData[]
+    mental: StatData[]
+    merits: StatData[]
+    protonium: StatData
+    protoniumPool: StatData
     character: CharacterData
 }
 

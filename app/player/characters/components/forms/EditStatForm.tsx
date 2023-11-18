@@ -2,14 +2,17 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { CharacterContextProps, CharacterData, StatData } from "@/app/context/CharacterTypes"
 import { useCharacter } from '@/app/context/CharacterContext'
+import { skillTemplate, powerTemplate } from '@/app/context/DefaultDataTemplates'
 
 interface EditStatFormProps {
     id: string
     subId?: string
     statKey: string
     statSubKey?: string
+    statGroupTitle?: string
     isStuntActive?: boolean
     character: CharacterData
+    onClose: () => void
 }
 
 
@@ -19,7 +22,9 @@ export default function EditStatForm({
         statKey, 
         statSubKey,
         isStuntActive,
-        subId
+        statGroupTitle,
+        subId,
+        onClose
     } : EditStatFormProps) {
     const { editCharacter } = useCharacter() as CharacterContextProps
     const nameRef = useRef<HTMLInputElement>(null)
@@ -77,9 +82,9 @@ export default function EditStatForm({
         "stunt"
     ].includes(statSubKey)
 
-    const characterName = [ "name" ].includes(statKey)
-    const characterNature = [ "nature" ].includes(statKey)
-    const characterAlias = [ "alias" ].includes(statKey)
+    const isCharacterName = [ "name" ].includes(statKey)
+    const isCharacterNature = [ "nature" ].includes(statKey)
+    const isCharacterAlias = [ "alias" ].includes(statKey)
  
     function handleStatMax(){
         if(statKey === 'experience'){
@@ -100,15 +105,18 @@ export default function EditStatForm({
         return 10
     }
 
+    
+
    function handleFormElement() {
-        if (characterName) {
+
+        if (isCharacterName) {
             return (
-                <div>
+                <>
                     <label
                         className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" 
                         htmlFor="name"
                     >
-                        Name
+                        {statGroupTitle}
                     </label>
                     <input 
                         className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" 
@@ -118,17 +126,17 @@ export default function EditStatForm({
                         defaultValue={character.name}
                         
                     />
-                </div>
+                </>
             )
         }
-        if (characterAlias) {
+        if (isCharacterAlias) {
             return (
                 <div>
                     <label
                         className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" 
-                        htmlFor="name"
+                        htmlFor="alias"
                     >
-                        Name
+                        Alias
                     </label>
                     <input 
                         className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" 
@@ -141,7 +149,7 @@ export default function EditStatForm({
                 </div>
             )
         }
-        if (characterNature) {
+        if (isCharacterNature) {
             return (
                 <div>
                     <label
@@ -476,17 +484,17 @@ export default function EditStatForm({
         e.preventDefault()
        
         
-        if (characterName && nameRef.current) {
+        if (isCharacterName && nameRef.current) {
            
             const newCharacter = {...character, name: nameRef.current.value}
             editCharacter(newCharacter)
         }
-        if (characterAlias && aliasRef.current) {
+        if (isCharacterAlias && aliasRef.current) {
            
             const newCharacter = {...character, alias: aliasRef.current.value}
             editCharacter(newCharacter)
         }
-        if (characterNature && natureRef.current) {
+        if (isCharacterNature && natureRef.current) {
            
             const newCharacter = {...character, nature: natureRef.current.value}
             editCharacter(newCharacter)
@@ -611,11 +619,25 @@ export default function EditStatForm({
 
     return (
         
-        <form key={id} onSubmit={handleSubmit}>
+        <form 
+            key={id} 
+            onSubmit={handleSubmit}
+        >
                 <div>
                     {handleFormElement()}
                 </div>
-                <button type="submit">Save</button><button type="reset">cancel</button>
+                <div className='flex flex-row'>
+                    <button 
+                        className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded m-1"
+                        type="submit"
+                        onClick={onClose}
+                    >Save</button>
+                    <button 
+                        type="reset"
+                        className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded m-1"
+                    >Cancel</button>
+                    
+                </div>
         </form>
 
     )

@@ -17,6 +17,7 @@
 
 body {
   color: rgb(var(--foreground-hsl));
+  font-size: 14px;
 }
 
 @layer base {

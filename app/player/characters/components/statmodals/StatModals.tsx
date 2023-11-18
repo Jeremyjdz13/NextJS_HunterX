@@ -18,11 +18,12 @@ function StatModals({ character }: Props) {
     } = character
   return (
     <section
-              className='flex flex-row border-b border-black p-1'
+              className='flex flex-row p-1'
             >
                 <StatModal 
                     key={'Spell Book'}
-                    statGroupTitle={"Spell Book"} 
+                    statGroupTitle={"Spell Book"}
+                    statSubKey={''} 
                     statKey={"spellbook"}
                     stat={spellbook}
                     character={character}

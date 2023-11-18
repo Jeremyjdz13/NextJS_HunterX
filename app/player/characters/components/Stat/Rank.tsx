@@ -6,7 +6,7 @@ type Props = {
 }
 function Rank({ rank } : Props) {
   return (
-    <div className='ml-1'>{rank}</div>
+    <div className='p-1'>{rank}</div>
   )
 }
 

@@ -48,8 +48,10 @@ export default function EditStatModal({
                 statSubKey={statSubKey}
                 character={character}
                 isStuntActive={isStuntActive}
+                statGroupTitle={statGroupTitle}
                 subId={subId}
                 id={id}
+                onClose={onClose}
             />
         </dialog>
     )

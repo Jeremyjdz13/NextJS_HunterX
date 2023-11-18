@@ -1,10 +1,11 @@
 "use client"
 import { useState } from "react"
-import { StatData, CharacterData } from "../../../../context/CharacterTypes"
+import { StatData, CharacterData, Character } from "../../../../context/CharacterTypes"
 import EditStatModal from "../modals/EditStatModal"
 import DiceModal from "../modals/DiceModal"
 import Rank from "./Rank"
-import Title from "./Title"
+import classnames from 'classnames'
+
 
 type ClickableLabelProps = {
     rank?: number | undefined
@@ -12,7 +13,7 @@ type ClickableLabelProps = {
     id?: string | undefined
     statGroupTitle?: string
     statKey: string
-    character: CharacterData | undefined
+    character: Character
 }
 
 export default function ClickableLabel({ name, id, statKey, rank, statGroupTitle, character } : ClickableLabelProps) {
@@ -23,11 +24,19 @@ export default function ClickableLabel({ name, id, statKey, rank, statGroupTitle
         "talismans"
     ].includes(statKey)
 
+    const isCoreAbilities = [
+        "strength",
+        "fight",
+        "agility",
+        "endurance",
+        "reason",
+        "intuition",
+        "psyche"
+    ].includes(statKey)
+
     function handleDiceClickableTitles() {
         const stat: StatData | undefined = character?.[statKey]
-        console.log(isPowersAndTalismans, "True or false")
         if(isPowersAndTalismans) {
-            console.log(stat, "From Powers or Talismans")
             const statArray: StatData | undefined = Array.isArray(stat) && stat?.find(item => item.id === id)
             if (statArray) {
                 return <DiceModal 
@@ -61,12 +70,18 @@ export default function ClickableLabel({ name, id, statKey, rank, statGroupTitle
                 ) ? handleDiceClickableTitles() : 
                 (
                     <div className="flex flex-col">
-                        <Title statGroupTitle={statGroupTitle!} />
-                        <div className="flex flex-col text-center">
+                        <div className={classnames(
+                            {
+                                "flex flex-row": !isCoreAbilities,
+                                "flex flex-col": isCoreAbilities
+                            }
+                        )}>
                             <div 
-                                className="cursor-pointer"
+                                className="cursor-pointer w-1/2 m-1"
                                 onContextMenu={handleContextMenu}
-                            >{name}</div>
+                            >
+                                {name}
+                            </div>
                             <Rank rank={rank} />
                         </div>
                     </div>

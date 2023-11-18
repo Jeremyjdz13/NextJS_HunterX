@@ -302,7 +302,7 @@ export default function DiceModal({ statKey, id, name, rank, character } : DiceM
     }
 
     return (
-        <div className='border-l border-black p-1'>
+        <div className='border border-black rounded p-1 m-1 w-22'>
             <div className="p-1 text-center">
                 <div
                     onClick={handleOpenModal}

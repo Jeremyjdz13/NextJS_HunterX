@@ -1,8 +1,8 @@
 'use client'
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import ClickableLabel from './ClickableLabel'
 import Label from './Label'
-import { CharacterData, StatData } from '@/app/context/CharacterTypes'
+import { Character, CharacterData, StatData } from '@/app/context/CharacterTypes'
 import ClickableTitle from './ClickableTitle'
 // import { useEdit } from '../../../../contexts/EditContext'
 
@@ -13,7 +13,7 @@ export type StatListProps = {
     statKey?: string
     statSubKey?: string
     statGroupTitle: string
-    character: CharacterData
+    character: Character
 }
 
 export default function StatLists({
@@ -26,7 +26,6 @@ export default function StatLists({
         character 
     }: StatListProps) {
     const [isDescriptionActive, setIsDescriptionActive] = useState<boolean>(false)
-
     const isSpellComponents= [ 
         "spellComponents",
     ].includes(statGroupTitle);
@@ -35,12 +34,15 @@ export default function StatLists({
         "stunt"
     ].includes(statSubKey!);
     
-    // useEffect(() => {
-    //     console.log(isStuntActive, "UseEffect");
-    // }, [isStuntActive]);
+
     function handleShowDescription() {
-        setIsDescriptionActive(prev => !prev)
+       setIsDescriptionActive(prev => prev = true)
     }
+
+    function handleCloseDescription() {
+       setIsDescriptionActive(prev => prev = false)
+    }
+
     function handleStuntsElement() {
         return (
             <div 
@@ -77,9 +79,18 @@ export default function StatLists({
                         <div>{stat.duration}</div>
                    </div>
                 </div>
-                <div className={`p-1 text-center display ${!isDescriptionActive && "hidden" }`}>
+                <div 
+                    className={`p-2 text-left border border-black rounded ${!isDescriptionActive ? "hidden" : ""}`}
+                >
                     <Label storedLabel="Description" />
                     <div>{stat.description}</div>
+                    <div>
+                        <button
+                            className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                            onClick={handleCloseDescription}
+                            >X
+                        </button>
+                    </div>
                 </div>
             </div>
         )
@@ -87,8 +98,12 @@ export default function StatLists({
 
     function handleSpellComponentsElement() {
         return (
-            <div key={stat.id}>
-                <div>
+            <div 
+                key={stat.id}
+            >
+                <div
+
+                >
                     <Label storedLabel="Name" />
                     <Label storedLabel="Rank" />
                     <Label storedLabel="Description" />

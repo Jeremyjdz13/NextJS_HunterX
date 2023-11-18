@@ -45,7 +45,7 @@ function Counters({ character } : Props) {
             statGroupTitle='Lethal'
             character={character}
         />
-        <div className='border-l border-black p-1'>
+        <div className='p-1'>
             
             <ClickableLabel
                 key={experience.id} 
@@ -64,7 +64,6 @@ function Counters({ character } : Props) {
                 statKey="karma"
             />
         </div>
-        <Protonium character={character}/>      
     </section>
   )
 }

@@ -1,13 +1,13 @@
 'use client'
 import React, { useEffect } from 'react'
 import ClickableLabel from '../Stat/ClickableLabel';
-import { Character, CharacterContextProps, CharacterData } from '@/app/context/CharacterTypes';
+import { Character } from '@/app/context/CharacterTypes';
 import { useCharacter } from '@/app/context/CharacterContext'
 import Title from '../Stat/Title';
 import Rank from '../Stat/Rank';
 
 type Props  = {
-    character: CharacterData
+    character: Character
 }
 function Protonium({character}: Props) {
     
@@ -24,9 +24,12 @@ function Protonium({character}: Props) {
         return (
             <div className='p-1'>
                 {protoniumGenerators.map(protoniumGenerator => (
-                    <div key={protoniumGenerator.id}>
-                        <h2>{protoniumGenerator.name}</h2>
-                        <p>{protoniumGenerator.rank}</p>
+                    <div 
+                        key={protoniumGenerator.id}
+                        className='flex flex-row p-1'
+                    >
+                        <div>{protoniumGenerator.name}</div>
+                        <div>{protoniumGenerator.rank}</div>
                     </div>
                 ))}
             </div>
@@ -35,7 +38,7 @@ function Protonium({character}: Props) {
 
     useEffect(() => {
         const protoniumGeneratorTotal = protoniumGenerators.reduce((total, protoniumTotal) => total + protoniumTotal.rank, 0);
-        const totalPool = protonium?.rank + protoniumGeneratorTotal
+        const totalPool: number = protonium.rank + protoniumGeneratorTotal
 
         const newCharacter = {...character, ['protoniumPool']: {
             id: character.protoniumPool.id,
@@ -48,7 +51,7 @@ function Protonium({character}: Props) {
     }, [protoniumPool])
 
   return (
-    <div className='border-l border-black p-1 flex flex-row'>
+    <div className='flex flex-col border m-1'>
         <ClickableLabel 
             key={protonium.id}
             id={protonium.id}
@@ -58,7 +61,7 @@ function Protonium({character}: Props) {
             statKey="protonium"
         />
         {ProtoniumGeneratorList()}
-        <div className='p-1'>
+        <div className='p-1 flex flex-row'>
             <Title statGroupTitle={protoniumPool.name!} />
             <Rank rank={protoniumPool.rank} />
         </div>

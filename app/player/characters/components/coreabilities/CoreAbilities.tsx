@@ -19,9 +19,7 @@ function CoreAbilities({ character } : Props) {
     } = character
 
   return (
-    <section
-        className='flex flex-row border-b border-black p-1'
-    >
+    <section>
         <DiceModal
             statKey='fight'
             key={fight.name}

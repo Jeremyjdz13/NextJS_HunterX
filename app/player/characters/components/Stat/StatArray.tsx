@@ -2,18 +2,19 @@
 import StatLists from "./StatLists";
 import Label from "./Label";
 import Title from "./Title";
-import { statStyles } from "./StatStyles";
 import ClickableLabel from "./ClickableLabel";
 import ClickableTitle from "./ClickableTitle";
-import { CharacterData, StatData } from "@/app/context/CharacterTypes";
+import { Character, CharacterData, StatData } from "@/app/context/CharacterTypes";
 import DiceModal from "../modals/DiceModal";
+import { GiAbdominalArmor } from "react-icons/gi";
+import Tabs from "../tabs/Tabs";
 
 type StatProps = {
     stat: StatData[] 
     statGroupTitle: string
     statKey: string
     statSubKey?: string
-    character: CharacterData
+    character: Character
 }
 
 export default function StatArray(
@@ -53,7 +54,7 @@ export default function StatArray(
 
     function handleSkillsElement() {
         return (
-            <div className="border-l  border-black p-1">
+            <div className="p-1">
                 {
                     
                     Array.isArray(stat) && stat.map((item: StatData) => (
@@ -100,54 +101,63 @@ export default function StatArray(
         }
     }
 
-    function handleSpellBookElement() {
-        return (
-            <div>
-                <div 
-                >
-                    <Label storedLabel='Name' />
-                    <Label storedLabel='Attempts' />
-                    <Label storedLabel='Mastered' />
-                    <Label storedLabel='Purchased' />
-                    <Label storedLabel='Casting' />
-                    <Label storedLabel='Duration' />
-                    <Label storedLabel='Description' />
-                    <Label storedLabel="Components" />
-                </div>
-                {
-                    Array.isArray(stat) && stat.map((item) => (
-                        <div key={item.id}>
-                            <ClickableLabel 
-                                id={item.id} 
-                                name={item.name} 
-                                rank={item.rank} 
-                                statKey={statKey} 
-                                character={character} 
-                            />
-                            <div>{item.attempts}</div>
-                            <div>{item.mastered ? "Aye": "Nay"}</div>
-                            <div>{item.purchased ? "Aye" : "Nay"}</div>
-                            <div>{item.casting}</div>
-                            <div>{item.duration}</div>
-                            <div>{item.description}</div>
-                            {item.componentItem?.map((component: any) => 
+    // function handleSpellBookElement() {
+    //     // const tabs = [
+    //     //     {label: 'Attempts', content: }
+                   
+    //     // ]
+    //     return (
+    //         <div>
+    //             <div
+    //                 className='text-center grid grid-cols-[200px_100px_100px_100px]'
+    //             >
+    //                 <Label storedLabel='Name' />
+    //                 <Label storedLabel='Attempts' />
+    //                 <Label storedLabel='Casting' />
+    //                 <Label storedLabel='Duration' />
+                    
+    //             </div>
+    //             {
+    //                 Array.isArray(stat) && stat.map((item) => (
+    //                     <div 
+    //                         key={item.id}
+    //                         className='text-center grid grid-cols-[200px_100px_100px_100px]'
+    //                     >
+    //                         <ClickableLabel 
+    //                             id={item.id} 
+    //                             name={item.name} 
+    //                             rank={item.rank} 
+    //                             statKey={statKey} 
+    //                             character={character} 
+    //                         />
+    //                         <div>{item.attempts}</div>
+    //                         <div>{item.casting}</div>
+    //                         <div>{item.duration}</div>
+
+    //                         {item.componentItem?.map((component: any) => {
+    //                              const tabs = [
+    //                                     {label: "Name", content: <div>{component.name}</div>},
+    //                                     {label: "Rank", content: <div>{component.rank}</div>},
+    //                                     {label: "Description", content: <div>{component.description}</div>},
+
+    //                                 ]
                                     
-                                    <StatLists
-                                        key={component.id}
-                                        stat={component}
-                                        statGroupTitle='spellComponents'
-                                        character={character}
-                                    />
-                               
-                                )
-                            }
-                        </div>
-                    ))
-                }
-            </div>
-        )
+    //                                 return (
+    //                                     <Tabs
+    //                                         key={component.id}
+    //                                         tabs={tabs}
+    //                                     />
+    //                                 )
+
+    //                             })
+    //                         }
+    //                     </div>
+    //                 ))
+    //             }
+    //         </div>
+    //     )
         
-    }
+    // }
 
     function handleInventoryElement() {
         return (
@@ -313,7 +323,12 @@ export default function StatArray(
                         
                     /> : 
                 (
-                    statGroupTitle ? <Title statGroupTitle={statGroupTitle} /> : 
+                    statGroupTitle ? 
+                    <Title 
+                        statGroupTitle={statGroupTitle}
+                        statKey={statKey}
+                        character={character}
+                    /> : 
                     null 
                 )
             }

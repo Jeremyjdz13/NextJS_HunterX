@@ -2,6 +2,7 @@
 import { CharacterData, StatData } from "@/app/context/CharacterTypes"
 import { useRef, lazy, Suspense } from "react"
 import StatArray from "../Stat/StatArray"
+import SpellBook from "../spellbook/SpellBook"
 
 type Props = {
     statGroupTitle: string
@@ -18,6 +19,7 @@ export default function StatModal({
         statSubKey,
         character  
     }: Props) {
+
     const modalRef = useRef(null)
     
     function handleOpenModal() {
@@ -28,6 +30,27 @@ export default function StatModal({
         (modalRef.current! as HTMLDialogElement).close()
     }
 
+    function handleStatGroupModal() {
+        if (statKey === 'spellbook') {
+            return <SpellBook 
+                key="SpellBook"
+                spellbook={stat}
+                statKey={statKey}
+                statSubKey={statSubKey}
+                character={character}
+            />
+        }
+
+        return (
+            <StatArray 
+                    stat={stat} 
+                    statSubKey={statSubKey} 
+                    statGroupTitle={statGroupTitle} 
+                    statKey={statKey} 
+                    character={character}
+                />
+        )
+    }
     return (
         <div>
             <button
@@ -38,7 +61,7 @@ export default function StatModal({
             </button>
             <dialog 
                 ref={modalRef}
-                className="border border-black p-3 rounded min-h-3/4" 
+                className="border border-black p-3 rounded min-h-3/4 backdrop:bg-black-60" 
             >
                 <button 
                     className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
@@ -46,15 +69,7 @@ export default function StatModal({
                 >
                     Close
                 </button>
-                
-                <StatArray 
-                    stat={stat} 
-                    statSubKey={statSubKey} 
-                    statGroupTitle={statGroupTitle} 
-                    statKey={statKey} 
-                    character={character}
-                />
-               
+                {handleStatGroupModal()}
             </dialog>
         </div>
     )

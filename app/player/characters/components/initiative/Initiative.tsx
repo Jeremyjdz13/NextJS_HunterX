@@ -70,7 +70,7 @@ export default function Initiative({ character }: InitiativeProps) {
 
 
     return (
-         <div className='border border-l-black flex flex-row p-2'>
+         <div className='border flex flex-row p-2'>
             <div className='flex flex-col p-1 border-r border-black' >
                 <Title statGroupTitle='Initiative'/>
                 <div>{initiative.rank}</div>

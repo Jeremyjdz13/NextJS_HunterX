@@ -136,8 +136,8 @@ export const characterTemplate: CharacterTemplate = {
       name: 'Plate Mail',
       rank: 4,
       description: 'Heavy as hell, but it will stop a sword.',
-      armor: true,
-      component: false,
+      isArmor: true,
+      isComponent: false,
       quantity: 1,
       spellAssignmentId: ''
     },
@@ -146,8 +146,8 @@ export const characterTemplate: CharacterTemplate = {
       name: 'Ogre Sweat',
       rank: 5,
       description: 'The saltiest sweat you have ever tasted.',
-      armor: false,
-      component: true,
+      isArmor: false,
+      isComponent: true,
       quantity: 1,
       spellAssignmentId: ''
     },
@@ -168,8 +168,8 @@ export const characterTemplate: CharacterTemplate = {
       name: 'Invisibility Cloak',
       rank: 1,
       protoniumGenerator: false,
-      talisman: true,
-      armor: false,
+      isTalisman: true,
+      isArmor: false,
       description: 'What does this Invisibility Cloak do?',
     },
     {
@@ -177,8 +177,8 @@ export const characterTemplate: CharacterTemplate = {
       name: 'Ring of Power',
       rank: 3,
       protoniumGenerator: true,
-      talisman: false,
-      armor: true,
+      isTalisman: false,
+      isArmor: true,
       description: 'What does this Ring of Power do?',
     },
   ],
@@ -215,8 +215,8 @@ export const characterTemplate: CharacterTemplate = {
           name: 'Power Stunt',
           attempts: 0,
           description: 'What does this Power Stunt do?',
-          mastered: false,
-          armor: false,
+          isMastered: false,
+          isArmor: false,
           duration: 0,
         },
       ],
@@ -255,21 +255,21 @@ export const characterTemplate: CharacterTemplate = {
       name: 'fireball',
       attempts: 3,
       description: 'ball of fire.',
-      mastered: false,
-      purchased: false,
-      componentItem: [
+      isMastered: false,
+      isPurchased: false,
+      components: [
         {
           id: uuidv4(),
           name: 'air',
           rank: 3,
           description: 'That you breath',
-          armor: false,
-          component: true,
+          isArmor: false,
+          isComponent: true,
           quantity: 1,
           spellAssignmentId: ''
         },
       ],
-      casting: 'Instantly after saying, ignis pila.',
+      casting: 0,
       duration: 0,
     },
     {
@@ -277,21 +277,21 @@ export const characterTemplate: CharacterTemplate = {
       name: 'Love Potion',
       attempts: 0,
       description: 'Makes you love me.',
-      mastered: false,
-      purchased: false,
-      componentItem: [
+      isMastered: false,
+      isPurchased: false,
+      components: [
         {
           id: uuidv4(),
           name: 'eye of newt',
           rank: 3,
           description: 'The eye of a newt used to make love potions',
-          armor: false,
-          component: true,
+          isArmor: false,
+          isComponent: true,
           quantity: 1,
           spellAssignmentId: ''
         },
       ],
-      casting: 'Simply add the eye to your potion.',
+      casting: 0,
       duration: 1,
     },
   ],
@@ -312,8 +312,8 @@ export const characterTemplate: CharacterTemplate = {
           name: 'Stunt',
           attempts: 0,
           description: 'What does this Power Stunt do?',
-          mastered: false,
-          armor: false,
+          isMastered: false,
+          isArmor: false,
           duration: 0,
         },
       ],
@@ -322,6 +322,50 @@ export const characterTemplate: CharacterTemplate = {
   createdAt: serverTimestamp(),
   lastUpdate: serverTimestamp(),
 };
+
+export const skillTemplate: StatData = {
+  id: uuidv4(),
+  name: 'skill',
+  rank: 1
+}
+
+export const powerTemplate: StatData = {
+    id: uuidv4(),
+    name: 'New Power',
+    rank: 1,
+    description: 'What does this Super Power do?',
+    stunt: [
+      {
+        id: uuidv4(),
+        name: 'Power Stunt',
+        attempts: 0,
+        description: 'What does this Power Stunt do?',
+        isMastered: false,
+        isArmor: false,
+        duration: 0,
+      },
+    ],
+  
+}
+
+export const talismanTemplate: StatData = {
+  id: uuidv4(),
+  name: 'New Talisman',
+  rank: 1,
+  description: 'What does this Talisman do?',
+  stunt: [
+    {
+      id: uuidv4(),
+      name: 'T-Stunt',
+      attempts: 0,
+      description: 'What does this T-Stunt do?',
+      isMastered: false,
+      isArmor: false,
+      duration: 0,
+    },
+  ],
+
+}
 
 export const tagTemplate: TagTemplate = {
   id: uuidv4(),

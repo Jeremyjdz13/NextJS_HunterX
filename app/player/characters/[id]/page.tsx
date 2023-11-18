@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState, lazy, Suspense } from 'react'
 import { useCharacter } from '@/app/context/CharacterContext'
-import { CharacterContextProps, CharacterData } from '@/app/context/CharacterTypes'
+import { CharacterContextProps, Character } from '@/app/context/CharacterTypes'
 
 
 type Props = {
@@ -13,11 +13,13 @@ const LazyCounters = lazy(() => import('../components/counters/Counters'))
 const LazyCoreAbilities = lazy(() => import('../components/coreabilities/CoreAbilities'))
 const LazyStatModals = lazy(() => import('../components/statmodals/StatModals'))
 const LazySkills = lazy(() => import('../components/skills/Skills'))
+const LazyInitiative = lazy(() => import('../components/initiative/Initiative'))
+const LazyProtonium = lazy(() => import('../components/counters/Protonium'))
 
 export default function Character({ params }: Props) {
   const characterId = params.id
   const { characters } = useCharacter() as CharacterContextProps
-  const [character, setCharacter] = useState<CharacterData>()
+  const [character, setCharacter] = useState<Character>()
 
   useEffect(() => {
       
@@ -35,14 +37,25 @@ export default function Character({ params }: Props) {
   return (
       <section 
         key={characterId}
-        className='border-l border-r border-black' 
+        className='' 
       >
             <Suspense fallback={<div>Loading...</div>}>
                 <LazyBasicInformation character={character} />
-                <LazyCounters character={character} />
-                <LazyCoreAbilities character={character} />
-                <LazyStatModals character={character} />
-                <LazySkills character={character} />
+                <div className='flex flex-row'>
+                  <LazyInitiative character={character} />
+                  <LazyCounters character={character} />
+                </div>
+                <div className='flex flex-row'>
+                  <LazyCoreAbilities character={character} />
+                  <div >
+                    <LazyStatModals character={character} />
+                    <div className='flex flex-row'>
+                      <LazySkills character={character} />
+                      <LazyProtonium character={character} />
+                    </div>
+                  </div>
+                </div>
+                
             </Suspense>
       </section>
   )
