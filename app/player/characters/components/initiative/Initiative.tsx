@@ -2,7 +2,7 @@
 import { CharacterContextProps, CharacterData } from '@/app/context/CharacterTypes';
 import { useState } from 'react'
 import { useCharacter } from '@/app/context/CharacterContext';
-import Title from '../Stat/Title';
+import { GiDiceFire } from "react-icons/gi";
 
 
 type InitiativeProps = {
@@ -70,20 +70,22 @@ export default function Initiative({ character }: InitiativeProps) {
 
 
     return (
-         <div className='border flex flex-row p-2'>
-            <div className='flex flex-col p-1 border-r border-black' >
-                <Title statGroupTitle='Initiative'/>
+         <div className='flex flex-row'>
+            <div className='flex flex-col text-center p-1' >
+                <div>Initiative</div>
                 <div>{initiative.rank}</div>
             </div>
             <div  className='flex flex-col p-1'>Bonus <div>{initiativeCount}</div></div>
             <div className='flex flex-col p-1'>D10   <div>{initiativeRoll.D10Roll}</div></div>
             
-            <button 
-                    className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded'
-                    onClick={() => handleClickD10()}
-                >      
-                    D*10 
-            </button>
+            <div className='p-1'>
+                <button 
+                        className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-4 border border-blue-700 rounded'
+                        onClick={() => handleClickD10()}
+                    >      
+                    <GiDiceFire />
+                </button>
+            </div>
         </div>
     )
 } 

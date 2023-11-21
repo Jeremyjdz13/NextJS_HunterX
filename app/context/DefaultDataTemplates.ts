@@ -32,7 +32,7 @@ type CharacterTemplate = {
     talismans: StatData[]
     spellbook: StatData[]
     protonium: StatData
-    usedProtonium: StatData
+    protoniumPool: StatData
     inventory: StatData[]
     createdAt: string
     lastUpdate: string
@@ -138,6 +138,8 @@ export const characterTemplate: CharacterTemplate = {
       description: 'Heavy as hell, but it will stop a sword.',
       isArmor: true,
       isComponent: false,
+      isProtoniumGenerator: false,
+      isTalisman: false,
       quantity: 1,
       spellAssignmentId: ''
     },
@@ -148,6 +150,8 @@ export const characterTemplate: CharacterTemplate = {
       description: 'The saltiest sweat you have ever tasted.',
       isArmor: false,
       isComponent: true,
+      isProtoniumGenerator: false,
+      isTalisman: false,
       quantity: 1,
       spellAssignmentId: ''
     },
@@ -167,7 +171,7 @@ export const characterTemplate: CharacterTemplate = {
       id: uuidv4(),
       name: 'Invisibility Cloak',
       rank: 1,
-      protoniumGenerator: false,
+      isProtoniumGenerator: false,
       isTalisman: true,
       isArmor: false,
       description: 'What does this Invisibility Cloak do?',
@@ -176,7 +180,7 @@ export const characterTemplate: CharacterTemplate = {
       id: uuidv4(),
       name: 'Ring of Power',
       rank: 3,
-      protoniumGenerator: true,
+      isProtoniumGenerator: true,
       isTalisman: false,
       isArmor: true,
       description: 'What does this Ring of Power do?',

@@ -7,6 +7,8 @@ import ClickableTitle from "./ClickableTitle";
 import { Character, CharacterData, StatData } from "@/app/context/CharacterTypes";
 import DiceModal from "../modals/DiceModal";
 import { GiAbdominalArmor } from "react-icons/gi";
+import { MdOutlineScience } from "react-icons/md";
+
 import Tabs from "../tabs/Tabs";
 
 type StatProps = {
@@ -159,44 +161,6 @@ export default function StatArray(
         
     // }
 
-    function handleInventoryElement() {
-        return (
-            <div>
-                <div 
-                >
-                    <Label storedLabel='Name' />
-                    <Label storedLabel='Rank' />
-                    <Label storedLabel='Description' />
-                    <Label storedLabel="Armor" />
-                    <Label storedLabel="Component" />
-                    <Label storedLabel="Quantity" />
-                    <Label storedLabel="Spell" />
-                </div>
-                <div>
-                    {
-                        Array.isArray(stat) && stat.map((item) => (
-                            <div key={item.id}>
-                                <ClickableLabel 
-                                    id={item.id} 
-                                    name={item.name} 
-                                    rank={item.rank} 
-                                    statKey={statKey} 
-                                    character={character} 
-                                />
-                                <div>{item.description}</div>
-                                <div>{item.armor ? "Aye" : "Nay"}</div>
-                                <div>{item.component ? "Aye" : "Nay"}</div>
-                                <div>{item.quantity}</div>
-                                {item.component ? <div>Spell Name goes here</div> : "No Spell Assignment"}
-                            </div>
-                                
-                        ))
-                    }
-                </div>
-            </div>
-        )
-        
-    }
     function handlePowersTalismansElement() {
         return (
             <div className="flex flex-row" >
@@ -290,12 +254,6 @@ export default function StatArray(
         }
         if(isBackgroundsFlawsGroup){
             return handleBackgroundsFlawsElement()
-        }
-        if(isSpellbookGroup){
-            return handleSpellBookElement()
-        }
-        if(isInventoryGroup){
-            return handleInventoryElement()
         }
         if(isPowersAndTalismansGroup){
             return handlePowersTalismansElement()

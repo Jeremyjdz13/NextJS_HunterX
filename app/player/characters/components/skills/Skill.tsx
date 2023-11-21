@@ -1,12 +1,10 @@
 'use client'
 import { Character, StatData } from '@/app/context/CharacterTypes'
-import React, { useState } from 'react'
-import SkillCard from './SkillCard'
+import React, { useRef } from 'react'
 import { useCharacter } from '@/app/context/CharacterContext'
 import { skillTemplate } from '@/app/context/DefaultDataTemplates'
 import { SiCurseforge } from "react-icons/si";
 import { GiCrossedSwords } from "react-icons/gi";
-import AddRemoveStat from '../forms/AddRemoveStat'
 import ClickableLabel from '../Stat/ClickableLabel'
 import { uuidv4 } from '@firebase/util'
 
@@ -27,20 +25,17 @@ type Skill = {
 function Skill({ skill, character, statGroupTitle, statKey} : Props) {
 
     const { editCharacter } = useCharacter()
-    const [isDialogOpen, setIsDialogOpen] = useState(false)
 
+    const modalRef = useRef(null)
     
     function handleOpenModal() {
-
-        setIsDialogOpen(true)
+        (modalRef.current! as HTMLDialogElement).showModal()
     }
 
     function handleCloseModal() {
-        setIsDialogOpen(false)
+        (modalRef.current! as HTMLDialogElement).close()
     }
-    console.log("Did you reload")
     function addSkill() {
-        console.log(skillTemplate.id, "template ID")
         const uniqueId = uuidv4()
         const updatedSkillTemplate = {...skillTemplate, id: uniqueId}
         const updatedSkills = character[statKey].some((skill: any) => skill.id === uniqueId)
@@ -54,12 +49,11 @@ function Skill({ skill, character, statGroupTitle, statKey} : Props) {
             },
         ];
         const newCharacter = { ...character, [statKey]: updatedSkills };
-        console.log(newCharacter, "Skill Change")
         editCharacter(newCharacter)
     }
 
   return (
-    <div className="p-1">
+    <div className="p-3">
         <div onClick={handleOpenModal} className=" cursor-pointer">
             <SiCurseforge />
         </div>
@@ -80,16 +74,17 @@ function Skill({ skill, character, statGroupTitle, statKey} : Props) {
         }
 
         <dialog
-            open={isDialogOpen}
-            className="border border-black rounded p-2"
-        >
+            ref={modalRef}
+            className="border border-black p-3 rounded min-h-1/4 backdrop:bg-black-60" 
+            >
             <button
                 className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
                 onClick={handleCloseModal}
             ><GiCrossedSwords /></button>
             <div>
-                <div>Are you sure you want to add a new: {statGroupTitle}</div>
+                <p className='p-1 m-1'>Are you sure you want to add a new {statGroupTitle} skill</p>
                 <button
+                    className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
                     onClick={addSkill}
                 >Add</button>
             </div>

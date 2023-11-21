@@ -1,7 +1,6 @@
 'use client'
 import React from 'react'
-import StatArray from '../Stat/StatArray'
-import { Character, CharacterData } from '@/app/context/CharacterTypes'
+import { Character } from '@/app/context/CharacterTypes'
 import Tabs from '../tabs/Tabs'
 import Skill from './Skill'
 
@@ -61,7 +60,7 @@ function Skills({ character }: Props) {
         },
     ]
   return (
-    <section className='w-1/2'>
+    <section className='flex m-1'>
         <Tabs tabs={tabs}/>
     </section>        
   )

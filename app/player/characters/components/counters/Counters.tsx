@@ -1,33 +1,23 @@
 'use client'
-import { CharacterData } from '@/app/context/CharacterTypes'
+import { Character } from '@/app/context/CharacterTypes'
 import React from 'react'
-import ClickableLabel from '../Stat/ClickableLabel'
-import Title from '../Stat/Title'
 import Health from './Health'
-import Initiative from '../initiative/Initiative'
 import Protonium from './Protonium'
+import Tabs from '../tabs/Tabs'
 
 type Props = {
-    character : CharacterData
+    character : Character
 }
 function Counters({ character } : Props) {
 
     const { 
         bashing,
         lethal,
-        experience,
-        karma,
     } = character
 
     
-
-
-  return (
-    <section 
-        className='flex flex-row border-b border-black p-2'
-    >
-        
-        <Health
+    const tabs = [
+        {label: 'Bashing', content:<Health
             key="bashing"
             id={bashing.id}
             rank={bashing.rank}
@@ -35,35 +25,28 @@ function Counters({ character } : Props) {
             statKey='bashing'
             statGroupTitle='Bashing'
             character={character}
-        />
-        <Health
-            key="lethal"
-            id={lethal.id}
-            rank={lethal.rank}
-            name={lethal.name}
-            statKey='lethal'
-            statGroupTitle='Lethal'
-            character={character}
-        />
-        <div className='p-1'>
-            
-            <ClickableLabel
-                key={experience.id} 
-                id={experience.id} 
-                rank={experience.rank}
-                name={experience.name}
+        /> },
+        {
+            label: 'Lethal', content:   <Health
+                key="lethal"
+                id={lethal.id}
+                rank={lethal.rank}
+                name={lethal.name}
+                statKey='lethal'
+                statGroupTitle='Lethal'
                 character={character}
-                statKey="experience" 
             />
-            <ClickableLabel 
-                key={karma.id}
-                id={karma.id}
-                rank={karma.rank}
-                name={karma.name}
-                character={character}
-                statKey="karma"
-            />
-        </div>
+        },
+        {
+            label: "Protonium", content:  <Protonium character={character}/>
+        }
+    ]
+
+  return (
+    <section 
+        className='flex flex-row m-1'
+    > 
+        <Tabs tabs={tabs} />  
     </section>
   )
 }

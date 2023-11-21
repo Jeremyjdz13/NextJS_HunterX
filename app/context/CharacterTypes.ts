@@ -1,3 +1,5 @@
+import { Tag } from "./NoteDataTypes"
+
 export type CharacterData = {
     id: string
     name: string
@@ -42,7 +44,7 @@ export type StatData = {
     url?: string
     description?: string
     isTalisman?: boolean
-    protoniumGenerator?: boolean
+    isProtoniumGenerator?: boolean
     markdown?: string
     tagIds?: string[]
     title?: string
@@ -95,9 +97,13 @@ export type CharacterContextProps = {
     loading: boolean
     addCharacter: () => void
     deleteCharacter: (character: CharacterData) => void
-    editCharacter: (character: CharacterData) => void
+    editCharacter: (character: Character) => void
 } 
 
+export type EditCharacter = {
+    editCharacter: (character: Character) => void
+  }
+  
 export type CharacterCardProps = {
     character: CharacterData
 }
@@ -116,5 +122,20 @@ export type Character = {
     protonium: StatData
     protoniumPool: StatData
     character: CharacterData
+    lethal: StatData
+    bashing: StatData
+    death: StatData
+    backgrounds: StatData[]
+    flaws: StatData[]
+    inventory: StatData[]
+    name: string
+    backgroundStory: BackgroundStory
+}
+
+export type BackgroundStory = {
+    id: string
+    title: string
+    tagIds: Tag[]
+    markdown: string
 }
 

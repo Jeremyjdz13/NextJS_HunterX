@@ -13,8 +13,7 @@ const LazyCounters = lazy(() => import('../components/counters/Counters'))
 const LazyCoreAbilities = lazy(() => import('../components/coreabilities/CoreAbilities'))
 const LazyStatModals = lazy(() => import('../components/statmodals/StatModals'))
 const LazySkills = lazy(() => import('../components/skills/Skills'))
-const LazyInitiative = lazy(() => import('../components/initiative/Initiative'))
-const LazyProtonium = lazy(() => import('../components/counters/Protonium'))
+const LazyMeritsFlawsBackgrounds = lazy(() => import('../components/meritsflawsbackgrounds/MeritsFlawsBackgrounds'))
 
 export default function Character({ params }: Props) {
   const characterId = params.id
@@ -40,22 +39,18 @@ export default function Character({ params }: Props) {
         className='' 
       >
             <Suspense fallback={<div>Loading...</div>}>
-                <LazyBasicInformation character={character} />
-                <div className='flex flex-row'>
-                  <LazyInitiative character={character} />
-                  <LazyCounters character={character} />
-                </div>
+                <LazyBasicInformation character={character} />  
                 <div className='flex flex-row'>
                   <LazyCoreAbilities character={character} />
-                  <div >
-                    <LazyStatModals character={character} />
+                  <div className='flex flex-row'>
                     <div className='flex flex-row'>
                       <LazySkills character={character} />
-                      <LazyProtonium character={character} />
+                      <LazyCounters character={character} />
                     </div>
+                    <LazyStatModals character={character} />
                   </div>
                 </div>
-                
+              <LazyMeritsFlawsBackgrounds character={character}  />
             </Suspense>
       </section>
   )

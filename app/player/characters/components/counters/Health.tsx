@@ -1,5 +1,5 @@
 'use client'
-import { CharacterData } from "@/app/context/CharacterTypes"
+import { Character, CharacterData } from "@/app/context/CharacterTypes"
 import React, { useEffect } from "react"
 import ClickableLabel from "../Stat/ClickableLabel"
 import { useCharacter } from "@/app/context/CharacterContext"
@@ -11,7 +11,7 @@ type HealthProps = {
     name: string | undefined
     statKey: string
     statGroupTitle: string
-    character: CharacterData
+    character: Character
 } 
 
 export default function Health(
@@ -82,7 +82,7 @@ export default function Health(
     }
  
     return (
-        <div className='border-l border-black p-1'>
+        <div className='p-1'>
             {statGroupTitle === 'Bashing' ? (
                 <div>
                     <ClickableLabel

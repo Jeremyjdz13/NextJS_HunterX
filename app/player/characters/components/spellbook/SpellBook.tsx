@@ -15,7 +15,6 @@ type Props = {
     character: Character
 }
 
-
 function SpellBook({ 
         spellbook,
         statKey,
@@ -24,7 +23,7 @@ function SpellBook({
      }: Props) {
   
   return (
-        <div>
+        <div className='p-2'>
             {
             spellbook && spellbook.map((spell: SpellData): React.JSX.Element =>  {
                     return (

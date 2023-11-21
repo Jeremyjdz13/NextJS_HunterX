@@ -24,14 +24,24 @@ export default function ClickableLabel({ name, id, statKey, rank, statGroupTitle
         "talismans"
     ].includes(statKey)
 
-    const isCoreAbilities = [
+    const isColumnStat = [
         "strength",
         "fight",
         "agility",
         "endurance",
         "reason",
         "intuition",
-        "psyche"
+        "psyche",
+        "experience",
+        "karma"
+
+    ].includes(statKey)
+
+    const isTabStat = [
+        "inventory",
+        "merits",
+        "flaws",
+        "backgrounds"
     ].includes(statKey)
 
     function handleDiceClickableTitles() {
@@ -72,17 +82,22 @@ export default function ClickableLabel({ name, id, statKey, rank, statGroupTitle
                     <div className="flex flex-col">
                         <div className={classnames(
                             {
-                                "flex flex-row": !isCoreAbilities,
-                                "flex flex-col": isCoreAbilities
+                                "flex flex-row": !isColumnStat,
+                                "flex flex-col": isColumnStat
                             }
                         )}>
                             <div 
-                                className="cursor-pointer w-1/2 m-1"
+                                className={classnames(
+                                    {
+                                        "cursor-pointer p-1 w-full": !isColumnStat,
+                                        "cursor-pointer": isColumnStat
+                                    }
+                                )}
                                 onContextMenu={handleContextMenu}
                             >
                                 {name}
                             </div>
-                            <Rank rank={rank} />
+                            {isTabStat ? null : <Rank rank={rank} />}
                         </div>
                     </div>
                 )
