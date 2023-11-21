@@ -5,8 +5,8 @@ export type SpellBook = {
 export type SpellData = {
     name: string
     id: string
-    rank: number
     casting: number
+    attempts: number
     description: string
     duration: number
     isMastered: boolean

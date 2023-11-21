@@ -37,7 +37,9 @@ export default function EditStatModal({
         "professional",
         "mental",
         "inventory",
-        "merits"
+        "merits",
+        "backgrounds",
+        "flaws"
     ].includes(statKey)
 
     const isNotDelete = [
@@ -63,8 +65,6 @@ export default function EditStatModal({
         if(isSingleNestedArray) {
             const updatedCharacter = {...character,
             [statKey]: character[statKey].filter((stat: any) => stat.id !== id)}
-            
-
             editCharacter(updatedCharacter)
         }
        

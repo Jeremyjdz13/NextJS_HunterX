@@ -1,5 +1,5 @@
 'use client'
-import { Character, StatData } from '@/app/context/CharacterTypes'
+import { Character, EditCharacter, StatData } from '@/app/context/CharacterTypes'
 import React, { useRef } from 'react'
 import { useCharacter } from '@/app/context/CharacterContext'
 import { skillTemplate } from '@/app/context/DefaultDataTemplates'
@@ -7,6 +7,7 @@ import { SiCurseforge } from "react-icons/si";
 import { GiCrossedSwords } from "react-icons/gi";
 import ClickableLabel from '../Stat/ClickableLabel'
 import { uuidv4 } from '@firebase/util'
+import useAddStat from '../hooks/UseAddStat'
 
 
 type Props = {
@@ -24,7 +25,8 @@ type Skill = {
 
 function Skill({ skill, character, statGroupTitle, statKey} : Props) {
 
-    const { editCharacter } = useCharacter()
+    const { editCharacter } = useCharacter() as EditCharacter
+    const { addStat, setStatOptions } = useAddStat(character, editCharacter)
 
     const modalRef = useRef(null)
     
@@ -35,21 +37,14 @@ function Skill({ skill, character, statGroupTitle, statKey} : Props) {
     function handleCloseModal() {
         (modalRef.current! as HTMLDialogElement).close()
     }
-    function addSkill() {
-        const uniqueId = uuidv4()
-        const updatedSkillTemplate = {...skillTemplate, id: uniqueId}
-        const updatedSkills = character[statKey].some((skill: any) => skill.id === uniqueId)
-        ? character[statKey]
-        : [
-            ...character[statKey],
-            {
-                id: updatedSkillTemplate.id,
-                name: updatedSkillTemplate.name,
-                rank: updatedSkillTemplate.rank,
-            },
-        ];
-        const newCharacter = { ...character, [statKey]: updatedSkills };
-        editCharacter(newCharacter)
+    function handleAddSkill() {
+        console.log("button click")
+       setStatOptions({
+        property: statKey,
+        defaultValues: skillTemplate
+       })
+
+       addStat()
     }
 
   return (
@@ -85,7 +80,7 @@ function Skill({ skill, character, statGroupTitle, statKey} : Props) {
                 <p className='p-1 m-1'>Are you sure you want to add a new {statGroupTitle} skill</p>
                 <button
                     className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-                    onClick={addSkill}
+                    onClick={handleAddSkill}
                 >Add</button>
             </div>
         </dialog>

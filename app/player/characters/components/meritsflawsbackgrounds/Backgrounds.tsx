@@ -4,8 +4,9 @@ import Label from '../Stat/Label'
 import ClickableLabel from '../Stat/ClickableLabel'
 import { useCharacter } from '@/app/context/CharacterContext'
 import { GiCrossedSwords } from 'react-icons/gi'
-import { uuidv4 } from '@firebase/util'
 import { SiCurseforge } from 'react-icons/si'
+import { newBackground } from '@/app/context/DefaultDataTemplates'
+import useAddStat from '../hooks/UseAddStat'
 
 type Props = {
   character: Character
@@ -13,7 +14,7 @@ type Props = {
 
 function Backgrounds({ character }: Props) {
   const { editCharacter } = useCharacter() as EditCharacter
-
+  const { addStat, setStatOptions } = useAddStat(character, editCharacter)
   const {
     backgrounds
   } = character
@@ -26,21 +27,14 @@ function Backgrounds({ character }: Props) {
   function handleCloseModal() {
       (modalRef.current! as HTMLDialogElement).close()
   }
-  function addBackground() {
-    const uniqueId = uuidv4()
-    const updatedBackgrounds = character["backgrounds"].some((background: any) => background.id === uniqueId)
-    ? character["backgrounds"]
-    : [
-        ...character["backgrounds"],
-        {
-            id: uuidv4(),
-            name: "New Background",
-            rank: 1,
-            description: "Write a description",
-        },
-    ];
-    const newCharacter = { ...character, ["backgrounds"]: updatedBackgrounds };
-    editCharacter(newCharacter)
+  function handleAddBackground() {
+
+   setStatOptions({
+    property: "backgrounds",
+    defaultValues: newBackground
+   })
+
+   addStat()
 }
   return (
       <div>
@@ -87,7 +81,7 @@ function Backgrounds({ character }: Props) {
                 <p className='p-1 m-1'>Click add to add a new Background.</p>
                 <button
                     className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-                    onClick={addBackground}
+                    onClick={handleAddBackground}
                 >Add</button>
             </div>
         </dialog>

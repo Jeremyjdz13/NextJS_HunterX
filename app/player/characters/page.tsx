@@ -14,7 +14,6 @@ export default function Characters(){
         loading 
     } =  useCharacter() as CharacterContextProps
 
-    console.log(characters, "Character")
 
     return (
       

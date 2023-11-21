@@ -1,3 +1,4 @@
+import { SpellData } from "../player/characters/components/spellbook/SpellTypes"
 import { Tag } from "./NoteDataTypes"
 
 export type CharacterData = {
@@ -57,8 +58,8 @@ export type StatData = {
     casting?: number
     quantity?: number
     isComponent?: boolean
-    components?: Component[]
-    spellAssignmentId?: string
+    spellComponents?: Component[]
+    spellAssignmentId?: [id: string]
 } 
 
 export type Component = {
@@ -101,7 +102,7 @@ export type CharacterContextProps = {
 } 
 
 export type EditCharacter = {
-    editCharacter: (character: Character) => void
+    editCharacter: (newCharacter: Character) => void
   }
   
 export type CharacterCardProps = {
@@ -130,6 +131,7 @@ export type Character = {
     inventory: StatData[]
     name: string
     backgroundStory: BackgroundStory
+    spellbooks: SpellData[]
 }
 
 export type BackgroundStory = {
@@ -138,4 +140,5 @@ export type BackgroundStory = {
     tagIds: Tag[]
     markdown: string
 }
+
 
