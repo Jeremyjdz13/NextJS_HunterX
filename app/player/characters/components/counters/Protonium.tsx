@@ -1,10 +1,13 @@
 'use client'
 import React, { useEffect } from 'react'
 import ClickableLabel from '../Stat/ClickableLabel';
-import { Character } from '@/app/context/CharacterTypes';
+import { Character, EditCharacter } from '@/app/context/CharacterTypes';
 import { useCharacter } from '@/app/context/CharacterContext'
 import Title from '../Stat/Title';
 import Rank from '../Stat/Rank';
+import Label from '../Stat/Label';
+import Name from '../Stat/Name';
+import { GiMaterialsScience } from 'react-icons/gi';
 
 type Props  = {
     character: Character
@@ -12,24 +15,28 @@ type Props  = {
 function Protonium({character}: Props) {
     
     const { 
-        merits,
+        inventory,
         protonium,
         protoniumPool
     } = character
-    const { editCharacter } = useCharacter()
+    const { editCharacter } = useCharacter() as EditCharacter
 
-    const protoniumGenerators = merits.filter(merit => merit.protoniumGenerator === true);
+    const protoniumGenerators = inventory.filter(item => item.isProtoniumGenerator === true);
     
     function ProtoniumGeneratorList() {
         return (
-            <div className='p-1'>
+            <div className='border-t'>
+                <Title statGroupTitle='Protonium Generators' />
                 {protoniumGenerators.map(protoniumGenerator => (
                     <div 
                         key={protoniumGenerator.id}
-                        className='flex flex-row p-1'
+                        className='grid grid-cols-[80%_20%] p-1'
                     >
-                        <div>{protoniumGenerator.name}</div>
-                        <div>{protoniumGenerator.rank}</div>
+                       <div className='flex flex-row'>
+                            <Name name={protoniumGenerator.name} />
+                            <GiMaterialsScience />
+                       </div>
+                        <Rank rank={protoniumGenerator.rank} />
                     </div>
                 ))}
             </div>
@@ -51,21 +58,28 @@ function Protonium({character}: Props) {
     }, [protoniumPool])
 
   return (
-    <div className='flex flex-col border m-1'>
-        <ClickableLabel 
-            key={protonium.id}
-            id={protonium.id}
-            rank={protonium.rank}
-            name={protonium.name}
-            character={character}
-            statKey="protonium"
-        />
-        {ProtoniumGeneratorList()}
-        <div className='p-1 flex flex-row'>
-            <Title statGroupTitle={protoniumPool.name!} />
-            <Rank rank={protoniumPool.rank} />
+        <div className='flex flex-col m-1'>
+            <div className='grid grid-cols-[80%_20%]'>
+                <Label storedLabel='Name' />
+                <Label storedLabel="Rank" />
+            </div>
+            <div className='grid grid-cols-[80%_20%]'>
+                <ClickableLabel 
+                    key={protonium.id}
+                    id={protonium.id}
+                    rank={protonium.rank}
+                    name={protonium.name}
+                    character={character}
+                    statKey="protonium"
+                />
+                <Rank rank={protonium.rank} />
+            </div>
+            {ProtoniumGeneratorList()}
+            <div className='border-t p-1 grid grid-cols-[80%_20%]'>
+                <Name name={protoniumPool.name!} />
+                <Rank rank={protoniumPool.rank} />
+            </div>
         </div>
-    </div>
   )
 }
 

@@ -1,86 +1,50 @@
-'use client'
-import { Character, EditCharacter } from '@/app/context/CharacterTypes'
-import React, { useRef } from 'react'
-import Spell from './Spell'
-import { SpellData } from './SpellTypes'
-import { useCharacter } from '@/app/context/CharacterContext'
-import { uuidv4 } from '@firebase/util'
-import { SiCurseforge } from 'react-icons/si'
-import { GiCrossedSwords } from 'react-icons/gi'
-import useAddStat from '../hooks/UseAddStat'
-import { spellTemplate } from '@/app/context/DefaultDataTemplates'
+"use client"
+import React from 'react'
+import ClickableLabel from '../Stat/ClickableLabel'
+import { Character } from '@/app/context/CharacterTypes'
 
 type Props = {
-    spellbook: SpellData[]
-    statKey: string
-    statSubKey: string
+    book: Book
     character: Character
 }
 
-function SpellBook({ 
-        spellbook,
-        statKey,
-        statSubKey,
-        character
-     }: Props) {
-        const { editCharacter } = useCharacter() as EditCharacter
+type Book = {
+    id: string
+    spellIds: [],
+    spellbookName: string
+}
+function Spellbook({ book, character }: Props) {
 
-        const { addStat, setStatOptions } = useAddStat(character, editCharacter)
-        const modalRef = useRef(null)
-          
-        function handleOpenModal() {
-            (modalRef.current! as HTMLDialogElement).showModal()
-        }
-      
-        function handleCloseModal() {
-            (modalRef.current! as HTMLDialogElement).close()
-        }
-
-        function handleAddSpell() {
-            setStatOptions({
-                property: 'spellbook',
-                defaultValues: spellTemplate
-            })
-            addStat()
-        }
+    const {
+        spellbookName,
+        spellIds,
+        id
+    } = book
   return (
-        <div className='p-2'>
-            <div className='border-b border-black'>
-                <div>Spell Book</div>
-                <div onClick={handleOpenModal} className="cursor-pointer p-1 m-1">
-                    <SiCurseforge />
-                </div>
-            </div>
-            
-            {
-            spellbook && spellbook.map((spell: SpellData): React.JSX.Element =>  {
-                    return (
-                        <Spell 
-                            key={spell.id}
-                            spell={spell}
-                        />
-                    )
-                })
-            }
-            <dialog
-            ref={modalRef}
-            className="border border-black p-3 rounded min-h-1/4 backdrop:bg-black-60" 
-            >
-            <button
-                className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-                onClick={handleCloseModal}
-            ><GiCrossedSwords /></button>
-            <div>
-                <p className='p-1 m-1'>Click add to add new Spell.</p>
-                <button
-                    className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-                    onClick={handleAddSpell}
-                >Add</button>
-            </div>
-        </dialog>    
+    <div>
+        <ClickableLabel 
+            statKey='spellbooks' 
+            statGroupTitle={spellbookName} 
+            character={character}
+            id={id}
+            name={spellbookName}
+        />
+        <div className='p-1'>
+            {spellIds && spellIds.length > 0 ? (
+                spellIds
+                    .sort() // Sort the IDs (adjust this based on sorting requirements)
+                    .map((id) => (
+                    <div key={id}>
+                        <div>Spell Id</div>
+                        <div>{id}</div>
+                    </div>
+                    ))
+            ) : (
+            <p>No spell found.</p>
+            )}
         </div>
-    )
-  
+    </div>
+  )
 }
 
-export default SpellBook
+export default Spellbook

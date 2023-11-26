@@ -8,24 +8,17 @@ type Props = {
 function StatModals({ character }: Props) {
 
     const { 
-        spellbook,
         powers,
-        inventory,
-        merits,
-        flaws,
         talismans,
-        backgrounds
     } = character
   return (
     <section
         className='flex flex-col p-1'
     >
-        <StatModal 
+        <StatModal
             key={'Spell Book'}
-            statGroupTitle={"Spell Book"}
-            statSubKey={''} 
-            statKey={"spellbook"}
-            stat={spellbook}
+            statGroupTitle={"Spell Library"}
+            statKey={"spellbooks"}
             character={character}
         />
         <StatModal

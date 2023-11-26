@@ -62,14 +62,7 @@ export const characterTemplate: CharacterTemplate = {
     name: 'Agility',
     rank: 3,
   },
-  backgrounds: [
-    {
-      id: uuidv4(),
-      name: 'Example',
-      rank: 1,
-      description: 'What does this background do?',
-    },
-  ],
+  backgrounds: [],
   backgroundStory: {
     id: uuidv4(),
     title: 'Background Story',
@@ -81,13 +74,7 @@ export const characterTemplate: CharacterTemplate = {
     name: 'Bashing',
     rank: 0,
   },
-  combat: [
-    {
-      id: uuidv4(),
-      name: 'Example',
-      rank: 1,
-    },
-  ],
+  combat: [],
   death: {
     id: uuidv4(),
     name: 'Death',
@@ -108,14 +95,7 @@ export const characterTemplate: CharacterTemplate = {
     name: 'Fight',
     rank: 3,
   },
-  flaws: [
-    {
-      id: uuidv4(),
-      name: 'Bad breath',
-      rank: 1,
-      description: 'A fiber of chicken is lodged between your lateral and central incisor and has become wrought with bacteria pooping in your mouth.',
-    },
-  ],
+  flaws: [],
   imageURL: {
     id: uuidv4(),
     url: '',
@@ -131,32 +111,7 @@ export const characterTemplate: CharacterTemplate = {
     name: 'Intuition',
     rank: 3,
   },
-  inventory: [
-    {
-      id: uuidv4(),
-      name: 'Plate Mail',
-      rank: 4,
-      description: 'Heavy as hell, but it will stop a sword.',
-      isArmor: true,
-      isComponent: false,
-      isProtoniumGenerator: false,
-      isTalisman: false,
-      quantity: 1,
-      spellAssignmentIds:[]
-    },
-    {
-      id: uuidv4(),
-      name: 'Ogre Sweat',
-      rank: 5,
-      description: 'The saltiest sweat you have ever tasted.',
-      isArmor: false,
-      isComponent: true,
-      isProtoniumGenerator: false,
-      isTalisman: false,
-      quantity: 1,
-      spellAssignmentIds:[]
-    },
-  ],
+  inventory: [],
   karma: {
     id: uuidv4(),
     name: 'Karma',
@@ -167,67 +122,13 @@ export const characterTemplate: CharacterTemplate = {
     name: 'Lethal',
     rank: 0,
   },
-  merits: [
-    {
-      id: uuidv4(),
-      name: 'Invisibility Cloak',
-      rank: 1,
-      isProtoniumGenerator: false,
-      isTalisman: true,
-      isArmor: false,
-      spellAssignmentIds:[],
-      description: 'What does this Invisibility Cloak do?',
-      isComponent: false
-    },
-    {
-      id: uuidv4(),
-      name: 'Ring of Power',
-      rank: 3,
-      isProtoniumGenerator: true,
-      isTalisman: false,
-      isArmor: true,
-      spellAssignmentIds:[],
-      description: 'What does this Ring of Power do?',
-      isComponent: true
-    },
-  ],
-  mental: [
-    {
-      id: uuidv4(),
-      name: 'Alertness',
-      rank: 5,
-    },
-    {
-      id: uuidv4(),
-      name: 'Example',
-      rank: 5,
-    },
-  ],
+  merits: [],
+  mental: [],
   name: 'Template',
   nature: 'Gamer',
-  physical: [
-    {
-      id: uuidv4(),
-      name: 'Example',
-      rank: 1,
-    },
-  ],
-  powers: [
-    {
-      id: uuidv4(),
-      name: 'Super Power',
-      rank: 1,
-      description: 'What does this Super Power do?',
-      stuntIds: [],
-    },
-  ],
-  professional: [
-    {
-      id: uuidv4(),
-      name: 'Example',
-      rank: 1,
-    },
-  ],
+  physical: [],
+  powers: [],
+  professional: [],
   protonium: {
     id: uuidv4(),
     name: 'Protonium',
@@ -248,59 +149,25 @@ export const characterTemplate: CharacterTemplate = {
     name: 'Reason',
     rank: 3,
   },
-  spellbooks:[
-    {
-      id: uuidv4(),
-      spellbookName: 'Spell Book Name',
-      spellIds: []
-    }
-  ],
-  spells: [
-    {
-      id: uuidv4(),
-      name: 'fireball',
-      attempts: 3,
-      description: 'ball of fire.',
-      isMastered: false,
-      isPurchased: false,
-      spellComponentIds: [],
-      casting: 0,
-      duration: 0,
-    },
-  ],
+  spellbooks:[],
+  spells: [],
   strength: {
     id: uuidv4(),
     name: 'Strength',
     rank: 3,
   },
-  stunts: {
-      id: uuidv4(),
-      name: 'Power Stunt',
-      attempts: 0,
-      description: 'What does this Power Stunt do?',
-      isMastered: false,
-      isArmor: false,
-      duration: 0,
-  },
-  talismans: [
-    {
-      id: uuidv4(),
-      name: 'Talisman',
-      rank: 1,
-      description: 'What does this Talisman do?',
-      stuntIds: [],
-    },
-  ],
+  stunts:[],
+  talismans: [],
   createdAt: serverTimestamp(),
   lastUpdate: serverTimestamp(),
 };
 
-export const skillTemplate: Partial<StatData> = {
+export const newSkill: Partial<StatData> = {
   name: 'skill',
   rank: 1
 }
 
-export const powerTemplate: Partial<StatData> = {
+export const newPower: Partial<StatData> = {
     name: 'New Power',
     rank: 1,
     description: 'What does this Super Power do?',
@@ -308,27 +175,19 @@ export const powerTemplate: Partial<StatData> = {
   
 }
 
-export const talismanTemplate: Partial<StatData> = {
-  name: 'New Talisman',
-  rank: 1,
-  description: 'What does this Talisman do?',
-  stuntIds: [],
-
-}
-
-export const tagTemplate: TagTemplate = {
+export const newTag: TagTemplate = {
   id: uuidv4(),
   label: "Tag Name Here",
 }
 
-export const noteTemplate: NoteTemplate = {
+export const newNote: NoteTemplate = {
   id: uuidv4(), 
   markdown: "Write here", 
   tagIds: [], 
   title: "Title Here"
 }
 
-export const spellTemplate: Partial <SpellData> = 
+export const newSpell: Partial <SpellData> = 
   {
     name: 'new spell',
     attempts: 0,
@@ -340,15 +199,10 @@ export const spellTemplate: Partial <SpellData> =
     duration: 0,
   }
 
-  export const newMerit = {
-    name: 'new merit',
+  export const newMeritFlawBackground = {
+    name: 'New Stat',
     rank: 0,
-    isProtoniumGenerator: false,
-    isTalisman: false,
-    isArmor: false,
-    isComponent: false,
-    description: 'What does this Invisibility Cloak do?',
-    spellAssignmentIds:[]
+    description: 'Merit/Flaw/Background',
   }
 
   export const newInventoryItem = {
@@ -367,4 +221,18 @@ export const spellTemplate: Partial <SpellData> =
     name: 'Example',
     rank: 1,
     description: 'What does this background do?',
+  }
+
+  export const newSpellbook = {
+      name: 'Spell Book Name',
+      spellIds: []
+  }
+
+  export const newStunt = {
+      name: 'Power Stunt',
+      attempts: 0,
+      description: 'What does this Power Stunt do?',
+      isMastered: false,
+      isArmor: false,
+      duration: 0,
   }

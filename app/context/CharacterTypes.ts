@@ -132,6 +132,7 @@ export type Character = {
     name: string
     backgroundStory: BackgroundStory
     spellbooks: SpellData[]
+    spells: SpellData
 }
 
 export type BackgroundStory = {

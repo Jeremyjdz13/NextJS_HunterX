@@ -1,12 +1,9 @@
+'use client'
 import { Character } from '@/app/context/CharacterTypes'
 import React from 'react'
-import StatArray from '../Stat/StatArray'
 import Tabs from '../tabs/Tabs'
-import Inventory from './Inventory'
-import Merits from './Merits'
-import Flaws from './Flaws'
-import Backgrounds from './Backgrounds'
 import BackgroundStory from './BackgroundStory'
+import CharacterStats from './CharacterStats'
 
 type Props = {
     character: Character
@@ -16,27 +13,35 @@ function MeritsFlawsBackgrounds({ character }: Props) {
 
     const tabs = [
         {label: "Merits", content: 
-            <Merits
+            <CharacterStats
                 key={"Merits"}
                 character={character}
+                statKey={'merits'}
+                statType={'Merit'}
             />
         },
         {label: "Flaws", content: 
-            <Flaws
+            <CharacterStats
                 key={"Flaws"}
                 character={character}
+                statKey={'flaws'}
+                statType={'Flaw'}
             />
         },
         {label: "Backgrounds", content: 
-            <Backgrounds
+            <CharacterStats
                 key={"Backgrounds"}
                 character={character}
+                statKey={'backgrounds'}
+                statType={'Background'}
             />
         },
         {label: "Inventory", content: 
-            <Inventory
+            <CharacterStats
                 key={"Inventory"}
                 character={character}
+                statKey={'inventory'}
+                statType={'Inventory Item'}
             />
         },
         {
@@ -44,6 +49,7 @@ function MeritsFlawsBackgrounds({ character }: Props) {
             <BackgroundStory 
                 key={"Background Story"}
                 character={character}
+                subKey={'backgroundStory'}
             />
         }
     ]

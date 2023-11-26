@@ -110,9 +110,10 @@ export default function EditStatForm({
         "protonium",
         "death"
     ].includes(statKey);
-    const isBackgroundsFlawsGroup = [
+    const isNameRankDescription = [
         "backgrounds", 
-        "flaws"
+        "flaws",
+        'merits'
     ].includes(statKey);
     const isSpellbookGroup = [
         "spellbook"
@@ -122,23 +123,12 @@ export default function EditStatForm({
         "talismans"
     ].includes(statKey);
 
-    const isMeritsGroup = [
-        "merits",  
-    ].includes(statKey);
-
     const isStunt = [
         "stunt"
     ].includes(statSubKey)
 
     const isInventory = [
         "inventory"
-    ].includes(statKey)
-
-    const isFlaws = [
-        "flaws"
-    ].includes(statKey)
-    const isBackgrounds = [
-        "backgrounds"
     ].includes(statKey)
 
     const isCharacterName = [ "name" ].includes(statKey)
@@ -484,8 +474,8 @@ export default function EditStatForm({
                 
                     
         }
-        if (isMeritsGroup) {
-            const merit = character[statKey].find((merit: any) => merit.id === id)
+        if (isNameRankDescription) {
+            const stat = character[statKey].find((stat: any) => stat.id === id)
             
             return (      
                 <div>
@@ -501,7 +491,7 @@ export default function EditStatForm({
                             id={id}  
                             ref={nameRef}
                             type="text"
-                            defaultValue={merit.name}
+                            defaultValue={stat.name}
                             
                         />
                     </div>
@@ -516,7 +506,7 @@ export default function EditStatForm({
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" 
                             type="number"
                             ref={rankRef}
-                            defaultValue={merit.rank}
+                            defaultValue={stat.rank}
                             min={0}
                             max={handleStatMax()}
                         />  
@@ -530,53 +520,8 @@ export default function EditStatForm({
                         </label> 
                         <textarea
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" 
-                            type="text"
                             ref={descriptionRef}
-                            defaultValue={merit.description}
-                        />  
-                    </div>
-                    <div>
-                        <label
-                            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" 
-                            htmlFor='description'
-                        >
-                            Protonium Generator
-                        </label> 
-                        <input
-                            className="" 
-                            type="checkbox"
-                            ref={protoniumGeneratorRef}
-                            defaultChecked={merit.isProtoniumGenerator}
-                        />  
-                    </div>
-                    <div>
-                        <label
-                            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" 
-                            htmlFor='talisman'
-                        >
-                            Talisman
-                        </label> 
-                        <input
-                            className="" 
-                            type="checkbox"
-                            ref={talismanRef}
-                            defaultChecked={merit.isTalisman}
-
-                        />  
-                    </div>
-                    <div>
-                        <label
-                            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" 
-                            htmlFor='description'
-                        >
-                            Armor
-                        </label> 
-                        <input
-                            className="" 
-                            type="checkbox"
-                            ref={armorRef}
-                            defaultChecked={merit.isArmor}
-
+                            defaultValue={stat.description}
                         />  
                     </div>
                 </div>
@@ -715,114 +660,6 @@ export default function EditStatForm({
             )     
                     
         }
-        if (isFlaws) {
-
-            const flaw = character[statKey].find((flaw: any) => flaw.id === id)
-
-           return (
-            <div>
-                <div>
-                    <label
-                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" 
-                        htmlFor="name"
-                    >
-                        {statKey}
-                    </label>
-                    <input 
-                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" 
-                        id={id}  
-                        ref={nameRef}
-                        type="text"
-                        defaultValue={flaw.name}
-                        
-                    />
-                </div>
-                <div>
-                    <label
-                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" 
-                        htmlFor='rank'
-                    >
-                        Rank
-                    </label> 
-                    <input
-                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" 
-                        type="number"
-                        ref={rankRef}
-                        defaultValue={flaw.rank}
-                        min={0}
-                        max={handleStatMax()}
-                    />  
-                </div>
-                <div>
-                    <label
-                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" 
-                        htmlFor='description'
-                    >
-                        Description
-                    </label> 
-                    <textarea
-                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" 
-                        ref={descriptionRef}
-                        defaultValue={flaw.description}
-                    />  
-                </div>
-            </div>
-           )
-        }
-        if (isBackgrounds) {
-
-            const background = character[statKey].find((stat: any) => stat.id === id)
-
-           return (
-            <div>
-                <div>
-                    <label
-                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" 
-                        htmlFor="name"
-                    >
-                        {statKey}
-                    </label>
-                    <input 
-                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" 
-                        id={id}  
-                        ref={nameRef}
-                        type="text"
-                        defaultValue={background.name}
-                        
-                    />
-                </div>
-                <div>
-                    <label
-                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" 
-                        htmlFor='rank'
-                    >
-                        Rank
-                    </label> 
-                    <input
-                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" 
-                        type="number"
-                        ref={rankRef}
-                        defaultValue={background.rank}
-                        min={0}
-                        max={handleStatMax()}
-                    />  
-                </div>
-                <div>
-                    <label
-                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" 
-                        htmlFor='description'
-                    >
-                        Description
-                    </label> 
-                    <textarea
-                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" 
-                        ref={descriptionRef}
-                        defaultValue={background.description}
-                    />  
-                </div>
-            </div>
-           )
-        }
    }
    
 
@@ -934,30 +771,23 @@ export default function EditStatForm({
             editCharacter(newCharacter)
          }
     
-         if (isMeritsGroup && 
+         if (isNameRankDescription && 
             nameRef.current &&
             rankRef.current &&
-            protoniumGeneratorRef &&
-            talismanRef &&
-            armorRef &&
             descriptionRef
             ) {
-                const updatedMerit = character[statKey].map((merit: any) => {
-                    if (merit.id === id) {
+                const updatedStat = character[statKey].map((stat: any) => {
+                    if (stat.id === id) {
                         return {
                            id,
                            name: nameRef.current?.value,
                            rank: parseInt(rankRef.current?.value, 10),
-                           description: descriptionRef.current?.value,
-                           isTalisman: talismanRef.current?.checked,
-                           isProtoniumGenerator: protoniumGeneratorRef.current?.checked,
-                           isArmor: armorRef.current?.checked
-                           
+                           description: descriptionRef.current?.value,                           
                         }
                     }
-                    return merit
+                    return stat
                })
-               const newCharacter = {...character, [statKey]: updatedMerit} 
+               const newCharacter = {...character, [statKey]: updatedStat} 
                editCharacter(newCharacter)
             }
         if (isInventory) {
@@ -982,36 +812,6 @@ export default function EditStatForm({
            const newCharacter = {...character, [statKey]: updatedInventory} 
            editCharacter(newCharacter)
         } 
-        if (isFlaws && rankRef.current && nameRef && descriptionRef) {
-            const updatedFlaws = character[statKey].map((flaw: any) => {
-                if (flaw.id === id) {
-                    return {
-                        id,
-                        name: nameRef.current?.value,
-                        rank: parseInt(rankRef.current?.value, 10),
-                        description: descriptionRef.current?.value,                       
-                    }
-                }
-                return flaw
-            })
-            const newCharacter = {...character, [statKey]: updatedFlaws}
-            editCharacter(newCharacter)
-        }
-        if (isBackgrounds && rankRef.current && nameRef && descriptionRef) {
-            const updatedBackgrounds = character[statKey].map((stat: any) => {
-                if (stat.id === id) {
-                    return {
-                        id,
-                        name: nameRef.current?.value,
-                        rank: parseInt(rankRef.current?.value, 10),
-                        description: descriptionRef.current?.value,                       
-                    }
-                }
-                return stat
-            })
-            const newCharacter = {...character, [statKey]: updatedBackgrounds}
-            editCharacter(newCharacter)
-        }   
 
     }
 

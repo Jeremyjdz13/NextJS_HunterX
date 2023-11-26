@@ -1,5 +1,6 @@
 export type SpellBook = {
     spellbook: SpellData[]
+    spellbookName: string
 }
 
 export type SpellData = {

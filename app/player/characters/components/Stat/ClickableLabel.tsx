@@ -41,7 +41,12 @@ export default function ClickableLabel({ name, id, statKey, rank, statGroupTitle
         "inventory",
         "merits",
         "flaws",
-        "backgrounds"
+        "backgrounds",
+        "combat",
+        "physical",
+        "professional",
+        "mental",
+        "protonium"
     ].includes(statKey)
 
     function handleDiceClickableTitles() {
@@ -72,7 +77,7 @@ export default function ClickableLabel({ name, id, statKey, rank, statGroupTitle
         setIsModalOpen(false)
     }
     return (
-        <div className="p-1">
+        <div>
             {
                 (
                     statKey === 'powers' ||

@@ -2,59 +2,48 @@
 import React from 'react'
 import { Character } from '@/app/context/CharacterTypes'
 import Tabs from '../tabs/Tabs'
-import Skill from './Skill'
+import CharacterStats from '../meritsflawsbackgrounds/CharacterStats'
 
 type Props = {
     character: Character
 }
 function Skills({ character }: Props) {
 
-    const {
-        combat,
-        physical,
-        professional,
-        mental
-    } = character
-
     const tabs = [
         {
             label: "Combat", 
-            content:    <Skill
+            content:    <CharacterStats
                             key="Combat"
-                            statGroupTitle='Combat'
-                            statKey='combat'
-                            skill={combat}
+                            statKey={'combat'}
+                            statType={'Skill'}
                             character={character}
                         /> 
         },
         {
             label: "Physical",
-            content: <Skill
+            content: <CharacterStats
                         key="Physical"
-                        statGroupTitle='Manage Skills'
                         statKey='physical'
-                        skill={physical}
+                        statType={'Skill'}
                         character={character}
                     />
         },
         {
             label: "Professional",
-            content: <Skill
-                        key="professional"
-                        statGroupTitle='Professional'
-                        statKey='professional'
-                        skill={professional}
+            content: <CharacterStats
+                        key="Professional"
+                        statKey={'professional'}
+                        statType={'professional'}
                         character={character}
                     />
         },
         
         {
             label: "Mental",
-            content: <Skill
-                        key="mental"
-                        statGroupTitle='Mental'
+            content: <CharacterStats
+                        key="Mental"
                         statKey='mental'
-                        skill={mental}
+                        statType={"mental"}
                         character={character}
                     />   
         },

@@ -1,8 +1,6 @@
 import { Character, StatData } from "@/app/context/CharacterTypes";
 import EditGroupStatForm from "../forms/AddRemoveStat";
 import { useRef, useState } from "react";
-import { useCharacter } from "@/app/context/CharacterContext";
-import { powerTemplate, skillTemplate } from "@/app/context/DefaultDataTemplates";
 import AddRemoveStat from "../forms/AddRemoveStat";
 import { SiCurseforge } from "react-icons/si";
 

@@ -1,7 +1,6 @@
 'use client'
 import React, { useRef } from 'react'
 import { SpellData } from './SpellTypes'
-import Components from './Components'
 import Name from '../Stat/Name'
 import { ImCross } from "react-icons/im";
 
@@ -18,12 +17,12 @@ function Spell({
     const {
         name,
         id,
+        attempts,
         casting,
         description,
         duration,
         isMastered,
         isPurchased,
-        components
     } = spell
     const modalRef = useRef(null)
     
@@ -36,13 +35,21 @@ function Spell({
     }
 
   return (
-    <div className='border p-1'>
-        <button
-            onClick={handleOpenModal}
-            className='btn' 
-        >
-            {name}
-        </button>
+    <div className='p-1'>
+        <div >
+            <div className='text-center grid grid-cols-[110px_75px_75px_75px_300px]'>
+                <button
+                    onClick={handleOpenModal}
+                    className='btn' 
+                >
+                    {name}
+                </button>
+                <div>{attempts}</div>
+                <div>{casting}</div>
+                <div>{duration}</div>
+                <div>{description}</div>
+            </div>
+        </div>
         <dialog
             ref={modalRef}
             className='border border-black rounded p-2'
@@ -78,23 +85,6 @@ function Spell({
                     <Name name='Description' />
                     {description}
                 </div>
-            </div>
-            <div>
-                <div className='border-b '>Components</div>
-                <div 
-                    className='p-1 grid grid-cols-[150px_50px_75px_150px]'
-                >
-                    <Name name='Name' />
-                    <Name name='Rank' />
-                    <Name name='Quantity' />
-                    <Name name='Description' /> 
-                </div>
-                {components.map(component => {
-                    return <Components
-                                key={component.id}
-                                component={component}
-                            />
-                })}
             </div>
         </dialog>
     </div>

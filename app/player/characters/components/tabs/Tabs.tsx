@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 type Tab = {
     label: string;
@@ -12,7 +12,6 @@ type Props = {
 
 function Tabs({tabs}: Props) {
     const [activeTab, setActiveTab] = useState<number>(0)
-    
     const handleTabClick = (index: number) => {
         setActiveTab(index)
     }
@@ -23,10 +22,11 @@ function Tabs({tabs}: Props) {
           'active border-b border-black': index === activeTab,
         }
       );
-
-
+    
+     
+        
     return (
-        <div className='border border-black rounded'>
+        <div className={'border border-black rounded p-1'}>
           <div className="tab-header flex flex-row">
             {tabs.map((tab, index) => (
               <div
