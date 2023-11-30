@@ -22,6 +22,6 @@ const config: Config = {
       'full': '100%',
     }
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/typography')],
 }
 export default config

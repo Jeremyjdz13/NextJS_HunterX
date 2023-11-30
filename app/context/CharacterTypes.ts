@@ -39,6 +39,7 @@ export type CharacterData = {
 }
 
 export type StatData = {
+    map(arg0: (stat: any) => any): unknown
     id: string
     name?: string
     rank?: number
@@ -115,6 +116,7 @@ export type CharacterButtonProps = {
 }
 
 export type Character = {
+    stunts: any
     physical: StatData[]
     combat: StatData[]
     professional: StatData[]
@@ -133,6 +135,8 @@ export type Character = {
     backgroundStory: BackgroundStory
     spellbooks: SpellData[]
     spells: SpellData
+    powers: StatData[]
+    talismans: Talisman[]
 }
 
 export type BackgroundStory = {
@@ -142,4 +146,18 @@ export type BackgroundStory = {
     markdown: string
 }
 
+export type Talisman = {
+    isTalisman: boolean
+    id: string
+    name: string
+    rank: number
+    description: string
+    isArmor: boolean
+    isProtoniumGenerator: boolean
+    isComponent: boolean
+    stuntIds: StuntIds[]
+}
 
+export type StuntIds = {
+    id: string
+}

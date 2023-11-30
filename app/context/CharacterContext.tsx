@@ -2,9 +2,20 @@
 import React, { useState, useEffect, useContext, ReactNode } from 'react'
 import { useAuth } from './AuthContext'
 import { v4 as uuidv4 } from 'uuid'
-import { collection, deleteDoc, doc, getDocs, getFirestore, onSnapshot, query, setDoc, updateDoc, where } from 'firebase/firestore'
+import { 
+  collection, 
+  deleteDoc, 
+  doc, 
+  getDocs, 
+  getFirestore, 
+  onSnapshot, 
+  query, 
+  setDoc, 
+  updateDoc, 
+  where 
+} from 'firebase/firestore'
 import { characterTemplate } from './DefaultDataTemplates'
-import { CharacterContextProps, CharacterData, StatData } from './CharacterTypes'
+import { CharacterContextProps, CharacterData, } from './CharacterTypes'
 import firebase_app from '../firebaseconfig'
 const CharacterContext = React.createContext<CharacterContextProps | undefined>(undefined)
 

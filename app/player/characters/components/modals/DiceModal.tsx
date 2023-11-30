@@ -34,7 +34,10 @@ export default function DiceModal({ statKey, id, name, rank, character } : DiceM
         mental,
         protoniumPool
     } = character as CharacterData
-
+    const isPowerAndTalisman = [
+        'powers',
+        'talismans'
+    ].includes(statKey)
   
     function handleOpenModal() {
         (modalRef.current! as HTMLDialogElement).showModal()
@@ -311,9 +314,12 @@ export default function DiceModal({ statKey, id, name, rank, character } : DiceM
                 >
                     {name} 
                 </div>
-                <div>
-                    {rank}
-                </div>
+                {!isPowerAndTalisman ? 
+                    <div>
+                        {rank}
+                    </div> : 
+                    null
+                }
             </div>
             <dialog 
                 ref={modalRef}

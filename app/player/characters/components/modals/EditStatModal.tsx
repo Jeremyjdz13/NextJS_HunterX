@@ -39,7 +39,10 @@ export default function EditStatModal({
         "inventory",
         "merits",
         "backgrounds",
-        "flaws"
+        "flaws",
+        "powers",
+        "stunts",
+        "talismans"
     ].includes(statKey)
 
     const isNotDelete = [
@@ -65,6 +68,7 @@ export default function EditStatModal({
         if(isSingleNestedArray) {
             const updatedCharacter = {...character,
             [statKey]: character[statKey].filter((stat: any) => stat.id !== id)}
+
             editCharacter(updatedCharacter)
         }
        

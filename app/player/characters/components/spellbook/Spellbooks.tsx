@@ -2,21 +2,21 @@
 import { Character, EditCharacter } from '@/app/context/CharacterTypes'
 import React, { useRef } from 'react'
 import Spell from './Spell'
-import { SpellBook, SpellData } from './SpellTypes'
+import { SpellData } from './SpellTypes'
 import { useCharacter } from '@/app/context/CharacterContext'
 import { SiCurseforge } from 'react-icons/si'
 import { GiAbdominalArmor, GiCrossedSwords, GiMaterialsScience } from 'react-icons/gi'
 import useAddStat from '../hooks/UseAddStat'
-import { newInventoryItem, spellTemplate } from '@/app/context/DefaultDataTemplates'
+import { newInventoryItem } from '@/app/context/DefaultDataTemplates'
 import Tabs from '../tabs/Tabs'
 import Spellbook from './Spellbook'
 import { MdOutlineScience } from 'react-icons/md'
 import { AiOutlineDingtalk } from 'react-icons/ai'
+import CharacterStats from '../meritsflawsbackgrounds/CharacterStats'
 
 type Props = {
     spellbook: SpellData[]
     statKey: string
-    statSubKey: string
     character: Character
 }
 
@@ -26,39 +26,26 @@ function Spellbooks({
         const { editCharacter } = useCharacter() as EditCharacter
         const { addStat, setStatOptions } = useAddStat(character, editCharacter)
         const modalRef = useRef(null)
-        const { spellbooks, spells, inventory } = character
+        const { inventory } = character
 
         const spellComponents = inventory.filter(item => item.isComponent === true)
         console.log(spellComponents.length, "Spell comp")
         const tabs = [
-            ...spellbooks.map((book: any) => ({
-              label: book.spellbookName,
-              content: <Spellbook book={book} character={character} />,
-            })),
+            {
+                label: "Book Library",
+                content: <CharacterStats 
+                        character={character} 
+                        statKey={'spellbooks'} 
+                        statType='Spell Book' 
+                    />
+            },
             {
               label: "Spell Library",
-              content: (
-                <div>
-                    <div onClick={handleOpenModal} className="cursor-pointer p-1 m-1">
-                        <SiCurseforge />
-                    </div>
-                    <div className='text-center grid grid-cols-[110px_75px_75px_75px_300px]'>
-                        <div className='border'>Spell Name</div>
-                        <div className='border'>Attempts</div>
-                        <div className='border'>Casting</div>
-                        <div className='border'>Duration</div>
-                        <div className='border'>Description</div>
-                    </div>
-                  {spells && spells.length > 0 ? (
-                    
-                    spells.map((spell: SpellData) => (
-                      <Spell key={spell.id} spell={spell} />
-                    ))
-                  ) : (
-                    <p>No spells found</p>
-                  )}
-                </div>
-              ),
+              content: <CharacterStats
+                    character={character}
+                    statKey={"spells"}
+                    statType='Spell'
+                    />
             },
             {
                 label: "Component Library",

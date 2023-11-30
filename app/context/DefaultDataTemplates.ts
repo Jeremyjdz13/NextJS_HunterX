@@ -190,11 +190,11 @@ export const newNote: NoteTemplate = {
 export const newSpell: Partial <SpellData> = 
   {
     name: 'new spell',
-    attempts: 0,
+    rank: 0,
     description: 'what magic is this?',
     isMastered: false,
     isPurchased: false,
-    spellComponentIds: [],
+    componentIds: [],
     casting: 0,
     duration: 0,
   }
@@ -214,7 +214,6 @@ export const newSpell: Partial <SpellData> =
     isProtoniumGenerator: false,
     isTalisman: false,
     quantity: 1,
-    spellAssignmentIds:[]
   }
 
   export const newBackground = {
@@ -225,14 +224,16 @@ export const newSpell: Partial <SpellData> =
 
   export const newSpellbook = {
       name: 'Spell Book Name',
+      description: 'What beholdeth in this tome?',
       spellIds: []
   }
 
   export const newStunt = {
       name: 'Power Stunt',
-      attempts: 0,
+      rank: 0,
       description: 'What does this Power Stunt do?',
       isMastered: false,
       isArmor: false,
+      isComponent: false,
       duration: 0,
   }

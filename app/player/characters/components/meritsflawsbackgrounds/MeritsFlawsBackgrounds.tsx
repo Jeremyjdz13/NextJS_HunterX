@@ -46,10 +46,11 @@ function MeritsFlawsBackgrounds({ character }: Props) {
         },
         {
             label: "Story", content: 
-            <BackgroundStory 
+            <CharacterStats
                 key={"Background Story"}
                 character={character}
-                subKey={'backgroundStory'}
+                statKey={'backgroundStory'}
+                statType={'Background Story'}
             />
         }
     ]

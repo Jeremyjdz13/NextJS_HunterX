@@ -12,6 +12,10 @@ import Label from '../Stat/Label'
 import ClickableLabel from '../Stat/ClickableLabel'
 import classNames from 'classnames'
 import Rank from '../Stat/Rank'
+import { FaGraduationCap } from "react-icons/fa6";
+import { HiOutlineCurrencyDollar } from "react-icons/hi2";
+import ReactMarkdown from 'react-markdown'
+
 
 
 type Props = {
@@ -21,6 +25,14 @@ type Props = {
 }
 
 type Stat = {
+    markdown: string
+    title: string | undefined
+    casting: number
+    isPurchased: boolean
+    spellIds: any
+    stuntIds: []
+    duration: number | undefined
+    isMastered: boolean
     id: string
     name: string
     rank: number
@@ -48,9 +60,31 @@ function CharacterStats({ character, statKey, statType }: Props) {
     "professional",
     "mental"
   ].includes(statKey)
-  
-  console.log(stats, "Stat")
 
+  const isStunt = [
+    "stunts"
+  ].includes(statKey)
+
+  const isPower = [
+    "powers"
+  ].includes(statKey)
+
+  const isSpellbook = [
+    "spellbooks"
+  ].includes(statKey)
+
+  const isSpell = [
+    "spells"
+  ].includes(statKey)
+  
+  const isTalisman = [
+    "talismans"
+  ].includes(statKey)
+
+  const isBackgroundStory = [
+    "backgroundStory"
+  ].includes(statKey)
+  
   const modalRef = useRef(null)
     
   function handleOpenModal() {
@@ -62,77 +96,136 @@ function CharacterStats({ character, statKey, statType }: Props) {
   }
   function addStat() {
     const uniqueId = uuidv4()
-    const updatedStats = character[statKey].some((stat: Stat) => stat.id === uniqueId)
+    const newStats = character[statKey].some((stat: Stat) => stat.id === uniqueId)
         ? character[statKey]
         : [
         ...character[statKey],
             {
                 id: uuidv4(),
                 name: `new ${statType}`,
-                rank: 1,
-                ...(!isNameRank ? {description: "Write a description"}: {}),
+                ...(isSpellbook ? {} : {rank: 1}),
+                ...(isSpellbook ? {spellIds: [] } : {}),
+                ...(isNameRank ? {} : {description: "Write a description"}),
                 ...(isInventoryItem ? {
                     quantity: 1,
                     isArmor: false,
                     isProtoniumGenerator: false,
-                    isComponent: false,   
-                    spellAssignmentIds: []
-                } : {})
+                    isComponent: false,
+                    isTalisman: false,  
+                } : {}),
+                ...(isStunt ? {
+                    isMastered: false,
+                    isArmor: false,
+                    isComponent: false,
+                    duration: 0,
+                }: {}),
+                ...(isPower ? {
+                    stuntIds: []
+                }: {}),
+                ...(isSpell ? {
+                    isMastered: false,
+                    isPurchased: false,
+                    componentIds: [],
+                    casting: 0,
+                    duration: 0
+                }: {})
             },
         ];
 
-        const newCharacter = { ...character, [statKey]: updatedStats };
+        const newCharacter = { ...character, [statKey]: newStats };
         editCharacter(newCharacter)
+    }
+    function handleStuntTotals(ids: any){
+
+        const stuntTotal = ids.length
+
+        return <div>
+                    {stuntTotal}
+                </div>
+
     }
   return (
       <div>
-          <div onClick={handleOpenModal} className="cursor-pointer p-1 m-1">
+          {(isTalisman || isBackgroundStory) ? null : <div onClick={handleOpenModal} className="cursor-pointer p-1 m-1">
             <SiCurseforge />
-          </div>
+          </div>}
           <div className={classNames({
             "grid grid-cols-[80%_20%]" : isNameRank,
             "grid grid-cols-[30%_20%_50%]": !isInventoryItem,
-            "grid grid-cols-[40%_10%_10%_40%]": isInventoryItem
+            "grid grid-cols-[40%_10%_10%_40%]": (isInventoryItem || isStunt),
+            "grid grid-cols-[30%_10%_20%_40%] text-center": isPower,
+            "grid grid-cols-[30%_10%_10%_10%_40%] text-left": isSpell
             })}>
-              <Label storedLabel='Name' />
-              <Label storedLabel="Rank" />
-              {isInventoryItem && <Label storedLabel='Quantity' />}
-              {!isNameRank && <Label storedLabel='Description' />}
+                {isBackgroundStory? null : 
+                    <>
+                        {isSpellbook ? <Label storedLabel='Title' /> : <Label storedLabel='Name' />}
+                        {(isStunt || isSpell) ? <Label storedLabel='Attempts' /> : (isSpellbook ? <Label storedLabel='Spell Count'/> : <Label storedLabel="Rank" />) }
+                        {isInventoryItem && <Label storedLabel='Quantity' />}
+                        {isSpell && <Label storedLabel='Casting' />}
+                        {(isStunt || isSpell) && <Label storedLabel='Duration' /> } 
+                        {isPower && <Label storedLabel='Total Stunts' />}  
+                        {!isNameRank && <Label storedLabel='Description' />}
+                    </>
+                }
           </div>
           <div>
-              {
-                  stats.map((stat) => (
-                      <div 
-                          key={stat.id}
-                          className={
-                            classNames({
-                                "grid grid-cols-[80%_20%]" : isNameRank,
-                                "grid grid-cols-[30%_20%_50%]": !isInventoryItem,
-                                "grid grid-cols-[40%_10%_10%_40%]": isInventoryItem
-                              })
-                          }
-                      >
-                          <div className="flex flex-row">
-                              <ClickableLabel 
-                                  id={stat.id} 
-                                  name={stat.name} 
-                                  rank={stat.rank} 
-                                  statKey={statKey} 
-                                  character={character} 
-                              />
-                              <div className="flex flex-row p-3">
-                                  {stat.isArmor && <GiAbdominalArmor />}
-                                  {stat.isTalisman && <AiOutlineDingtalk />}
-                                  {stat.isProtoniumGenerator && <GiMaterialsScience />}
-                                  {stat.isComponent && <MdOutlineScience  />}
-                              </div>
-                          </div>
-                          <Rank rank={stat.rank} />
-                            {isInventoryItem && <Rank rank={stat.quantity} />}
-                            {!isNameRank && <div>{stat.description}</div>}
-                      </div>
-                          
-                  ))
+              {isBackgroundStory ? 
+                <div key={stats.id}
+                >
+                     <ClickableLabel 
+                        id={stats.id} 
+                        name={stats.title} 
+                        rank={0} 
+                        statKey={statKey} 
+                        character={character}
+                    />
+                    <div className='p-3 prose'>
+                        <ReactMarkdown>{stats.markdown}</ReactMarkdown>
+                    </div>          
+                </div> : 
+                
+                    stats.map((stat) => (
+                        <div 
+                            key={stat.id}
+                            className={
+                              classNames({
+                                  "grid grid-cols-[80%_20%]" : isNameRank,
+                                  "grid grid-cols-[30%_20%_50%]": !isInventoryItem,
+                                  "grid grid-cols-[40%_10%_10%_40%]": (isInventoryItem || isStunt),
+                                  "grid grid-cols-[30%_10%_20%_40%] text-center": isPower,
+                                  "grid grid-cols-[30%_10%_10%_10%_40%] text-left": isSpell
+                                })
+                            }
+                        >
+                            <div className="flex flex-row">
+                                <ClickableLabel 
+                                    id={stat.id} 
+                                    name={stat.name} 
+                                    rank={stat.rank} 
+                                    statKey={statKey} 
+                                    character={character} 
+                                />
+                                <div className="flex flex-row p-3">
+                                    {stat.isArmor && <GiAbdominalArmor />}
+                                    {stat.isTalisman && <AiOutlineDingtalk />}
+                                    {stat.isProtoniumGenerator && <GiMaterialsScience />}
+                                    {stat.isComponent && <MdOutlineScience  />}
+                                    {stat.isPurchased && <HiOutlineCurrencyDollar />}
+                                </div>
+                            </div>
+                              {stat.isMastered ?
+                               <div className='p-1'><FaGraduationCap /></div> : 
+                               (isSpellbook ? <div className='p-1'>{stat.spellIds.length}</div>: <Rank rank={stat.rank} />)
+                              }
+                              {isSpell ? <div className='p-1'>{stat.casting}</div> : null}
+                              {isInventoryItem && <Rank rank={stat.quantity} />}
+                              {(isStunt || isSpell )&& <Rank rank={stat.duration}/>}
+                              {isPower && handleStuntTotals(stat.stuntIds)}
+                              {!isNameRank && <div>{stat.description}</div>}
+                        </div>
+                            
+                    ))
+                
               }
           </div>
           <dialog

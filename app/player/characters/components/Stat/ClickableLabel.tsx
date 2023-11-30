@@ -1,10 +1,11 @@
 "use client"
 import { useState } from "react"
-import { StatData, CharacterData, Character } from "../../../../context/CharacterTypes"
+import { StatData, Character } from "../../../../context/CharacterTypes"
 import EditStatModal from "../modals/EditStatModal"
 import DiceModal from "../modals/DiceModal"
 import Rank from "./Rank"
 import classnames from 'classnames'
+import Title from "./Title"
 
 
 type ClickableLabelProps = {
@@ -16,7 +17,7 @@ type ClickableLabelProps = {
     character: Character
 }
 
-export default function ClickableLabel({ name, id, statKey, rank, statGroupTitle, character } : ClickableLabelProps) {
+export default function ClickableLabel({ name, id, statKey, rank, character } : ClickableLabelProps) {
     const [isModalOpen, setIsModalOpen] = useState(false)
 
     const isPowersAndTalismans = [
@@ -46,8 +47,12 @@ export default function ClickableLabel({ name, id, statKey, rank, statGroupTitle
         "physical",
         "professional",
         "mental",
-        "protonium"
+        "protonium",
+        'stunts',
+        "spells",
+        "backgroundStory"
     ].includes(statKey)
+    const isBackgroundStory = [ "backgroundStory" ].includes(statKey)
 
     function handleDiceClickableTitles() {
         const stat: StatData | undefined = character?.[statKey]
@@ -100,7 +105,7 @@ export default function ClickableLabel({ name, id, statKey, rank, statGroupTitle
                                 )}
                                 onContextMenu={handleContextMenu}
                             >
-                                {name}
+                                {isBackgroundStory ? <Title statGroupTitle={name}/> : name}
                             </div>
                             {isTabStat ? null : <Rank rank={rank} />}
                         </div>
