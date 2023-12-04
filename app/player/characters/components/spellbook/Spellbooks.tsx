@@ -12,7 +12,7 @@ import Tabs from '../tabs/Tabs'
 import Spellbook from './Spellbook'
 import { MdOutlineScience } from 'react-icons/md'
 import { AiOutlineDingtalk } from 'react-icons/ai'
-import CharacterStats from '../meritsflawsbackgrounds/CharacterStats'
+import CharacterStats from '../Stat/CharacterStats'
 
 type Props = {
     spellbook: SpellData[]

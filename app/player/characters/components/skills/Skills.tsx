@@ -2,7 +2,7 @@
 import React from 'react'
 import { Character } from '@/app/context/CharacterTypes'
 import Tabs from '../tabs/Tabs'
-import CharacterStats from '../meritsflawsbackgrounds/CharacterStats'
+import CharacterStats from '../Stat/CharacterStats'
 
 type Props = {
     character: Character

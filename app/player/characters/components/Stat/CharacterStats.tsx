@@ -8,10 +8,10 @@ import { uuidv4 } from '@firebase/util'
 import { SiCurseforge } from 'react-icons/si'
 import { GiMaterialsScience } from "react-icons/gi";
 import { AiOutlineDingtalk } from "react-icons/ai";
-import Label from '../Stat/Label'
-import ClickableLabel from '../Stat/ClickableLabel'
+import Label from './Label'
+import ClickableLabel from './ClickableLabel'
 import classNames from 'classnames'
-import Rank from '../Stat/Rank'
+import Rank from './Rank'
 import { FaGraduationCap } from "react-icons/fa6";
 import { HiOutlineCurrencyDollar } from "react-icons/hi2";
 import ReactMarkdown from 'react-markdown'
@@ -156,7 +156,7 @@ function CharacterStats({ character, statKey, statType }: Props) {
             "grid grid-cols-[30%_10%_20%_40%] text-center": isPower,
             "grid grid-cols-[30%_10%_10%_10%_40%] text-left": isSpell
             })}>
-                {isBackgroundStory? null : 
+                {isBackgroundStory ? null : 
                     <>
                         {isSpellbook ? <Label storedLabel='Title' /> : <Label storedLabel='Name' />}
                         {(isStunt || isSpell) ? <Label storedLabel='Attempts' /> : (isSpellbook ? <Label storedLabel='Spell Count'/> : <Label storedLabel="Rank" />) }

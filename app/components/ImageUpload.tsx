@@ -3,11 +3,15 @@ import { getStorage, ref, uploadBytes } from 'firebase/storage'
 import { useAuth } from '../context/AuthContext'
 import Image from 'next/image'
 
-export default function ImageUpload(props){
+type Props = {
+    id : string
+    imageUrl : string
+} 
+
+export default function ImageUpload(props : Props){
     const {
         id,
         imageUrl,
-        handleImageChange
     } = props
     const { currentUser } = useAuth()
     const [imageFile, setImageFile] = useState('')
@@ -15,7 +19,7 @@ export default function ImageUpload(props){
     const storage = getStorage()
     const storageRef = ref(storage, "userId/images")
 
-    function handleImageFile(e){
+    function handleImageFile(e: { target: { files: any[] } }){
         if(e.target.files[0]){
             setImageFile(e.target.files[0])
         }

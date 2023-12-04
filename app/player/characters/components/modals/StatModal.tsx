@@ -2,7 +2,7 @@
 import { Character, CharacterContextProps, Talisman } from "@/app/context/CharacterTypes"
 import { useRef, useEffect } from "react"
 import SpellBooks from "../spellbook/Spellbooks"
-import CharacterStats from "../meritsflawsbackgrounds/CharacterStats"
+import CharacterStats from "../Stat/CharacterStats"
 import Title from "../Stat/Title"
 import Tabs from "../tabs/Tabs"
 import { useCharacter } from '@/app/context/CharacterContext'
