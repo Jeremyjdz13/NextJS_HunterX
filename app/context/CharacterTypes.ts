@@ -116,6 +116,7 @@ export type CharacterButtonProps = {
 }
 
 export type Character = {
+    consumedProtonium: any
     stunts: any
     physical: StatData[]
     combat: StatData[]

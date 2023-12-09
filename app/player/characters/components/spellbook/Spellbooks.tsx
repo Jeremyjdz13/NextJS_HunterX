@@ -29,7 +29,6 @@ function Spellbooks({
         const { inventory } = character
 
         const spellComponents = inventory.filter(item => item.isComponent === true)
-        console.log(spellComponents.length, "Spell comp")
         const tabs = [
             {
                 label: "Book Library",

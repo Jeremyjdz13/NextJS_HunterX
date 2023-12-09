@@ -144,6 +144,8 @@ function CharacterStats({ character, statKey, statType }: Props) {
                 </div>
 
     }
+
+
   return (
       <div>
           {(isTalisman || isBackgroundStory) ? null : <div onClick={handleOpenModal} className="cursor-pointer p-1 m-1">

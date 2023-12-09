@@ -19,9 +19,12 @@ function Protonium({character}: Props) {
         protonium,
         protoniumPool
     } = character
-    const { editCharacter } = useCharacter() as EditCharacter
+
+const { editCharacter } = useCharacter() as EditCharacter
 
     const protoniumGenerators = inventory.filter(item => item.isProtoniumGenerator === true);
+    const protoniumGeneratorTotal = protoniumGenerators.reduce((total, protoniumTotal) => total + protoniumTotal.rank, 0);
+    const totalPool: number = protonium.rank + protoniumGeneratorTotal
     
     function ProtoniumGeneratorList() {
         return (
@@ -43,20 +46,19 @@ function Protonium({character}: Props) {
         );
     }
 
-    useEffect(() => {
-        const protoniumGeneratorTotal = protoniumGenerators.reduce((total, protoniumTotal) => total + protoniumTotal.rank, 0);
-        const totalPool: number = protonium.rank + protoniumGeneratorTotal
+// useEffect(() => {
+        
+//     if (protoniumPool.rank !== totalPool) {
+//             const newCharacter = {...character, ['protoniumPool']: {
+//                 id: character.protoniumPool.id,
+//                 name: character.protoniumPool.name,
+//                 rank: totalPool
+//             }}
 
-        const newCharacter = {...character, ['protoniumPool']: {
-            id: character.protoniumPool.id,
-            name: character.protoniumPool.name,
-            rank: totalPool
-        }}
-
-        editCharacter(newCharacter)
-
-    }, [protoniumPool])
-
+//             editCharacter(newCharacter)
+//         }
+//     }, [])
+    
   return (
         <div className='flex flex-col m-1'>
             <div className='grid grid-cols-[80%_20%]'>

@@ -72,6 +72,13 @@ export default function EditStatForm({
     const isPurchasedRef = useRef<HTMLInputElement>(null)
     const markdownRef = useRef<HTMLTextAreaElement>(null)
 
+    const {
+        protonium,
+        inventory
+    } = character
+
+    const protoniumGenerators = inventory.filter(item => item.isProtoniumGenerator === true);
+    const hasProtoniumGenerators = inventory.some(item => item.isProtoniumGenerator)
 
     const isSkill = [
         "combat",
@@ -120,7 +127,9 @@ export default function EditStatForm({
     const isStunt = [
         "stunts"
     ].includes(statKey)
-
+    const isProtonium = [
+        'protonium'
+    ].includes(statKey)
     const isInventory = [
         "inventory"
     ].includes(statKey)
@@ -153,7 +162,7 @@ export default function EditStatForm({
                 '|',
                 'unordered-list', 'ordered-list',
                 '|',
-                'image', 'quote', 'table', 'horizontal-rule',
+                'quote', 'table', 'horizontal-rule',
                 '|',
                 'preview', 'side-by-side', 'fullscreen',
                 '|',
@@ -294,6 +303,7 @@ export default function EditStatForm({
 
         if (isSingleStat) {
             console.log(statKey, "Stat Key")
+            
             const newCharacter = {...character, [statKey]: {
                 id,
                 ...(isBackgroundStory ? {title: nameRef.current?.value}: {name: character[statKey]?.name}),
@@ -458,7 +468,7 @@ export default function EditStatForm({
                 inputRef: nameRef,
                 inputType: "text",
                 textArea: false,
-                htmlFor: `${nameRef}`
+                htmlFor: `${htmlFor}`
             };
 
             return (
@@ -489,7 +499,6 @@ export default function EditStatForm({
                     isTextArea: false,
                     htmlFor: "Title"
                 }
-                console.log(stat.markdown)
                 const markdownConfig={
                     title: "Story",
                     markdown: stat.markdown,
@@ -514,6 +523,7 @@ export default function EditStatForm({
        
         
    }
+  
    
 
    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -522,6 +532,8 @@ export default function EditStatForm({
        handleChangeStat()
       
     }
+
+
 
     return (
         

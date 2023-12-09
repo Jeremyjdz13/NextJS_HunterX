@@ -66,7 +66,6 @@ export default function StatModal({
             talismans: updatedTalismans
         };
     
-        console.log(newCharacter, "New Talismans");
         editCharacter(newCharacter);
     }, [character, inventory]);
     

@@ -1,13 +1,13 @@
 'use client'
-import { CharacterData, StatData } from "@/app/context/CharacterTypes";
+import { Character } from "@/app/context/CharacterTypes";
 import { useRef, useState } from "react"
-import DiceDropDownMenu from "./DiceDropDownMenu";
 import EditStatModal from "./EditStatModal";
-import Stat from "../Stat/Stat";
-
+import Title from "../Stat/Title";
+import { GiDiceFire } from "react-icons/gi";
+import SkillsMenu from "./SkillsMenu";
+import Row from './Row'
 
 type DiceModalProps = {
-    stat?: StatData | undefined
     id?: string | undefined
     name?: string | undefined
     rank?: number | undefined
@@ -32,8 +32,8 @@ export default function DiceModal({ statKey, id, name, rank, character } : DiceM
         physical,
         professional,
         mental,
-        protoniumPool
-    } = character as CharacterData
+    } = character as Character
+
     const isPowerAndTalisman = [
         'powers',
         'talismans'
@@ -304,6 +304,32 @@ export default function DiceModal({ statKey, id, name, rank, character } : DiceM
         
     }
 
+    function createCustomShorthand(text: string) {
+    const regexSpace = / /g
+    let shorthand = '';
+
+    if (text.match(regexSpace)) {
+        const words = text.split(' ');
+        if (words.length >= 1) {
+            shorthand += words[0].substring(0, 2);
+          }
+        
+        // For the second word, take the first two letters
+        if (words.length >= 2) {
+        shorthand += words[1].substring(0, 2);
+        }
+        
+        for (let i = 2; i < words.length; i++) {
+        shorthand += words[i].substring(0, 1);
+        }
+    } else {
+
+        return shorthand = text.substring(0, 3) 
+    }
+  
+    return shorthand
+  }
+
     return (
         <div className='border border-black rounded p-1 m-1 w-22'>
             <div className="p-1 text-center">
@@ -323,41 +349,81 @@ export default function DiceModal({ statKey, id, name, rank, character } : DiceM
             </div>
             <dialog 
                 ref={modalRef}
+                className="p-2 border border-black rounded"
             >
                 <button 
                     onClick={handleCloseModal}
-
+                    className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded m-1"
                 >close</button>
-                <div>{name} : {rank}</div>
-                <div>Column Rank : {handleRank()}</div>
-                <button
-                    onClick={handleClickD100}
-                >D: 100</button>
-                <div>
-                    <span>Base D100 Roll: {d100.D100Roll}</span><br />
-                    <span>Total Results: {d100.successTotal}</span><br />
-                    <span>Color: {d100.score}</span>
-                </div>
-                <div>
-                    <DiceDropDownMenu
-                        skillType="Combat"
-                        skills={combat}
-                    />
-                     <DiceDropDownMenu
-                        skillType="Physical"
-                        skills={physical}
-                    />
-                     <DiceDropDownMenu
-                        skillType="Professional"
-                        skills={professional}
-                    />
-                     <DiceDropDownMenu
-                        skillType="Mental"
-                        skills={mental}
-                    />
-                </div>
-                <div>
-                    Protonium Pool
+                <div className="p-1">
+                    <Title statGroupTitle={`${handleRank()} ${name}`}/>
+                    <div className="flex border p-2">
+                        <div className="flex flex-col border-r">
+                            <Title statGroupTitle="D 100" />
+                            <div className="flex flex-row">
+                                <button
+                                    onClick={handleClickD100}
+                                    className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-4 px-4 border border-blue-500 hover:border-transparent rounded"
+                                >
+                                    <GiDiceFire />
+                                </button>
+                                <div className="mx-2">
+                                    <div>Base: {d100.D100Roll}</div>
+                                    <div>Total Results: {d100.successTotal}</div>
+                                    <div>Success? {d100.score}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            {/* <ProtoniumPool character={character}/> */}
+                        </div>
+                    </div>
+                    <div className="flex flex-row">
+                        <SkillsMenu
+                            skills={combat}
+                            menuTitle={'Combat'}
+                            styles="border-r border-black p-1 text-left"
+                            renderSkill={(skill, isHighlighted) => <Row 
+                                key={skill.id}
+                                name={createCustomShorthand(skill.name)}
+                                rank={skill.rank}
+                                isHighlighted={isHighlighted}
+                            />}
+                        />
+                        <SkillsMenu
+                            styles="border-r border-black p-1 text-left"
+                            menuTitle={'Physical'}
+                            skills={physical}
+                            renderSkill={(skill, isHighlighted) => <Row 
+                                key={skill.id}
+                                name={createCustomShorthand(skill.name)}
+                                rank={skill.rank}
+                                isHighlighted={isHighlighted}
+                            />}
+                        />
+                        <SkillsMenu
+                            styles="border-r border-black p-1 text-left"
+                            menuTitle={'Professional'}
+                            skills={professional}
+                            renderSkill={(skill, isHighlighted) => <Row 
+                                key={skill.id}
+                                name={createCustomShorthand(skill.name)}
+                                rank={skill.rank}
+                                isHighlighted={isHighlighted}
+                            />}
+                        />
+                        <SkillsMenu
+                            styles="p-1 text-left"
+                            menuTitle={'Mental'}
+                            skills={mental}
+                            renderSkill={(skill, isHighlighted) => <Row 
+                                key={skill.id}
+                                name={createCustomShorthand(skill.name)}
+                                rank={skill.rank}
+                                isHighlighted={isHighlighted}
+                            />}
+                        />
+                    </div>
                 </div>
             </dialog>
             <EditStatModal

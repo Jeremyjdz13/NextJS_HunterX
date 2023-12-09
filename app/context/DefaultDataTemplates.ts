@@ -139,6 +139,9 @@ export const characterTemplate: CharacterTemplate = {
     name: 'Protonium Pool',
     rank: 0,
   },
+  protoniumConsumed: [
+
+  ],
   psyche: {
     id: uuidv4(),
     name: 'Psyche',
