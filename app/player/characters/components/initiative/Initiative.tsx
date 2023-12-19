@@ -1,12 +1,12 @@
 "use client"
-import { CharacterContextProps, CharacterData } from '@/app/context/CharacterTypes';
+import { CharacterContextProps, Character } from '@/app/context/CharacterTypes';
 import { useState } from 'react'
 import { useCharacter } from '@/app/context/CharacterContext';
 import { GiDiceFire } from "react-icons/gi";
 
 
 type InitiativeProps = {
-   character: CharacterData
+   character: Character
 }
 
 export default function Initiative({ character }: InitiativeProps) {
@@ -64,7 +64,7 @@ export default function Initiative({ character }: InitiativeProps) {
                 rank: newInitiative
              }}
 
-             editCharacter(newCharacter)
+             editCharacter(newCharacter as Character)
          }, 2000);
      }
 

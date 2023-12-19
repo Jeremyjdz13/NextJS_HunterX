@@ -3,14 +3,14 @@ import { useState } from "react";
 import Title from "../Stat/Title";
 
 
-type SkillsMenuProps = {
+export type SkillsMenuProps = {
     skills:  Skill[]
     styles: string
     renderSkill: any
     menuTitle: string
 }
 
-type Skill = {
+export type Skill = {
     id: string
     name: string
     rank: number

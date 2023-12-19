@@ -1,4 +1,3 @@
-'use client'
 import { Character } from '@/app/context/CharacterTypes'
 import React from 'react'
 import Health from './Health'

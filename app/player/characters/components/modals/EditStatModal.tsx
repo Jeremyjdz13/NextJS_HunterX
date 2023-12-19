@@ -2,14 +2,15 @@
 import { useRef } from "react";
 import Title from "../Stat/Title";
 import EditStatForm from "../forms/EditStatForm";
-import { CharacterData } from "@/app/context/CharacterTypes";
+import { Character, CharacterContextProps, StatData } from "@/app/context/CharacterTypes";
 import { useCharacter } from "@/app/context/CharacterContext";
+import useStatDiscovery from "../hooks/UseStatDiscovery";
 
 type EditStatModalProps = {
     statGroupTitle: string
     isOpen: boolean
     onClose: () => void
-    character: CharacterData
+    character: Character
     id: string
     statKey: string
     subId?: string
@@ -30,7 +31,7 @@ export default function EditStatModal({
 }: EditStatModalProps) {
     const modalRef = useRef<HTMLDialogElement | null>(null)
 
-    const { editCharacter } = useCharacter() 
+    const { editCharacter } = useCharacter() as CharacterContextProps
     const isSingleNestedArray = [
         "combat",
         "physical",
@@ -64,10 +65,12 @@ export default function EditStatModal({
         "nature"
     ].includes(statKey)
 
+    const stat = useStatDiscovery(character, statKey)
+
     function handleDelete() {
         if(isSingleNestedArray) {
             const updatedCharacter = {...character,
-            [statKey]: character[statKey].filter((stat: any) => stat.id !== id)}
+            [statKey]: (stat as StatData[]).filter((stat: StatData) => stat.id !== id)}
 
             editCharacter(updatedCharacter)
         }

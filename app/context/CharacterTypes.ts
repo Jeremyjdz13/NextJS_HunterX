@@ -123,15 +123,17 @@ export type Character = {
     professional: StatData[]
     mental: StatData[]
     merits: StatData[]
-    protonium: StatData
+    protonium: Protonium
     protoniumPool: StatData
+    initiative: StatData
+    intuition: StatData
     character: CharacterData
     lethal: StatData
     bashing: StatData
     death: StatData
     backgrounds: StatData[]
     flaws: StatData[]
-    inventory: StatData[]
+    inventory: Inventory[]
     name: string
     backgroundStory: BackgroundStory
     spellbooks: SpellData[]
@@ -161,4 +163,22 @@ export type Talisman = {
 
 export type StuntIds = {
     id: string
+}
+
+export type Inventory = {
+    id: string
+    name: string
+    rank: number
+    description: string
+    quantity: number
+    isArmor: boolean
+    isProtoniumGenerator: boolean
+    isTalisman: boolean
+    isComponent: boolean
+}
+
+export type Protonium = {
+    id: string
+    name: string
+    rank: number
 }

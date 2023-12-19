@@ -1,4 +1,3 @@
-'use client'
 import { Character, CharacterData } from "@/app/context/CharacterTypes"
 import React, { useEffect } from "react"
 import ClickableLabel from "../Stat/ClickableLabel"
@@ -45,7 +44,7 @@ export default function Health(
             return <span>Shhh!</span>
         }
         else {
-            return <></>
+            return <div>No Wound Penalties.</div>
         }
     }
    
@@ -77,7 +76,7 @@ export default function Health(
                 />
             )
         }else {
-            return <></>
+            return <div>No Wound Penalties.</div>
         }
     }
  

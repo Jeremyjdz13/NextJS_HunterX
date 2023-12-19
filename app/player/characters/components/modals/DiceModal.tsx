@@ -4,14 +4,15 @@ import { useRef, useState } from "react"
 import EditStatModal from "./EditStatModal";
 import Title from "../Stat/Title";
 import { GiDiceFire } from "react-icons/gi";
-import SkillsMenu from "./SkillsMenu";
+import SkillsMenu, { Skill, SkillsMenuProps } from "./SkillsMenu";
 import Row from './Row'
+import ProtoniumPool from "./ProtoniumPool";
 
 type DiceModalProps = {
-    id?: string | undefined
-    name?: string | undefined
-    rank?: number | undefined
-    character: CharacterData | undefined
+    id?: string 
+    name?: string 
+    rank?: number 
+    character: Character
     statKey: string
 }
 type D100 = {
@@ -369,21 +370,22 @@ export default function DiceModal({ statKey, id, name, rank, character } : DiceM
                                 </button>
                                 <div className="mx-2">
                                     <div>Base: {d100.D100Roll}</div>
+                                    <div>Bonus: </div>
                                     <div>Total Results: {d100.successTotal}</div>
                                     <div>Success? {d100.score}</div>
                                 </div>
                             </div>
                         </div>
                         <div>
-                            {/* <ProtoniumPool character={character}/> */}
+                            <ProtoniumPool character={character}/>
                         </div>
                     </div>
                     <div className="flex flex-row">
                         <SkillsMenu
-                            skills={combat}
+                            skills={combat as Skill[]}
                             menuTitle={'Combat'}
                             styles="border-r border-black p-1 text-left"
-                            renderSkill={(skill, isHighlighted) => <Row 
+                            renderSkill={(skill: Skill, isHighlighted: boolean) => <Row 
                                 key={skill.id}
                                 name={createCustomShorthand(skill.name)}
                                 rank={skill.rank}
@@ -393,8 +395,8 @@ export default function DiceModal({ statKey, id, name, rank, character } : DiceM
                         <SkillsMenu
                             styles="border-r border-black p-1 text-left"
                             menuTitle={'Physical'}
-                            skills={physical}
-                            renderSkill={(skill, isHighlighted) => <Row 
+                            skills={physical as Skill[]}
+                            renderSkill={(skill: Skill, isHighlighted:boolean) => <Row 
                                 key={skill.id}
                                 name={createCustomShorthand(skill.name)}
                                 rank={skill.rank}
@@ -404,8 +406,8 @@ export default function DiceModal({ statKey, id, name, rank, character } : DiceM
                         <SkillsMenu
                             styles="border-r border-black p-1 text-left"
                             menuTitle={'Professional'}
-                            skills={professional}
-                            renderSkill={(skill, isHighlighted) => <Row 
+                            skills={professional as Skill[]}
+                            renderSkill={(skill: Skill, isHighlighted: boolean) => <Row 
                                 key={skill.id}
                                 name={createCustomShorthand(skill.name)}
                                 rank={skill.rank}
@@ -415,8 +417,8 @@ export default function DiceModal({ statKey, id, name, rank, character } : DiceM
                         <SkillsMenu
                             styles="p-1 text-left"
                             menuTitle={'Mental'}
-                            skills={mental}
-                            renderSkill={(skill, isHighlighted) => <Row 
+                            skills={mental as Skill[]}
+                            renderSkill={(skill: Skill, isHighlighted: boolean) => <Row 
                                 key={skill.id}
                                 name={createCustomShorthand(skill.name)}
                                 rank={skill.rank}

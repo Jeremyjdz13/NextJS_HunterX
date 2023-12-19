@@ -6,8 +6,8 @@ import { SiCurseforge } from "react-icons/si";
 
 type Prop = {
     statGroupTitle: string;
-    statKey: string;
-    character: Character
+    statKey?: string;
+    character?: Character
 }
 export default function Title({ 
     statGroupTitle,

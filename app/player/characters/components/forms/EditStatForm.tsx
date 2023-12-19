@@ -1,40 +1,19 @@
 'use client'
 import React, { useCallback, useMemo, useRef, useState } from 'react'
-import { CharacterContextProps, CharacterData } from "@/app/context/CharacterTypes"
+import { CharacterContextProps, Character, StatData } from "@/app/context/CharacterTypes"
 import { useCharacter } from '@/app/context/CharacterContext'
 import SimpleMde, { SimpleMDEReactProps }  from "react-simplemde-editor"
 import "easymde/dist/easymde.min.css"
-interface EditStatFormProps {
+import useStatDiscovery from '../hooks/UseStatDiscovery'
+type EditStatFormProps = {
     id: string
     subId?: string
     statKey: string
     statSubKey?: string
     statGroupTitle?: string
     isStuntActive?: boolean
-    character: CharacterData
+    character: Character
     onClose: () => void
-}
-
-type FormElementProps = {
-    id: string
-    name : string
-    rank : number
-    description: string
-    quantity: number
-    isArmor: boolean
-    isComponent: boolean
-    isProtoniumGenerator: boolean
-    isMastered: boolean
-    isPurchased: boolean
-    isTalisman: boolean
-    duration: number
-    attempts: number
-    spellAssignmentId: string
-    statKey: string
-}
-
-type InputElement = {
-    inputConfig: ConfigData
 }
 
 type ConfigData = {
@@ -72,14 +51,9 @@ export default function EditStatForm({
     const isPurchasedRef = useRef<HTMLInputElement>(null)
     const markdownRef = useRef<HTMLTextAreaElement>(null)
 
-    const {
-        protonium,
-        inventory
-    } = character
+    const statValue = useStatDiscovery(character, statKey)
 
-    const protoniumGenerators = inventory.filter(item => item.isProtoniumGenerator === true);
-    const hasProtoniumGenerators = inventory.some(item => item.isProtoniumGenerator)
-
+    console.log(statValue, "StatValue")
     const isSkill = [
         "combat",
         "physical",
@@ -192,8 +166,8 @@ export default function EditStatForm({
 
         return 10
     }
-
-     function InputField(config: ConfigData){
+    
+     function InputField(config: ConfigData): React.JSX.Element{
 
         let inputElement = null;
         
@@ -255,7 +229,7 @@ export default function EditStatForm({
    function handleChangeStat() {
         if (isStatArray) {
             
-                const updatedStat = character[statKey].map((stat: any) => {
+                const updatedStat = (statValue as StatData[]).map((stat: any) => {
                     if (stat.id === id) {
                         return {
                             ...stat, 
@@ -302,11 +276,10 @@ export default function EditStatForm({
         }
 
         if (isSingleStat) {
-            console.log(statKey, "Stat Key")
             
             const newCharacter = {...character, [statKey]: {
                 id,
-                ...(isBackgroundStory ? {title: nameRef.current?.value}: {name: character[statKey]?.name}),
+                ...(isBackgroundStory ? {title: nameRef.current?.value}: {name: (statValue as StatData).name}),
                 ...(isBackgroundStory ? {} : {rank: parseInt(rankRef.current!.value)}),
                 ...(isBackgroundStory ? {markdown: markdownValue} : {})
 
@@ -319,11 +292,11 @@ export default function EditStatForm({
    function handleFormElement() {
 
         if(isStatArray) {
-
-            const stat = character[statKey].find((stat: any) => stat.id === id)
+            console.log(statValue, "StatValue")
+            const stat = character[statKey].find((stat: StatData) => stat.id === id)
             const nameConfig = {
                         title: "Name",
-                        defaultValue: stat.name,
+                        defaultValue: stat?.name,
                         inputRef: nameRef,
                         inputType: "text",
                         textArea: false,
@@ -331,7 +304,7 @@ export default function EditStatForm({
                     }
             const rankConfig = {
                 title: "Rank",
-                defaultValue: stat.rank,
+                defaultValue: stat?.rank,
                 inputRef: rankRef,
                 inputType: "number",
                 textArea: false,
@@ -339,7 +312,7 @@ export default function EditStatForm({
             }
             const castingConfig = {
                 title: "Casting",
-                defaultValue: stat.casting,
+                defaultValue: stat?.casting,
                 inputRef: castingRef,
                 inputType: "number",
                 textArea: false,
@@ -347,7 +320,7 @@ export default function EditStatForm({
             }
             const descriptionConfig = {
                 title: "Description",
-                defaultValue: stat.description,
+                defaultValue: stat?.description,
                 inputRef: descriptionRef,
                 inputType: "text",
                 isTextArea: true,
@@ -355,7 +328,7 @@ export default function EditStatForm({
             }
             const quantityConfig = {
                 title: "Quantity",
-                defaultValue: stat.quantity,
+                defaultValue: stat?.quantity,
                 inputRef: quantityRef,
                 inputType: "number",
                 isTextArea: false,
@@ -363,7 +336,7 @@ export default function EditStatForm({
             }
             const durationConfig = {
                 title: "Duration",
-                defaultValue: stat.duration,
+                defaultValue: stat?.duration,
                 inputRef: durationRef,
                 inputType: "number",
                 isTextArea: false,
@@ -371,7 +344,7 @@ export default function EditStatForm({
             }
             const componentConfig = {
                 title: "Spell Component",
-                defaultChecked: stat.isComponent,
+                defaultChecked: stat?.isComponent,
                 inputRef: isComponentRef,
                 inputType: "checkbox",
                 isTextArea: false,
@@ -379,7 +352,7 @@ export default function EditStatForm({
             }
             const armorConfig = {
                 title: "Armor",
-                defaultChecked: stat.isArmor,
+                defaultChecked: stat?.isArmor,
                 inputRef: isArmorRef,
                 inputType: "checkbox",
                 isTextArea: false,
@@ -387,7 +360,7 @@ export default function EditStatForm({
             }
             const protoniumGeneratorConfig = {
                 title: "Protonium Generator",
-                defaultChecked: stat.isProtoniumGenerator,
+                defaultChecked: stat?.isProtoniumGenerator,
                 inputRef: isProtoniumGeneratorRef,
                 inputType: "checkbox",
                 isTextArea: false,
@@ -395,7 +368,7 @@ export default function EditStatForm({
             }
             const talismanConfig = {
                 title: "Talisman",
-                defaultChecked: stat.isTalisman,
+                defaultChecked: stat?.isTalisman,
                 inputRef: isTalismanRef,
                 inputType: "checkbox",
                 isTextArea: false,
@@ -403,7 +376,7 @@ export default function EditStatForm({
             }
             const masteredConfig = {
                 title: "Mastered",
-                defaultChecked: stat.isMastered,
+                defaultChecked: stat?.isMastered,
                 inputRef: isMasteredRef,
                 inputType: "checkbox",
                 isTextArea: false,
@@ -411,7 +384,7 @@ export default function EditStatForm({
             }
             const purchasedConfig = {
                 title: "Purchased",
-                defaultChecked: stat.isPurchased,
+                defaultChecked: stat?.isPurchased,
                 inputRef: isPurchasedRef,
                 inputType: "checkbox",
                 isTextArea: false,
@@ -458,7 +431,7 @@ export default function EditStatForm({
         }
 
         if (isNameNatureAlias) {
-            const stat : any = character[statKey];
+            const stat = character[statKey]  
             const title : string = statKey === "alias" ? "Alias" : statKey === "nature" ? "Nature" : "Name";
             const htmlFor : string = statKey === "alias" ? "Alias" : statKey === "nature" ? "Nature" : "Name";
         
@@ -473,16 +446,16 @@ export default function EditStatForm({
 
             return (
                 <div className='z-1000'>
-                {InputField(nameConfig)} 
+                {InputField(nameConfig as ConfigData)} 
                 </div>
             )
         }
         if (isSingleStat) {
-            const stat = character[statKey]
+            const stat = statValue as StatData
            
             const rankConfig = {
                 title: "Rank",
-                defaultValue: stat.rank,
+                defaultValue: stat?.rank,
                 inputRef: rankRef,
                 inputType: "number",
                 textArea: false,
@@ -499,7 +472,7 @@ export default function EditStatForm({
                     isTextArea: false,
                     htmlFor: "Title"
                 }
-                const markdownConfig={
+                const markdownConfig = {
                     title: "Story",
                     markdown: stat.markdown,
                     inputRef: markdownRef,

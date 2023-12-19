@@ -1,6 +1,5 @@
 import { useCharacter } from '@/app/context/CharacterContext';
 import { Character } from '@/app/context/CharacterTypes';
-import { powerTemplate, skillTemplate, talismanTemplate } from '@/app/context/DefaultDataTemplates';
 import React from 'react'
 
 type Props = {
