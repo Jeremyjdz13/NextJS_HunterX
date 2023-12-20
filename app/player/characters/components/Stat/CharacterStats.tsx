@@ -15,7 +15,7 @@ import Rank from './Rank'
 import { FaGraduationCap } from "react-icons/fa6";
 import { HiOutlineCurrencyDollar } from "react-icons/hi2";
 import ReactMarkdown from 'react-markdown'
-
+import useStatKeyCheck from '../hooks/UseStatKeyCheck'
 
 
 type Props = {
@@ -48,45 +48,64 @@ type Stat = {
 function CharacterStats({ character, statKey, statType }: Props) {
   const { editCharacter } = useCharacter() as EditCharacter
 
-  const stats: Stat[] = character[statKey] 
-
-  const isInventoryItem = [
-    "inventory"
-  ].includes(statKey)
-
-  const isNameRank = [
-    "combat",
-    "physical",
-    "professional",
-    "mental"
-  ].includes(statKey)
-
-  const isStunt = [
-    "stunts"
-  ].includes(statKey)
-
-  const isPower = [
-    "powers"
-  ].includes(statKey)
-
-  const isSpellbook = [
-    "spellbooks"
-  ].includes(statKey)
-
-  const isSpell = [
-    "spells"
-  ].includes(statKey)
-  
-  const isTalisman = [
-    "talismans"
-  ].includes(statKey)
-
-  const isBackgroundStory = [
-    "backgroundStory"
-  ].includes(statKey)
-  
+  const stats: Stat[] = character[statKey]  
   const modalRef = useRef(null)
-    
+  const keyCheck = useStatKeyCheck(statKey)
+
+  let power = false
+
+  if(keyCheck === 'isPower'){
+     power = true
+  }
+
+  let talisman = false
+
+  if(keyCheck === 'isTalisman'){
+    talisman = true
+  }
+
+  let spellBook = false
+
+  if(keyCheck === 'isSpellbook'){
+    spellBook = true
+  }
+
+  let inventory = false
+
+  if(keyCheck === 'isInventoryItem'){
+    inventory = true
+  }
+
+  let nameRankDescription = false 
+
+  if(keyCheck === 'isNameRankDescription'){
+    nameRankDescription = true
+  }
+
+  let backgroundStory = false
+
+  if(keyCheck === 'isBackgroundStory'){
+    backgroundStory = true
+  }
+
+  let spell = false
+
+  if(keyCheck === 'isSpell'){
+    spell = true
+  }
+
+  let stunt = false
+
+  if(keyCheck === 'isStunt'){
+    stunt = true
+  }
+
+  let skill = false
+
+  if(keyCheck === 'isSkill'){
+    skill = true
+  }
+
   function handleOpenModal() {
       (modalRef.current! as HTMLDialogElement).showModal()
   }
@@ -103,26 +122,33 @@ function CharacterStats({ character, statKey, statType }: Props) {
             {
                 id: uuidv4(),
                 name: `new ${statType}`,
-                ...(isSpellbook ? {} : {rank: 1}),
-                ...(isSpellbook ? {spellIds: [] } : {}),
-                ...(isNameRank ? {} : {description: "Write a description"}),
-                ...(isInventoryItem ? {
+                ...(spellBook ? {} : {rank: 1}),
+                ...(spellBook ? {spellIds: [] } : {}),
+                ...((
+                  nameRankDescription || 
+                  inventory || 
+                  spell || 
+                  stunt || 
+                  power || 
+                  spellBook
+                  ) ? {description: "Write a description"} : {}),
+                ...(inventory ? {
                     quantity: 1,
                     isArmor: false,
                     isProtoniumGenerator: false,
                     isComponent: false,
                     isTalisman: false,  
                 } : {}),
-                ...(isStunt ? {
+                ...(stunt ? {
                     isMastered: false,
                     isArmor: false,
                     isComponent: false,
                     duration: 0,
                 }: {}),
-                ...(isPower ? {
+                ...(power ? {
                     stuntIds: []
                 }: {}),
-                ...(isSpell ? {
+                ...(spell ? {
                     isMastered: false,
                     isPurchased: false,
                     componentIds: [],
@@ -137,7 +163,7 @@ function CharacterStats({ character, statKey, statType }: Props) {
     }
     function handleStuntTotals(ids: any){
 
-        const stuntTotal = ids.length
+        const stuntTotal = ids?.length
 
         return <div>
                     {stuntTotal}
@@ -145,33 +171,40 @@ function CharacterStats({ character, statKey, statType }: Props) {
 
     }
 
-
   return (
       <div>
-          {(isTalisman || isBackgroundStory) ? null : <div onClick={handleOpenModal} className="cursor-pointer p-1 m-1">
+          {(keyCheck === 'isTalisman' || backgroundStory) ? null : <div onClick={handleOpenModal} className="cursor-pointer p-1 m-1">
             <SiCurseforge />
           </div>}
           <div className={classNames({
-            "grid grid-cols-[80%_20%]" : isNameRank,
-            "grid grid-cols-[30%_20%_50%]": !isInventoryItem,
-            "grid grid-cols-[40%_10%_10%_40%]": (isInventoryItem || isStunt),
-            "grid grid-cols-[30%_10%_20%_40%] text-center": isPower,
-            "grid grid-cols-[30%_10%_10%_10%_40%] text-left": isSpell
+            "grid grid-cols-[80%_20%]" : skill,
+            "grid grid-cols-[30%_20%_50%]": spellBook || nameRankDescription || talisman,
+            "grid grid-cols-[40%_10%_10%_40%]": inventory || stunt,
+            "grid grid-cols-[30%_10%_20%_40%] text-center": power ,
+            "grid grid-cols-[30%_10%_10%_10%_40%] text-left": spell
             })}>
-                {isBackgroundStory ? null : 
+                {backgroundStory ? null : 
                     <>
-                        {isSpellbook ? <Label storedLabel='Title' /> : <Label storedLabel='Name' />}
-                        {(isStunt || isSpell) ? <Label storedLabel='Attempts' /> : (isSpellbook ? <Label storedLabel='Spell Count'/> : <Label storedLabel="Rank" />) }
-                        {isInventoryItem && <Label storedLabel='Quantity' />}
-                        {isSpell && <Label storedLabel='Casting' />}
-                        {(isStunt || isSpell) && <Label storedLabel='Duration' /> } 
-                        {isPower && <Label storedLabel='Total Stunts' />}  
-                        {!isNameRank && <Label storedLabel='Description' />}
+                        {spellBook ? <Label storedLabel='Title' /> : <Label storedLabel='Name' />}
+                        {(spell || stunt)? <Label storedLabel='Attempts' /> : (spellBook ? <Label storedLabel='Spell Count'/> : <Label storedLabel="Rank" />) }
+                        {inventory && <Label storedLabel='Quantity' />}
+                        {spell && <Label storedLabel='Casting' />}
+                        {(spell || stunt) && <Label storedLabel='Duration' /> } 
+                        {power && <Label storedLabel='Total Stunts' />}  
+                        {(
+                          nameRankDescription || 
+                          inventory || 
+                          spell || 
+                          stunt || 
+                          power || 
+                          spellBook ||
+                          talisman
+                          ) ? <Label storedLabel='Description' /> : null}
                     </>
                 }
           </div>
           <div>
-              {isBackgroundStory ? 
+              {backgroundStory ? 
                 <div key={stats.id}
                 >
                      <ClickableLabel 
@@ -184,18 +217,18 @@ function CharacterStats({ character, statKey, statType }: Props) {
                     <div className='p-3 prose'>
                         <ReactMarkdown>{stats.markdown}</ReactMarkdown>
                     </div>          
-                </div> : 
+                </div>  : 
                 
-                    stats.map((stat) => (
+                  Array.isArray(stats) && stats?.map((stat) => (
                         <div 
                             key={stat.id}
                             className={
                               classNames({
-                                  "grid grid-cols-[80%_20%]" : isNameRank,
-                                  "grid grid-cols-[30%_20%_50%]": !isInventoryItem,
-                                  "grid grid-cols-[40%_10%_10%_40%]": (isInventoryItem || isStunt),
-                                  "grid grid-cols-[30%_10%_20%_40%] text-center": isPower,
-                                  "grid grid-cols-[30%_10%_10%_10%_40%] text-left": isSpell
+                                  "grid grid-cols-[80%_20%]" : skill,
+                                  "grid grid-cols-[30%_20%_50%]": spellBook || nameRankDescription || talisman,
+                                  "grid grid-cols-[40%_10%_10%_40%]": inventory || stunt,
+                                  "grid grid-cols-[30%_10%_20%_40%] text-center": power ,
+                                  "grid grid-cols-[30%_10%_10%_10%_40%] text-left": spell
                                 })
                             }
                         >
@@ -217,13 +250,21 @@ function CharacterStats({ character, statKey, statType }: Props) {
                             </div>
                               {stat.isMastered ?
                                <div className='p-1'><FaGraduationCap /></div> : 
-                               (isSpellbook ? <div className='p-1'>{stat.spellIds.length}</div>: <Rank rank={stat.rank} />)
+                               (spellBook ? <div className='p-1'>{stat.spellIds?.length}</div>: <Rank rank={stat.rank} />)
                               }
-                              {isSpell ? <div className='p-1'>{stat.casting}</div> : null}
-                              {isInventoryItem && <Rank rank={stat.quantity} />}
-                              {(isStunt || isSpell )&& <Rank rank={stat.duration}/>}
-                              {isPower && handleStuntTotals(stat.stuntIds)}
-                              {!isNameRank && <div>{stat.description}</div>}
+                              {spell ? <div className='p-1'>{stat.casting}</div> : null}
+                              {inventory ? <Rank rank={stat.quantity}  /> : null}
+                              {(spell || stunt) ? <Rank rank={stat.duration}/> : null}
+                              {power ? handleStuntTotals(stat.stuntIds) : null}
+                              {(
+                                nameRankDescription || 
+                                inventory || 
+                                spell || 
+                                stunt || 
+                                power ||
+                                spellBook ||
+                                talisman
+                                ) ? <div>{stat.description}</div> : null}
                         </div>
                             
                     ))

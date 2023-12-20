@@ -466,7 +466,7 @@ export default function EditStatForm({
 
                 const titleConfig = {
                     title: "Title",
-                    defaultValue: stat.title,
+                    defaultValue: stat?.title,
                     inputRef: nameRef,
                     inputType: "text",
                     isTextArea: false,
@@ -474,7 +474,7 @@ export default function EditStatForm({
                 }
                 const markdownConfig = {
                     title: "Story",
-                    markdown: stat.markdown,
+                    markdown: stat?.markdown,
                     inputRef: markdownRef,
                     inputType: "text",
                     isTextArea: false,
