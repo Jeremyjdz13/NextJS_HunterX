@@ -32,7 +32,7 @@ export default function EditStatModal({
     const modalRef = useRef<HTMLDialogElement | null>(null)
 
     const { editCharacter } = useCharacter() as CharacterContextProps
-    const isSingleNestedArray = [
+    const isDelete = [
         "combat",
         "physical",
         "professional",
@@ -43,7 +43,9 @@ export default function EditStatModal({
         "flaws",
         "powers",
         "stunts",
-        "talismans"
+        "talismans",
+        "spellbooks",
+        "spells",
     ].includes(statKey)
 
     const isNotDelete = [
@@ -68,7 +70,7 @@ export default function EditStatModal({
     const stat = useStatDiscovery(character, statKey)
 
     function handleDelete() {
-        if(isSingleNestedArray) {
+        if(isDelete) {
             const updatedCharacter = {...character,
             [statKey]: (stat as StatData[]).filter((stat: StatData) => stat.id !== id)}
 
@@ -81,7 +83,7 @@ export default function EditStatModal({
         <dialog 
             open={isOpen} 
             ref={modalRef}
-            className="border border-black p-4 inset-0"
+            className="border border-black p-4 z-10 inset-0"
         >
             <div className="flex flex-row">
                 {isNotDelete ? null : <button

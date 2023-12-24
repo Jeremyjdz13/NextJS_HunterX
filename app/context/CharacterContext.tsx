@@ -51,7 +51,6 @@ export function CharacterProvider({ children }: { children: ReactNode}) {
         getDocs(charactersRef)
             .then((querySnapshot) => {
                 const charactersData = querySnapshot.docs.map((doc) => doc.data() as CharacterData);
-                console.log(charactersData, "charactersData")
                 if(charactersData.length === 0){
                 
                 console.log(charactersData, "not found")

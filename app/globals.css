@@ -25,3 +25,7 @@ body {
     @apply font-extrabold text-4xl
   }
 }
+
+.icon {
+  vertical-align: bottom;
+}

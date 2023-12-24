@@ -16,6 +16,7 @@ import { FaGraduationCap } from "react-icons/fa6";
 import { HiOutlineCurrencyDollar } from "react-icons/hi2";
 import ReactMarkdown from 'react-markdown'
 import useStatKeyCheck from '../hooks/UseStatKeyCheck'
+import useStatDiscovery from '../hooks/UseStatDiscovery'
 
 
 type Props = {
@@ -204,8 +205,8 @@ function CharacterStats({ character, statKey, statType }: Props) {
                 }
           </div>
           <div>
-              {backgroundStory ? 
-                <div key={stats.id}
+              {backgroundStory? 
+                <div key={"backgroundStory"}
                 >
                      <ClickableLabel 
                         id={stats.id} 

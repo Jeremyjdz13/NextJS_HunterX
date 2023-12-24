@@ -16,13 +16,11 @@ function StatModals({ character }: Props) {
             statGroupTitle={"Spell Library"}
             statKey={"spellbooks"}
             character={character}
-            statType=''
         />
         <StatModal
             key={'Powers'}
             statGroupTitle={"Powers"}
             statKey={'powers'}
-            statType='Power'
             character={character}
         />
         <StatModal
@@ -30,7 +28,6 @@ function StatModals({ character }: Props) {
             statGroupTitle='Talismans'
             statKey='talismans'
             character={character}
-            statType=''
         />
     </section>
   )

@@ -1,21 +1,21 @@
-import { CharacterData } from '@/app/context/CharacterTypes'
+import { Character } from '@/app/context/CharacterTypes'
 import React from 'react'
 import ClickableLabel from '../Stat/ClickableLabel'
 import DiceModal from '../modals/DiceModal'
 
 type Props = {
-    character: CharacterData
+    character: Character
 }
 function CoreAbilities({ character } : Props) {
 
     const {
-        strength,
         fight,
         endurance,
         agility,
         psyche,
         intuition,
-        reason
+        reason,
+        strength 
     } = character
 
   return (

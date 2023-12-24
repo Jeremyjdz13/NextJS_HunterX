@@ -56,6 +56,8 @@ export type StatData = {
     isArmor?: boolean
     duration?: number
     stunt?: Stunt[]
+    stuntIds?: string[] | undefined
+    spellIds?: string[] | undefined
     casting?: number
     quantity?: number
     isComponent?: boolean
@@ -80,7 +82,7 @@ export type GroupName = {
 export type Stunt = {
     id: string
     name: string
-    attempts: number
+    rank: number
     description: string
     isMastered: boolean
     isArmor: boolean
@@ -117,7 +119,7 @@ export type CharacterButtonProps = {
 
 export type Character = {
     consumedProtonium: any
-    stunts: any
+    stunts: Stunt[]
     physical: StatData[]
     combat: StatData[]
     professional: StatData[]
@@ -138,8 +140,19 @@ export type Character = {
     backgroundStory: BackgroundStory
     spellbooks: SpellData[]
     spells: SpellData
-    powers: StatData[]
+    powers: Power[]
     talismans: Talisman[]
+    strength: StatData
+    fight: StatData
+    endurance: StatData
+    experience: StatData
+    karma: StatData
+    reason: StatData
+    psyche: StatData
+    agility: StatData
+    imageURL: StatData
+    createdAt: string
+    
 }
 
 export type BackgroundStory = {
@@ -159,6 +172,22 @@ export type Talisman = {
     isProtoniumGenerator: boolean
     isComponent: boolean
     stuntIds: StuntIds[]
+}
+
+export type Power = {
+    id: string
+    name: string
+    rank: number
+    description: string
+    stuntIds: StuntIds[]
+}
+
+export type Spellbook = {
+    id: string
+    name: string
+    rank: number
+    description: string
+    spellIds: SpellIds[]
 }
 
 export type StuntIds = {
@@ -181,4 +210,8 @@ export type Protonium = {
     id: string
     name: string
     rank: number
+}
+
+export type SpellIds = {
+    id: string
 }

@@ -53,7 +53,6 @@ export default function EditStatForm({
 
     const statValue = useStatDiscovery(character, statKey)
 
-    console.log(statValue, "StatValue")
     const isSkill = [
         "combat",
         "physical",
@@ -292,7 +291,6 @@ export default function EditStatForm({
    function handleFormElement() {
 
         if(isStatArray) {
-            console.log(statValue, "StatValue")
             const stat = character[statKey].find((stat: StatData) => stat.id === id)
             const nameConfig = {
                         title: "Name",

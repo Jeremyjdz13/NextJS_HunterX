@@ -6,7 +6,7 @@ import DiceModal from "../modals/DiceModal"
 import Rank from "./Rank"
 import classnames from 'classnames'
 import Title from "./Title"
-
+import AddStuntOrSpell from "../modals/AddStuntOrSpell"
 
 type ClickableLabelProps = {
     rank?: number | undefined
@@ -23,6 +23,22 @@ export default function ClickableLabel({ name, id, statKey, rank, character } : 
     const isPowersAndTalismans = [
         "powers",
         "talismans"
+    ].includes(statKey)
+
+    const isPower = [
+        "powers",
+    ].includes(statKey)
+    console.log(isPower, "isPower")
+    const isTalismans = [
+        "talismans",
+    ].includes(statKey)
+
+    const isStunts = [
+        "stunts",
+    ].includes(statKey)
+
+    const isSpells = [
+        "spells",
     ].includes(statKey)
 
     const isColumnStat = [
@@ -52,10 +68,11 @@ export default function ClickableLabel({ name, id, statKey, rank, character } : 
         "spells",
         "backgroundStory"
     ].includes(statKey)
+
     const isBackgroundStory = [ "backgroundStory" ].includes(statKey)
 
     function handleDiceClickableTitles() {
-        const stat: StatData | undefined = character?.[statKey]
+        const stat: StatData = character[(statKey as keyof Character)]
         if(isPowersAndTalismans) {
             const statArray: StatData | undefined = Array.isArray(stat) && stat?.find(item => item.id === id)
             if (statArray) {
@@ -72,7 +89,7 @@ export default function ClickableLabel({ name, id, statKey, rank, character } : 
         }        
     }
 
-    function handleContextMenu(e: { preventDefault: () => void}){
+       function handleContextMenu(e: { preventDefault: () => void}){
         e.preventDefault()
 
         setIsModalOpen(true)
@@ -84,10 +101,7 @@ export default function ClickableLabel({ name, id, statKey, rank, character } : 
     return (
         <div>
             {
-                (
-                    statKey === 'powers' ||
-                    statKey === 'talismans'
-                ) ? handleDiceClickableTitles() : 
+                isPowersAndTalismans ? handleDiceClickableTitles() : 
                 (
                     <div className="flex flex-col">
                         <div className={classnames(
@@ -105,7 +119,7 @@ export default function ClickableLabel({ name, id, statKey, rank, character } : 
                                 )}
                                 onContextMenu={handleContextMenu}
                             >
-                                {isBackgroundStory ? <Title statGroupTitle={name}/> : name}
+                                {isBackgroundStory ? <Title statGroupTitle={name}/> : (isStunts || isSpells ?<AddStuntOrSpell name={name} id={id} character={character} statKey={isStunts ? (isPower ? "powers" : "talismans") : "spellbooks"}/> : name)}
                             </div>
                             {isTabStat ? null : <Rank rank={rank} />}
                         </div>

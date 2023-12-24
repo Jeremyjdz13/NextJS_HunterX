@@ -9,6 +9,7 @@ import Tabs from '../tabs/Tabs'
 import { MdOutlineScience } from 'react-icons/md'
 import { AiOutlineDingtalk } from 'react-icons/ai'
 import CharacterStats from '../Stat/CharacterStats'
+import Title from '../Stat/Title'
 
 type Props = {
     spellbook: SpellData[]
@@ -34,6 +35,44 @@ function Spellbooks({
                         statType='Spell Book' 
                     />
             },
+            ...character.spellbooks.map((book: any) => ({
+                label: book.name,
+                content: (
+                    <div>
+                        <Title statGroupTitle={"Spells"} />
+                        <div>
+                            <div 
+                                className="flex flex-row justify-center text-center  border-b border-black/80"
+                            >
+                                <div className="flex-1" >Title</div>
+                                <div className="flex-1">Attempts</div>
+                                <div className="flex-1">Description</div>
+                            </div>
+                        {
+                            book.spellIds.length > 0 ? (  character.spells
+                                .filter((spell: any) => book.spellIds.includes(spell.id))
+                                .map((filteredSpell: any) => (
+                                   <div 
+                                        key={filteredSpell.id}
+                                        className="flex flex-row justify-center text-center "
+                                    >
+                                        <div className="flex-1" >{filteredSpell.name}</div>
+                                        <div className="flex-1">
+                                            { filteredSpell.isMastered === true ? 
+                                               "Mastered": 
+                                                filteredSpell.rank
+                                            }
+                                        </div>
+                                        <div className="flex-1">{filteredSpell.description}</div>
+                                   </div>
+                                ))): (
+                                <div>No assigned spells.</div>
+                            )
+                        }
+                        </div>
+                    </div>
+                )
+            })),
             {
               label: "Spell Library",
               content: <CharacterStats

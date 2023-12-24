@@ -6,12 +6,12 @@ import CharacterStats from "../Stat/CharacterStats"
 import Title from "../Stat/Title"
 import Tabs from "../tabs/Tabs"
 import { useCharacter } from '@/app/context/CharacterContext'
-
+import { FaGraduationCap } from "react-icons/fa6"
+import useTalismanDiscovery from "../hooks/UseTalismanDiscovery"
 
 type Props = {
     statGroupTitle: string
     statKey: keyof Character
-    statType: string
     character: Character
 }
 
@@ -23,8 +23,10 @@ export default function StatModal({
         statKey,
         character  
     }: Props) {
-    const { inventory } = character
+    
     const { editCharacter } = useCharacter() as CharacterContextProps
+
+    useTalismanDiscovery({character, editCharacter})
 
     const modalRef = useRef(null)
     const isPowers = [
@@ -47,27 +49,7 @@ export default function StatModal({
         (modalRef.current! as HTMLDialogElement).close()
     }
 
-    useEffect(() => {
-        const talismansFromInventory: any = inventory.filter(item => item.isTalisman === true);
     
-        const newTalismans = talismansFromInventory.filter((talisman: Talisman) => {
-            // Check if the talisman from inventory already exists in character.talismans
-            const isTalismanPresent = character.talismans.find(
-                (item: Talisman) => item.id === talisman.id
-            );
-            
-            return !isTalismanPresent; // Return only the new talismans not present in character.talismans
-        });
-    
-        const updatedTalismans = [...character.talismans, ...newTalismans];
-    
-        const newCharacter = {
-            ...character,
-            talismans: updatedTalismans
-        };
-    
-        editCharacter(newCharacter);
-    }, [character, inventory]);
     
     function handleStatGroupModal() {
         if (isSpellbook) {
@@ -93,14 +75,31 @@ export default function StatModal({
                         <div>
                             <Title statGroupTitle={"Power Stunts"} />
                             <div>
+                                <div 
+                                    className="flex flex-row justify-center text-center  border-b border-black/80"
+                                >
+                                    <div className="flex-1" >Title</div>
+                                    <div className="flex-1">Attempts</div>
+                                    <div className="flex-1">Description</div>
+                                </div>
                             {
-                                power.stuntIds.length > 0 ? (
-                                    power.stuntIds.map(stunt => (
-                                        <div key={stunt.id}>
-                                            {stunt.name}
-                                        </div>
-                                    ))
-                                ) : (
+                                power.stuntIds.length > 0 ? (  character.stunts
+                                    .filter(stunt => power.stuntIds.includes(stunt.id))
+                                    .map(filteredStunt => (
+                                       <div 
+                                            key={filteredStunt.id}
+                                            className="flex flex-row justify-center text-center "
+                                        >
+                                            <div className="flex-1" >{filteredStunt.name}</div>
+                                            <div className="flex-1">
+                                                { filteredStunt.isMastered === true ? 
+                                                   "Mastered": 
+                                                    filteredStunt.rank
+                                                }
+                                            </div>
+                                            <div className="flex-1">{filteredStunt.description}</div>
+                                       </div>
+                                    ))): (
                                     <div>No assigned stunts.</div>
                                 )
                             }
@@ -131,18 +130,35 @@ export default function StatModal({
                     <div>
                         <Title statGroupTitle={"Power Stunts"} />
                         <div>
-                        {
-                            talisman.stuntIds?.length > 0 ? (
-                                talisman.stuntIds.map(stunt => (
-                                    <div key={stunt.id}>
-                                        {stunt.name}
-                                    </div>
-                                ))
-                            ) : (
-                                <div>No assigned stunts.</div>
-                            )
-                        }
-                        </div>
+                                <div 
+                                    className="flex flex-row justify-center text-center  border-b border-black/80"
+                                >
+                                    <div className="flex-1" >Title</div>
+                                    <div className="flex-1">Attempts</div>
+                                    <div className="flex-1">Description</div>
+                                </div>
+                            {
+                                talisman.stuntIds.length > 0 ? (  character.stunts
+                                    .filter(stunt => talisman.stuntIds.includes(stunt.id))
+                                    .map(filteredStunt => (
+                                       <div 
+                                            key={filteredStunt.id}
+                                            className="flex flex-row justify-center text-center "
+                                        >
+                                            <div className="flex-1" >{filteredStunt.name}</div>
+                                            <div className="flex-1">
+                                                { filteredStunt.isMastered === true ? 
+                                                   "Mastered": 
+                                                    filteredStunt.rank
+                                                }
+                                            </div>
+                                            <div className="flex-1">{filteredStunt.description}</div>
+                                       </div>
+                                    ))): (
+                                    <div>No assigned stunts.</div>
+                                )
+                            }
+                            </div>
                     </div>
                 )
             })),
