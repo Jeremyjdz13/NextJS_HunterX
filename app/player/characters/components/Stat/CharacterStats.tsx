@@ -26,24 +26,24 @@ type Props = {
 }
 
 type Stat = {
-    markdown: string
-    title: string | undefined
-    casting: number
-    isPurchased: boolean
-    spellIds: any
-    stuntIds: []
-    duration: number | undefined
-    isMastered: boolean
+    markdown?: string
+    title?: string 
+    casting?: number
+    isPurchased?: boolean
+    spellIds?: []
+    stuntIds?: []
+    duration?: number 
+    isMastered?: boolean
     id: string
-    name: string
-    rank: number
-    quantity: number
-    description: string
-    isTalisman: boolean
-    isArmor: boolean
-    isComponent: boolean
-    isProtoniumGenerator: boolean
-    spellAssignmentIds: {id: string}[]
+    name?: string
+    rank?: number
+    quantity?: number
+    description?: string
+    isTalisman?: boolean
+    isArmor?: boolean
+    isComponent?: boolean
+    isProtoniumGenerator?: boolean
+    spellAssignmentIds?: {id: string}[]
 }
 
 function CharacterStats({ character, statKey, statType }: Props) {

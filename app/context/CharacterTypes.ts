@@ -180,7 +180,7 @@ export type Power = {
     rank: number
     description: string
     stuntIds: StuntIds[]
-}
+} 
 
 export type Spellbook = {
     id: string
@@ -215,3 +215,5 @@ export type Protonium = {
 export type SpellIds = {
     id: string
 }
+
+export type Id = string
