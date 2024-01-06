@@ -1,16 +1,14 @@
 'use client'
 import React from 'react'
-import { Character } from '@/app/context/CharacterTypes'
 import ClickableTitle from '../Stat/ClickableTitle'
 import ClickableLabel from '../Stat/ClickableLabel'
 import Initiative from '../initiative/Initiative'
-
+import { Character } from '@/app/context/CharacterTypes'
 
 type Props = {
     character: Character
 }
 function BasicInformation({ character }: Props) {
-
     const {
         id,
         name,
@@ -28,26 +26,23 @@ function BasicInformation({ character }: Props) {
             <ClickableTitle
                 key={'name'}
                 id={id} 
-                statGroupTitle="Name"
+                title="Name"
                 statKey='name'
-                character={character}
                 stat={name}
             />
             <ClickableTitle
                 key={'alias'}
                 id={id} 
-                statGroupTitle="Alias"
+                title="Alias"
                 statKey='alias'
-                character={character}
                 stat={alias}
                 />
 
             <ClickableTitle
                 key={'nature'}
                 id={id} 
-                statGroupTitle="Nature"
+                title="Nature"
                 statKey='nature'
-                character={character}
                 stat={nature}
             />
         </div>
@@ -57,7 +52,6 @@ function BasicInformation({ character }: Props) {
                 id={experience.id} 
                 rank={experience.rank}
                 name={experience.name}
-                character={character}
                 statKey="experience" 
             />
         </div>
@@ -67,7 +61,6 @@ function BasicInformation({ character }: Props) {
                 id={karma.id}
                 rank={karma.rank}
                 name={karma.name}
-                character={character}
                 statKey="karma"
             />
         </div>

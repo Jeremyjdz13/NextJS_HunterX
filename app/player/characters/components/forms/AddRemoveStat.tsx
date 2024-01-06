@@ -3,13 +3,11 @@ import { Character } from '@/app/context/CharacterTypes';
 import React from 'react'
 
 type Props = {
-    character: Character,
     statKey: string,
-    statGroupTitle: string
-
+    title: string
 }
-function AddRemoveStat({character, statKey, statGroupTitle}: Props) {
-    const { editCharacter } = useCharacter()
+function AddRemoveStat({ statKey, title}: Props) {
+    const { editCharacter, character } = useCharacter()
 
     function addSkill() {
         const updatedSkills = character[statKey].some((skill: any) => skill.id === skillTemplate.id)

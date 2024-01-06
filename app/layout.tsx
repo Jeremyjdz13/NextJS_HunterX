@@ -23,12 +23,12 @@ export default function RootLayout({
           <body className={inter.className}>
             <AuthProvider>
               <UserProvider>
-               <CharacterProvider>
+               {/* <CharacterProvider> */}
                 <main>
                   <NavBar />
                   {children}
                 </main>
-               </CharacterProvider>
+               {/* </CharacterProvider> */}
               </UserProvider> 
             </AuthProvider>
           </body>

@@ -134,7 +134,6 @@ export type Character = {
     protoniumPool: StatData
     initiative: StatData
     intuition: StatData
-    character: CharacterData
     lethal: StatData
     bashing: StatData
     death: StatData

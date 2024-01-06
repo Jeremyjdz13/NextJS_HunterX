@@ -7,12 +7,7 @@ import "easymde/dist/easymde.min.css"
 import useStatDiscovery from '../hooks/UseStatDiscovery'
 type EditStatFormProps = {
     id: string
-    subId?: string
     statKey: string
-    statSubKey?: string
-    statGroupTitle?: string
-    isStuntActive?: boolean
-    character: Character
     onClose: () => void
 }
 
@@ -31,11 +26,10 @@ type ConfigData = {
 
 export default function EditStatForm({ 
         id, 
-        character, 
         statKey, 
         onClose
     } : EditStatFormProps) {
-    const { editCharacter } = useCharacter() as CharacterContextProps
+    const { editCharacter, character } = useCharacter() as CharacterContextProps
     const [markdownValue, setMarkdownValue] = useState('')
     const nameRef = useRef<HTMLInputElement>(null)
     const rankRef = useRef<HTMLInputElement>(null)

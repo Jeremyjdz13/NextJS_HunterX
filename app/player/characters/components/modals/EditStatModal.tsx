@@ -2,36 +2,28 @@
 import { useRef } from "react";
 import Title from "../Stat/Title";
 import EditStatForm from "../forms/EditStatForm";
-import { Character, CharacterContextProps, StatData } from "@/app/context/CharacterTypes";
+import { CharacterContextProps, StatData } from "@/app/context/CharacterTypes";
 import { useCharacter } from "@/app/context/CharacterContext";
 import useStatDiscovery from "../hooks/UseStatDiscovery";
 
 type EditStatModalProps = {
-    statGroupTitle: string
+    title: string
     isOpen: boolean
     onClose: () => void
-    character: Character
     id: string
     statKey: string
-    subId?: string
-    isStuntActive?: boolean
-    statSubKey?: string
 }
 
 export default function EditStatModal({ 
-    statGroupTitle,
+    title,
     isOpen,
     onClose,
-    character,
     statKey,
-    subId,
-    statSubKey,
-    isStuntActive,
     id
 }: EditStatModalProps) {
     const modalRef = useRef<HTMLDialogElement | null>(null)
 
-    const { editCharacter } = useCharacter() as CharacterContextProps
+    const { editCharacter, character } = useCharacter() as CharacterContextProps
     const isDelete = [
         "combat",
         "physical",
@@ -93,14 +85,9 @@ export default function EditStatModal({
                     Delete
                 </button>}
             </div>
-            <Title statGroupTitle={statGroupTitle} />
+            {title}
             <EditStatForm 
                 statKey={statKey}
-                statSubKey={statSubKey}
-                character={character}
-                isStuntActive={isStuntActive}
-                statGroupTitle={statGroupTitle}
-                subId={subId}
                 id={id}
                 onClose={onClose}
             />

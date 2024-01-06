@@ -7,18 +7,17 @@ import AddStuntOrSpellCheckbox from './AddStuntOrSpellCheckbox'
 
 
 type AddStuntOrSpellProps = {
-    character: Character
     statKey: string
     name: string
     id: string
 }
 
 type Selection = Power[] | Talisman[] | SpellData[]
-export default function AddStuntOrSpell({character, statKey, name, id}: AddStuntOrSpellProps) {
+export default function AddStuntOrSpell({statKey, name, id}: AddStuntOrSpellProps) {
     const [isModalOpen, setIsModalOpen] = useState(false)
 
     const modalRef = useRef<HTMLDialogElement | null>(null)
-    const { editCharacter } = useCharacter() as CharacterContextProps
+    const { editCharacter, character } = useCharacter() as CharacterContextProps
 
     let stats: StatData[] | undefined = undefined
     

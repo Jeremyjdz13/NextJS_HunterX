@@ -1,6 +1,5 @@
 import { Character } from '@/app/context/CharacterTypes'
 import React from 'react'
-import ClickableLabel from '../Stat/ClickableLabel'
 import DiceModal from '../modals/DiceModal'
 
 type Props = {
@@ -26,55 +25,55 @@ function CoreAbilities({ character } : Props) {
             id={fight.id}
             name={fight.name}
             rank={fight.rank}
-            character={character} 
+            character={character}
         />
         <DiceModal
             statKey='strength'
             key={strength.name}
             id={strength.id}
             name={strength.name}
-            rank={strength.rank}
             character={character}
+            rank={strength.rank}
         /> 
         <DiceModal
             statKey="agility"
             key={agility.name}
             id={agility.id}
             name={agility.name}
-            rank={agility.rank}
             character={character}
+            rank={agility.rank}
         />
         <DiceModal
             statKey='endurance'
             key={endurance.name}
             id={endurance.id}
             name={endurance.name}
-            rank={endurance.rank}
             character={character}
+            rank={endurance.rank}
         />
         <DiceModal
             statKey='reason'
             key={reason.name}
             id={reason.id}
             name={reason.name}
-            rank={reason.rank}
             character={character}
+            rank={reason.rank}
         />
         <DiceModal
             statKey='intuition'
             key={intuition.name}
             id={intuition.id}
             name={intuition.name}
-            rank={intuition.rank}
             character={character}
+            rank={intuition.rank}
         />
         <DiceModal
             statKey='psyche'
             key={psyche.name}
             id={psyche.id}
             name={psyche.name}
-            rank={psyche.rank}
             character={character}
+            rank={psyche.rank}
         />
         
     </section>

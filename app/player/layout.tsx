@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react'
 import PlayerNavBar from './NavSideBar';
+import { CharacterProvider } from '../context/CharacterContext';
 
 interface Props {
     children: ReactNode;
@@ -7,10 +8,13 @@ interface Props {
 const PlayerDashboardLayout = ({ children }: Props) => {
   return (
     <div className="flex">
-       <aside className="bg-slate-200 p-5 mr-5">
+      <CharacterProvider>
+          <aside className="bg-slate-200 p-5 mr-5">
             <PlayerNavBar />
-        </aside>
-       <div>{children}</div>
+          </aside>
+          <div>{children}</div>
+      </CharacterProvider>
+     
     </div>
   )
 }

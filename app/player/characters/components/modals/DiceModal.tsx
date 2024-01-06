@@ -4,7 +4,7 @@ import { useRef, useState } from "react"
 import EditStatModal from "./EditStatModal";
 import Title from "../Stat/Title";
 import { GiDiceFire } from "react-icons/gi";
-import SkillsMenu, { Skill, SkillsMenuProps } from "./SkillsMenu";
+import SkillsMenu, { Skill } from "./SkillsMenu";
 import Row from './Row'
 import ProtoniumPool from "./ProtoniumPool";
 
@@ -26,8 +26,7 @@ export default function DiceModal({ statKey, id, name, rank, character } : DiceM
     const modalRef = useRef<HTMLDialogElement | null>(null)
     const [isEditOpen, setIsEditOpen] = useState(false)
     const [d100, setD100] = useState({successTotal: 0, D100Roll: 0, score: ''})
-    // const [powerRank, setPowerRank] = useState('None Selected')
-    // const [count, setCount] = useState(0)
+
     const {
         combat,
         physical,
@@ -357,10 +356,10 @@ export default function DiceModal({ statKey, id, name, rank, character } : DiceM
                     className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded m-1"
                 >close</button>
                 <div className="p-1">
-                    <Title statGroupTitle={`${handleRank()} ${name}`}/>
+                    <Title title={`${handleRank()} ${name}`} statKey="something"/>
                     <div className="flex border p-2">
                         <div className="flex flex-col border-r">
-                            <Title statGroupTitle="D 100" />
+                            <Title title="D 100" statKey="something"/>
                             <div className="flex flex-row">
                                 <button
                                     onClick={handleClickD100}
@@ -429,10 +428,9 @@ export default function DiceModal({ statKey, id, name, rank, character } : DiceM
                 </div>
             </dialog>
             <EditStatModal
-                statGroupTitle={name!}
+                title={name!}
                 statKey={statKey}
                 isOpen={isEditOpen}
-                character={character!}
                 id={id!}
                 onClose={handleContextMenuClose}
             />

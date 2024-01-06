@@ -5,14 +5,13 @@ import AddRemoveStat from "../forms/AddRemoveStat";
 import { SiCurseforge } from "react-icons/si";
 
 type Prop = {
-    statGroupTitle: string;
-    statKey?: string;
+    title: string;
+    statKey: string;
     character?: Character
 }
 export default function Title({ 
-    statGroupTitle,
+    title,
     statKey,
-    character 
 }: Prop){
     const [isDialogOpen, setIsDialogOpen] = useState(false)
 
@@ -41,7 +40,7 @@ export default function Title({
                     <SiCurseforge />
                 </div> : 
                 <div>
-                   {statGroupTitle}
+                   {title}
                 </div>
                 }
             {isDialogOpen && (
@@ -56,8 +55,7 @@ export default function Title({
                     <div>
                         <AddRemoveStat
                             statKey={statKey}
-                            character={character}
-                            statGroupTitle={statGroupTitle}
+                            title={title}
                         />
                     </div>
                 </dialog>

@@ -1,12 +1,12 @@
 "use client"
 import { useState } from "react"
-import { StatData, Character } from "../../../../context/CharacterTypes"
+import { StatData, Character, CharacterContextProps } from "../../../../context/CharacterTypes"
 import EditStatModal from "../modals/EditStatModal"
 import DiceModal from "../modals/DiceModal"
 import Rank from "./Rank"
 import classnames from 'classnames'
-import Title from "./Title"
 import AddStuntOrSpell from "../modals/AddStuntOrSpell"
+import { useCharacter } from "@/app/context/CharacterContext"
 
 type ClickableLabelProps = {
     rank?: number | undefined
@@ -14,11 +14,11 @@ type ClickableLabelProps = {
     id?: string | undefined
     statGroupTitle?: string
     statKey: string
-    character: Character
 }
 
-export default function ClickableLabel({ name, id, statKey, rank, character } : ClickableLabelProps) {
+export default function ClickableLabel({ name, id, statKey, rank } : ClickableLabelProps) {
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const { character } = useCharacter() as CharacterContextProps
 
     const isPowersAndTalismans = [
         "powers",
@@ -80,7 +80,7 @@ export default function ClickableLabel({ name, id, statKey, rank, character } : 
                         id={statArray.id}
                         name={statArray.name}
                         rank={statArray.rank}
-                        stat={statArray}
+                        // stat={statArray}
                         character={character}
                         statKey={statKey}
                     />
@@ -119,7 +119,7 @@ export default function ClickableLabel({ name, id, statKey, rank, character } : 
                                 )}
                                 onContextMenu={handleContextMenu}
                             >
-                                {isBackgroundStory ? <Title statGroupTitle={name}/> : (isSpells || isStunts ?<AddStuntOrSpell name={name} id={id} character={character} statKey={isStunts ? (isPower ? "powers" : (isTalismans ? "talismans": '')) : "spellbooks"}/> : name)}
+                                {isBackgroundStory ? <div>{name}</div> : (isSpells || isStunts ?<AddStuntOrSpell name={name!} id={id!} statKey={isStunts ? (isPower ? "powers" : (isTalismans ? "talismans": '')) : "spellbooks"}/> : name)}
                             </div>
                             {isTabStat ? null : <Rank rank={rank} />}
                         </div>
@@ -127,13 +127,11 @@ export default function ClickableLabel({ name, id, statKey, rank, character } : 
                 )
             }
             <EditStatModal 
-                statGroupTitle={name!}
+                title={name!}
                 statKey={statKey}
                 isOpen={isModalOpen}
                 onClose={handleCloseModal}
-                id={id!}
-                character={character!}
-                
+                id={id!}                
             />
         </div>
     )

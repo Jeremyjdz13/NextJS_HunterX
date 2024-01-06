@@ -5,26 +5,17 @@ import { Character } from "@/app/context/CharacterTypes"
 
 
 type ClickableTitleProps = {
-    statGroupTitle: string
-    character: Character
-    statSubKey?: string
+    title: string
     statKey?: string
-    subId?:string
-    isStuntActive?:boolean
     stat: string
     id: string
 }
 
 export default function ClickableTitle({ 
-        statGroupTitle, 
-        statSubKey, 
-        character,
+        title, 
         statKey,
-        isStuntActive,
-        // onClick,
         stat,
-        subId, 
-        id 
+        id,
     } : ClickableTitleProps) {
     const [isModalOpen, setIsModalOpen] = useState(false)
     
@@ -37,17 +28,12 @@ export default function ClickableTitle({
         setIsModalOpen(false)
     }
 
-    let statNameAliasNatureKey = ''
-    if (statGroupTitle === "Name") statNameAliasNatureKey = "name"
-
-    if (statGroupTitle === "Alias") statNameAliasNatureKey = "alias"
-
-    if (statGroupTitle === "Nature") statNameAliasNatureKey = "nature"
+    console.log("clickableTitle")
     return (
         <div>
             {
                 <div className="p-1">
-                    <div>{statSubKey === "stunt" ? null : statGroupTitle}</div>
+                    <div>{title}</div>
                     <div
                         className="cursor-pointer"
                         onContextMenu={e => handleContextMenu(e)}
@@ -57,14 +43,10 @@ export default function ClickableTitle({
                 </div>
             }
             <EditStatModal 
-                statGroupTitle={statGroupTitle}
+                title={title}
                 isOpen={isModalOpen}
-                statKey={statKey}
-                statSubKey={statSubKey}
+                statKey={statKey!}
                 id={id}
-                subId={subId}
-                character={character}
-                isStuntActive={isStuntActive}
                 onClose={handleCloseModal}
             />
         </div>
