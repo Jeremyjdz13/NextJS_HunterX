@@ -28,7 +28,6 @@ export default function ClickableLabel({ name, id, statKey, rank, character } : 
     const isPower = [
         "powers",
     ].includes(statKey)
-    console.log(isPower, "isPower")
     const isTalismans = [
         "talismans",
     ].includes(statKey)
@@ -98,6 +97,7 @@ export default function ClickableLabel({ name, id, statKey, rank, character } : 
     function handleCloseModal() {
         setIsModalOpen(false)
     }
+    console.log("ClickableLabel component")
     return (
         <div>
             {
@@ -119,7 +119,7 @@ export default function ClickableLabel({ name, id, statKey, rank, character } : 
                                 )}
                                 onContextMenu={handleContextMenu}
                             >
-                                {isBackgroundStory ? <Title statGroupTitle={name}/> : (isStunts || isSpells ?<AddStuntOrSpell name={name} id={id} character={character} statKey={isStunts ? (isPower ? "powers" : "talismans") : "spellbooks"}/> : name)}
+                                {isBackgroundStory ? <Title statGroupTitle={name}/> : (isSpells || isStunts ?<AddStuntOrSpell name={name} id={id} character={character} statKey={isStunts ? (isPower ? "powers" : (isTalismans ? "talismans": '')) : "spellbooks"}/> : name)}
                             </div>
                             {isTabStat ? null : <Rank rank={rank} />}
                         </div>

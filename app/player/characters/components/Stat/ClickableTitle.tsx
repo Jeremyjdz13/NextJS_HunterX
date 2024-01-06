@@ -1,12 +1,12 @@
 "use client"
 import { useState } from "react"
 import EditStatModal from "../modals/EditStatModal"
-import { CharacterData } from "@/app/context/CharacterTypes"
+import { Character } from "@/app/context/CharacterTypes"
 
 
 type ClickableTitleProps = {
     statGroupTitle: string
-    character: CharacterData
+    character: Character
     statSubKey?: string
     statKey?: string
     subId?:string

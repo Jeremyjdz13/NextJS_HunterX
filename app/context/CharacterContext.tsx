@@ -1,7 +1,6 @@
 'use client'
 import React, { useState, useEffect, useContext, ReactNode } from 'react'
 import { useAuth } from './AuthContext'
-import { v4 as uuidv4 } from 'uuid'
 import { 
   collection, 
   deleteDoc, 
@@ -17,6 +16,7 @@ import {
 import { characterTemplate } from './DefaultDataTemplates'
 import { CharacterContextProps, CharacterData, } from './CharacterTypes'
 import firebase_app from '../firebaseconfig'
+
 const CharacterContext = React.createContext<CharacterContextProps | undefined>(undefined)
 
 
@@ -28,6 +28,8 @@ export function useCharacter(): CharacterContextProps | undefined {
 export function CharacterProvider({ children }: { children: ReactNode}) {
     const { currentUser, loading: loadingUser } = useAuth()
     const [characters, setCharacters] = useState<CharacterData[]>([])
+    const [character, setCharacter] = useState<CharacterData | undefined>(undefined)
+
     const [loading, setLoading] = useState(true)
     const db = getFirestore(firebase_app)
     
@@ -116,9 +118,7 @@ export function CharacterProvider({ children }: { children: ReactNode}) {
       }, []);
     
       async function addCharacter() {
-        const owner = currentUser ? currentUser.uid : 'unknown';
-        const ownerEmail = currentUser ? currentUser.email : 'unknown';
-        const collectionRef = collection(db, 'users', currentUser.uid, 'characters')
+        const collectionRef = currentUser ? collection(db, 'users', currentUser.uid, 'characters') : null;
         console.log("Add Character")
         const newCharacter = characterTemplate
     
@@ -153,12 +153,19 @@ export function CharacterProvider({ children }: { children: ReactNode}) {
     }
   }
 
+    function setSelectedCharacter(id: string) {
+        const selectedCharacter = characters.find(character => character.id === id)
+        setCharacter(selectedCharacter)
+    }
+
     const characterContextValue: CharacterContextProps = {
         characters,
+        character,
         loading,
         addCharacter,
         deleteCharacter,
-        editCharacter
+        editCharacter,
+        setSelectedCharacter
     }
 
     return (

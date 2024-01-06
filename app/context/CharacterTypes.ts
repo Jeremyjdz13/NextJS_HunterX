@@ -97,11 +97,13 @@ export type Traits = {
 }
 
 export type CharacterContextProps = {
-    characters: CharacterData[]
+    characters: Character[]
+    character: Character
     loading: boolean
     addCharacter: () => void
-    deleteCharacter: (character: CharacterData) => void
+    deleteCharacter: (character: Character) => void
     editCharacter: (character: Character) => void
+    setSelectedCharacter: (id: string) => void
 } 
 
 export type EditCharacter = {
@@ -118,6 +120,9 @@ export type CharacterButtonProps = {
 }
 
 export type Character = {
+    id: string
+    alias: string
+    nature: string
     consumedProtonium: any
     stunts: Stunt[]
     physical: StatData[]

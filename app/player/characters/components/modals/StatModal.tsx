@@ -9,6 +9,7 @@ import { useCharacter } from '@/app/context/CharacterContext'
 import { FaGraduationCap } from "react-icons/fa6"
 import useTalismanDiscovery from "../hooks/UseTalismanDiscovery"
 import StuntDisplay from "./StuntDisplay"
+import PowersTalismans from "../powers_talismans/powers-talismans"
 
 type Props = {
     statGroupTitle: string
@@ -28,7 +29,7 @@ export default function StatModal({
     const { editCharacter } = useCharacter() as CharacterContextProps
 
     useTalismanDiscovery({character, editCharacter})
-
+    
     const modalRef = useRef(null)
     const isPowers = [
         'powers',
@@ -54,55 +55,19 @@ export default function StatModal({
     
     function handleStatGroupModal() {
         if (isSpellbook) {
-            return <SpellBooks 
-                    key="Spell Books"
-                    character={character}
-                />
+            return <SpellBooks character={character} statKey="spellbooks" />
         }
 
        if (isPowers) {
-            const tabs = [
-                {
-                    label: 'Powers',
-                    content: <CharacterStats 
-                            character={character} 
-                            statKey={'powers'} 
-                            statType={'Power'} 
-                        />
-                },
-                ...character.powers.map((power: any) => ({
-                    label: power.name,
-                    content: <StuntDisplay character={character} ability={power} />
-                })),
-               {label: "Power Stunts",
-                content: <CharacterStats character={character} statKey={'stunts'} statType="Stunt" />
-                }
-            ]
-
-            return <Tabs tabs={tabs}/>
+           return <PowersTalismans statKey="powers" character={character} ability={character.powers} />
        }
-       if (isTalisman) {
-        const tabs = [
-            {
-                label: 'Talismans',
-                content: <CharacterStats 
-                        character={character} 
-                        statKey={'talismans'} 
-                        statType={'Talisman'} 
-                    />
-            },
-            ...character.talismans.map((talisman: any) => ({
-                label: talisman.name,
-                content: <StuntDisplay character={character} ability={talisman} />
-            })),
-           {label: "Power Stunts",
-            content: <CharacterStats character={character} statKey={'stunts'} statType="Stunt" />
-            }
-        ]
 
-        return <Tabs tabs={tabs}/>
-   }
+       if (isTalisman) {
+            return <PowersTalismans statKey="talismans" character={character} />
+        }
+    
     }
+    console.log("StatModal component")
     return (
         <div>
             <button

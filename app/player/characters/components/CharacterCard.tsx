@@ -1,16 +1,16 @@
 'use client'
 import React from 'react'
-import { CharacterContextProps, CharacterData } from '@/app/context/CharacterTypes'
+import { Character, CharacterContextProps, CharacterData } from '@/app/context/CharacterTypes'
 import Link from 'next/link'
 import { useCharacter } from '@/app/context/CharacterContext'
 
 
 type CharacterCardProps = {
-    character: CharacterData
+    character: Character
 }
 
 function CharacterCard({ character }: CharacterCardProps) {
-  const { deleteCharacter } = useCharacter() as CharacterContextProps
+  const { deleteCharacter, setSelectedCharacter } = useCharacter() as CharacterContextProps
   return (
    <div>
      <div>
@@ -21,6 +21,7 @@ function CharacterCard({ character }: CharacterCardProps) {
     <Link 
       className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
       href={`/player/characters/${character.id}`}
+      onClick={() => setSelectedCharacter(character.id)}
     >
         Full Character
     </Link>

@@ -1,13 +1,13 @@
 'use client'
 import React from 'react'
-import { CharacterData } from '@/app/context/CharacterTypes'
+import { Character } from '@/app/context/CharacterTypes'
 import ClickableTitle from '../Stat/ClickableTitle'
 import ClickableLabel from '../Stat/ClickableLabel'
 import Initiative from '../initiative/Initiative'
 
 
 type Props = {
-    character: CharacterData
+    character: Character
 }
 function BasicInformation({ character }: Props) {
 

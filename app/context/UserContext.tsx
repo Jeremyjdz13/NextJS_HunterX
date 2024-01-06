@@ -41,13 +41,6 @@ interface UserContextProps {
     userList: UserList[]
     loading: boolean
 }
-  
-  interface UserListData {
-    [key: string]: {
-        id: string;
-        data: any;
-    }[];
-  }[]
 
 const UserContext = React.createContext<UserContextProps>({
     user: undefined,

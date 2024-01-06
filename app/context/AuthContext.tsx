@@ -97,7 +97,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     return unsubscribe;
   }, [auth]);
- 
+
+   
   console.log("AuthProvider Rendered")
 
   const value: AuthContextValue = {

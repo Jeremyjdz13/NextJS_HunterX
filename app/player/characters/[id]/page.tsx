@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState, lazy, Suspense } from 'react'
 import { useCharacter } from '@/app/context/CharacterContext'
-import { CharacterContextProps, Character } from '@/app/context/CharacterTypes'
+import type { CharacterContextProps, Character } from '@/app/context/CharacterTypes'
 
 
 type Props = {
@@ -17,27 +17,22 @@ const LazyMeritsFlawsBackgrounds = lazy(() => import('../components/meritsflawsb
 
 export default function Character({ params }: Props) {
   const characterId = params.id
-  const { characters } = useCharacter() as CharacterContextProps
-  const [character, setCharacter] = useState<Character>()
+  const { character, setSelectedCharacter } = useCharacter() as CharacterContextProps
 
   useEffect(() => {
       
-    if (characterId && characters) {
+    if (characterId) {
 
-      const selectedCharacter = characters.find(character => character.id === characterId)
-      setCharacter(selectedCharacter)
+      setSelectedCharacter(characterId)
 
     }
     
-  },[characters, characterId, character])
+  },[characterId, setSelectedCharacter])
 
-  if (!character) return
+//  if (characterId !== character?.id) return
 
   return (
-      <section 
-        key={characterId}
-        className='' 
-      >
+      <section key={characterId}>
             <Suspense fallback={<div>Loading...</div>}>
                 <LazyBasicInformation character={character} />  
                 <div className='flex flex-row'>

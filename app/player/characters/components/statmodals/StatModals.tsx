@@ -1,12 +1,12 @@
 import React from 'react'
 import StatModal from '../modals/StatModal'
-import { Character, CharacterData } from '@/app/context/CharacterTypes'
+import { Character } from '@/app/context/CharacterTypes'
 
 type Props = {
     character: Character
 }
 function StatModals({ character }: Props) {
-
+    console.log("StatModals component")
   return (
     <section
         className='flex flex-col p-1'
