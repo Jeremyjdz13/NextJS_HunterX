@@ -12,7 +12,7 @@ import StuntDisplay from "./StuntDisplay"
 import PowersTalismans from "../powers_talismans/powers-talismans"
 
 type Props = {
-    statGroupTitle: string
+    title: string
     statKey: keyof Character
     character: Character
 }
@@ -21,7 +21,7 @@ type Props = {
 
 
 export default function StatModal({ 
-        statGroupTitle, 
+        title, 
         statKey,
         character  
     }: Props) {
@@ -63,7 +63,7 @@ export default function StatModal({
        }
 
        if (isTalisman) {
-            return <PowersTalismans statKey="talismans" character={character} />
+            return <PowersTalismans statKey="talismans" character={character} ability={character.talismans} />
         }
     
     }
@@ -74,7 +74,7 @@ export default function StatModal({
                 onClick={handleOpenModal}
                 className="w-24 my-1  bg-transparent hover:bg-black text-blue-700 font-semibold hover:text-white py-4 px-4 border border-black hover:border-transparent rounded"
             >
-                {statGroupTitle}
+                {title}
             </button>
             <dialog 
                 ref={modalRef}
@@ -86,7 +86,7 @@ export default function StatModal({
                 >
                     Close
                 </button>
-                <Title statGroupTitle={statGroupTitle} />
+                <Title title={title} statKey="" />
                 {handleStatGroupModal()}
             </dialog>
         </div>

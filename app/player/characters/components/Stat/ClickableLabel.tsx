@@ -12,7 +12,6 @@ type ClickableLabelProps = {
     rank?: number | undefined
     name?: string | undefined
     id?: string | undefined
-    statGroupTitle?: string
     statKey: string
 }
 
@@ -71,7 +70,7 @@ export default function ClickableLabel({ name, id, statKey, rank } : ClickableLa
     const isBackgroundStory = [ "backgroundStory" ].includes(statKey)
 
     function handleDiceClickableTitles() {
-        const stat: StatData = character[(statKey as keyof Character)]
+        const stat: StatData = character![(statKey as keyof Character)]
         if(isPowersAndTalismans) {
             const statArray: StatData | undefined = Array.isArray(stat) && stat?.find(item => item.id === id)
             if (statArray) {
@@ -80,8 +79,7 @@ export default function ClickableLabel({ name, id, statKey, rank } : ClickableLa
                         id={statArray.id}
                         name={statArray.name}
                         rank={statArray.rank}
-                        // stat={statArray}
-                        character={character}
+                        character={character as Character}
                         statKey={statKey}
                     />
             }
@@ -119,7 +117,19 @@ export default function ClickableLabel({ name, id, statKey, rank } : ClickableLa
                                 )}
                                 onContextMenu={handleContextMenu}
                             >
-                                {isBackgroundStory ? <div>{name}</div> : (isSpells || isStunts ?<AddStuntOrSpell name={name!} id={id!} statKey={isStunts ? (isPower ? "powers" : (isTalismans ? "talismans": '')) : "spellbooks"}/> : name)}
+                                {
+                                    isBackgroundStory ? (
+                                    <div>{name}</div> 
+                                    ) : (
+                                        (isSpells || isStunts) ? 
+                                            <AddStuntOrSpell 
+                                                name={name!} 
+                                                id={id!} 
+                                                statKey={isStunts ? (isPower ? "powers" : (isTalismans ? "talismans": '')) : "spellbooks"}
+                                            /> : 
+                                            name
+                                        )
+                                }
                             </div>
                             {isTabStat ? null : <Rank rank={rank} />}
                         </div>

@@ -13,19 +13,19 @@ function StatModals({ character }: Props) {
     >
         <StatModal
             key={'Spell Book'}
-            statGroupTitle={"Spell Library"}
+            title={"Spell Library"}
             statKey={"spellbooks"}
             character={character}
         />
         <StatModal
             key={'Powers'}
-            statGroupTitle={"Powers"}
+            title={"Powers"}
             statKey={'powers'}
             character={character}
         />
         <StatModal
             key={'Talismans'}
-            statGroupTitle='Talismans'
+            title='Talismans'
             statKey='talismans'
             character={character}
         />

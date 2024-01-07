@@ -25,7 +25,7 @@ export default function AddStuntOrSpell({statKey, name, id}: AddStuntOrSpellProp
         stats = character[statKey as keyof Character] 
     }
 
-    const { powers, talismans, spellbooks } : {powers: Power[], talismans: Talisman[], spellbooks: SpellData[]} = character
+    const { powers, talismans, spellbooks } : {powers: Power[], talismans: Talisman[], spellbooks: SpellData[]} = character!
 
     
 
@@ -88,7 +88,7 @@ export default function AddStuntOrSpell({statKey, name, id}: AddStuntOrSpellProp
             }
         }
         console.log(updatedCharacter, "Did this work?")
-        editCharacter(updatedCharacter);
+        editCharacter(updatedCharacter as Character);
     }
 
   return (

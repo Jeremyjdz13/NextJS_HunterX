@@ -46,7 +46,7 @@ type Stat = {
 function CharacterStats({ character, statKey, statType }: Props) {
   const { editCharacter } = useCharacter() as EditCharacter
 
-  const stats: Stat[] = character[statKey]  
+  const stats: Stat[] | Stat = character[statKey]  
   const modalRef = useRef(null)
   const isPower = ["powers"].includes(statKey)
   const isTalisman = ["talismans"].includes(statKey)
@@ -58,6 +58,16 @@ function CharacterStats({ character, statKey, statType }: Props) {
   const isStunt = ["stunts"].includes(statKey)
   const isSkill = ["combat", "physical", "professional", "mental"].includes(statKey)
 
+  let id = ''
+  let title = ''
+  let markdown = ''
+
+  if (isBackgroundStory) {
+    const stat = character[statKey] as Stat
+    id = stat.id
+    title = stat.title as string
+    markdown = stat.markdown as string
+  }
   function handleOpenModal() {
       (modalRef.current! as HTMLDialogElement).showModal()
   }
@@ -158,19 +168,18 @@ function CharacterStats({ character, statKey, statType }: Props) {
           </div>
           <div>
               {isBackgroundStory? 
-                <div key={"backgroundStory"}
-                >
-                     <ClickableLabel 
-                        id={stats.id} 
-                        name={stats.title} 
-                        rank={0} 
-                        statKey={statKey} 
-                        character={character}
-                    />
-                    <div className='p-3 prose'>
-                        <ReactMarkdown>{stats.markdown}</ReactMarkdown>
-                    </div>          
-                </div>  : 
+                    <div key={"backgroundStory"}
+                    >  
+                        <ClickableLabel 
+                            id={id} 
+                            name={title} 
+                            rank={0} 
+                            statKey={statKey}
+                            />
+                        <div className='p-3 prose'>
+                            <ReactMarkdown>{markdown}</ReactMarkdown>
+                        </div>    
+                    </div>  : 
                 
                   Array.isArray(stats) && stats?.map((stat) => (
                         <div 
@@ -191,7 +200,6 @@ function CharacterStats({ character, statKey, statType }: Props) {
                                     name={stat.name} 
                                     rank={stat.rank} 
                                     statKey={statKey} 
-                                    character={character} 
                                 />
                                 <div className="flex flex-row p-3">
                                     {stat.isArmor && <GiAbdominalArmor />}

@@ -1,42 +1,42 @@
 import { SpellData } from "../player/characters/components/spellbook/SpellTypes"
 import { Tag } from "./NoteDataTypes"
 
-export type CharacterData = {
-    id: string
-    name: string
-    alias: string
-    nature: string
-    strength: StatData
-    fight: StatData
-    endurance: StatData
-    experience: StatData
-    imageURL: StatData
-    initiative: StatData
-    karma: StatData
-    lethal: StatData
-    agility: StatData
-    bashing: StatData
-    reason: StatData
-    intuition: StatData
-    psyche: StatData
-    combat: StatData[]
-    physical: StatData[]
-    professional: StatData[]
-    mental: StatData[]
-    backgrounds: StatData[]
-    merits: StatData[]
-    flaws: StatData[]
-    powers: StatData[]
-    talismans: StatData[]
-    spellbook: StatData[]
-    protonium: StatData
-    usedProtonium: StatData
-    inventory: StatData[]
-    createdAt: string
-    lastUpdate: string
-} & {
-    [key: string]: StatData
-}
+// export type CharacterData = {
+//     id: string
+//     name: string
+//     alias: string
+//     nature: string
+//     strength: StatData
+//     fight: StatData
+//     endurance: StatData
+//     experience: StatData
+//     imageURL: StatData
+//     initiative: StatData
+//     karma: StatData
+//     lethal: StatData
+//     agility: StatData
+//     bashing: StatData
+//     reason: StatData
+//     intuition: StatData
+//     psyche: StatData
+//     combat: StatData[]
+//     physical: StatData[]
+//     professional: StatData[]
+//     mental: StatData[]
+//     backgrounds: StatData[]
+//     merits: StatData[]
+//     flaws: StatData[]
+//     powers: StatData[]
+//     talismans: StatData[]
+//     spellbook: StatData[]
+//     protonium: StatData
+//     usedProtonium: StatData
+//     inventory: StatData[]
+//     createdAt: string
+//     lastUpdate: string
+// } & {
+//     [key: string]: StatData
+// }
 
 export type StatData = {
     map(arg0: (stat: any) => any): unknown
@@ -98,7 +98,7 @@ export type Traits = {
 
 export type CharacterContextProps = {
     characters: Character[]
-    character: Character
+    character: Character | undefined
     loading: boolean
     addCharacter: () => void
     deleteCharacter: (character: Character) => void

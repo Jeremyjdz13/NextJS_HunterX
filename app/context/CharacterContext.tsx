@@ -14,7 +14,7 @@ import {
   where 
 } from 'firebase/firestore'
 import { characterTemplate } from './DefaultDataTemplates'
-import { CharacterContextProps, CharacterData, } from './CharacterTypes'
+import { CharacterContextProps, Character, } from './CharacterTypes'
 import firebase_app from '../firebaseconfig'
 
 const CharacterContext = React.createContext<CharacterContextProps | undefined>(undefined)
@@ -27,8 +27,8 @@ export function useCharacter(): CharacterContextProps | undefined {
 
 export function CharacterProvider({ children }: { children: ReactNode}) {
     const { currentUser, loading: loadingUser } = useAuth()
-    const [characters, setCharacters] = useState<CharacterData[]>([])
-    const [character, setCharacter] = useState<CharacterData | undefined>(undefined)
+    const [characters, setCharacters] = useState<Character[]>([])
+    const [character, setCharacter] = useState<Character | undefined>(undefined)
 
     const [loading, setLoading] = useState(true)
     const db = getFirestore(firebase_app)
@@ -52,7 +52,7 @@ export function CharacterProvider({ children }: { children: ReactNode}) {
 
         getDocs(charactersRef)
             .then((querySnapshot) => {
-                const charactersData = querySnapshot.docs.map((doc) => doc.data() as CharacterData);
+                const charactersData = querySnapshot.docs.map((doc) => doc.data() as Character);
                 if(charactersData.length === 0){
                 
                 console.log(charactersData, "not found")
@@ -122,16 +122,20 @@ export function CharacterProvider({ children }: { children: ReactNode}) {
         console.log("Add Character")
         const newCharacter = characterTemplate
     
-        try {
-          const characterRef = doc(collectionRef, newCharacter.id);
-          await setDoc(characterRef, newCharacter);
-        } catch (error) {
-          console.error(error);
+        if(collectionRef) {
+          try {
+            const characterRef = doc(collectionRef, newCharacter.id);
+            await setDoc(characterRef, newCharacter);
+          } catch (error) {
+            console.error(error);
+          }
         }
       }
 
-      async function deleteCharacter(character: CharacterData) {
-        const collectionRef = collection(db, 'users', currentUser.uid, 'characters')
+      async function deleteCharacter(character: Character) {
+
+        
+        const collectionRef = collection(db, 'users', currentUser?.uid || '', 'characters');
 
         try {
           const characterRef = doc(collectionRef, character.id);
@@ -141,8 +145,8 @@ export function CharacterProvider({ children }: { children: ReactNode}) {
         }
       }
     // EDIT FUNCTION
-    async function editCharacter(character: CharacterData) {
-    const collectionRef = collection(db, 'users', currentUser.uid, 'characters')
+    async function editCharacter(character: Character) {
+    const collectionRef = collection(db, 'users', currentUser?.uid || '', 'characters')
     const updatedCharacter = character
 
     try {

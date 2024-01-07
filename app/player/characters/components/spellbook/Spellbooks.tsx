@@ -12,7 +12,6 @@ import CharacterStats from '../Stat/CharacterStats'
 import Title from '../Stat/Title'
 
 type Props = {
-    spellbook: SpellData[]
     statKey: string
     character: Character
 }

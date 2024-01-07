@@ -29,7 +29,7 @@ export default function Character({ params }: Props) {
     
   },[characterId, setSelectedCharacter])
 
-//  if (characterId !== character?.id) return
+ if (characterId !== character?.id) return
 
   return (
       <section key={characterId}>
@@ -37,15 +37,15 @@ export default function Character({ params }: Props) {
                 <LazyBasicInformation character={character} />  
                 <div className='flex flex-row'>
                   <LazyCoreAbilities character={character} />
-                  {/* <div className='flex flex-row'>
+                  <div className='flex flex-row'>
                     <div className='flex flex-row'>
                       <LazySkills character={character} />
                       <LazyCounters character={character} />
                     </div>
                     <LazyStatModals character={character} />
-                  </div> */}
+                  </div>
                 </div>
-              {/* <LazyMeritsFlawsBackgrounds character={character}  /> */}
+              <LazyMeritsFlawsBackgrounds character={character}  />
             </Suspense>
       </section>
   )
